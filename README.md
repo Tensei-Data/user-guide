@@ -16,10 +16,7 @@ You will need the following components:
 ## Development
 
 The asciidoctor source files need to be placed in the subdirectory
-`src/asciidoctor` of the appropriate project module. They need to have
-the file extension `.adoc`. You can edit them with your preferred editor
-and generate the HTML files via `sbt make-site` for all modules.
-
-If you only want to generate the files for one project module then
-simply call the task on the module for example `sbt cookbook/make-site`.
+`src/asciidoctor`. They need to have the file extension `.adoc`. 
+You can edit them with your preferred editor and generate the HTML
+files via `sbt make-site`.
 
