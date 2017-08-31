@@ -1,0 +1,32 @@
+# AsciiDoctor
+*.html
+*.pdfmarks
+*.pdf
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+# Ensime
+.ensime
+.ensime_cache/
+.ensime*.log
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+/out/
+.idea_modules/
+# SBT
+target/
+# Vim
+.*.sw[a-z]
+*.un~
+Session.vim
+# Windows
+Thumbs.db
+Desktop.ini

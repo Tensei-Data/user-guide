@@ -1,0 +1,1574 @@
+= Tensei-Data-User-Guide
+Jens Grassel; André Schütz <tech@wegtam.com>
+:doctype: book
+:toc: left
+:toclevels: 4
+:icons: font
+:numbered:
+:source-highlighter: coderay
+:imagesdir: images
+//:stylesheet: stylesheets/rocket-panda.css
+:Revision: 1.0.0-SNAPSHOT
+
+The Tensei-Data-User-Guide describes the <<functionalities,functionalities>> and the
+<<frontend-structure,structure>> of the graphical editor, that is provided for
+the use of the Tensei-Data system.
+
+[[functionalities]]
+== Functionalities ==
+
+The graphical editor provides the following functionalities for the creation of
+transformation configurations and the administration of the Tensei-Data system.
+
+<<license>>:: A valid license is necessary for the use of the Tensei-Data
+system.
+<<dashboard>>:: The dashboard provides an overview of all currently active
+components that are relevant for the execution of
+<<transformation-configuration,transformation configurations>>
+(e.g. transformation configurations, <<agents>>, <<queue>>, <<cronjob>>,
+<<trigger>>).
+<<connection-information>>:: Connection information are necessary to connect
+the resources to the transformation configurations.
+<<dfasdl>>:: A DFASDL describes the structure and semantic of the data.
+<<cookbook>>:: A cookbook describes all relevant transformations and the
+mappings of the data from the source to the target.
+<<transformation-configuration>>:: A transformation configuration contains all
+relevant information of a migration that are necessary for an agent.
+<<agents>>:: A transformation configuration is executed by an agent.
+<<queue>>:: All <<transformation-configuration,transformation configurations>>
+that can't be executed in parallel by the available agents, are stored in the
+queue and executed sequentially.
+<<cronjob>>:: A periodical action that executes a
+<<transformation-configuration, transformation configuration>>.
+<<trigger>>:: An event-based action that executes a
+<<transformation-configuration, transformation configuration>>.
+
+[[frontend-structure]]
+== Structure ==
+
+The functionalities are reachable via the upper navigation in the following
+order:
+
+* Dashboard (Home)
+* Resources
+** <<connection-information>>
+** <<dfasdl>>
+** <<transformation-configuration>>
+** <<agents>>
+* <<cookbook>>
+* Services
+** <<cronjob>>
+** <<trigger>>
+** <<queue>>
+* Statistics
+** Last Transformationens
+* Help
+* <<administration>>
+** <<user-management>>
+** <<groups>>
+* Account
+** <<profile>>
+** <<license>>
+** <<signoff>>
+
+[[best-approach]]
+== Best practice to execute a transformation configuration from scratch ==
+
+. Create the administrator account by the "<<signup>>"
+. Register a valid license in the "<<license>>"
+. Create the <<dfasdl,DFASDLs>> for the source and target systems (As
+  alternative, a <<connection-information,connection information>> can be
+  created that can be used to create the DFASDL automatically.)
+. Create a <<cookbook,cookbook>> that describes the migration process
+. Define the <<connection-information,connection information>> to the source
+and target systems
+. Create a <<transformation-configuration,transformation configuration>> for
+the execution of the migration
+. <<configuration-execution>>
+
+[[signup]]
+== First system access ==
+
+The first access of the system displays a signup form which is necessary to
+create the administrator account. The form requires the following values:
+
+.Values for the administrator account
+* an e-mail address
+* a name
+* a password with a minimum length of *12 signs*
+
+After creating the administrator account, the user is immediately logged-in.
+
+[[signin]]
+== Logging into the system ==
+
+User can log into the system with their *e-mail address* and *password*.
+
+[[license]]
+== License administration ==
+
+The usage of the Tensei-Data system requires a valid license. The license can
+be updated in the license administration via the btn:[Update] button.
+
+Select the license file in the appearing file dialog. A valid license file ends
+with *.license.gz*.
+
+[[dashboard]]
+== Dashboard ==
+
+The dashboard provides a general overview about all running
+<<transformation-configuration,transformation configurations>> and the workload
+of the <<agents>>. Moreover, some additional information are provided:
+
+* Available transformation configurations and the status of the running
+configurations
+* Number of transformation configurations in the <<queue>>
+* Available <<agents>> and their status
+* The active <<cronjob,Cronjobs>>
+* The active <<trigger>>
+
+[[dfasdl]]
+== DFASDL ==
+
+A DFASDL describes the structure and the semantic of a data source and is used
+for the mapping of the data.
+
+=== Create ===
+
+For the creation of a DFASDL, the following steps must be fulfilled:
+
+. Click the btn:[New DFASDL] button
+. Fill the relevant fields
+
+TIP: A DFASDL can automatically be created from a
+<<connection-information,connection information>>. More information in part
+`<<dfasdl-automatic>>`.
+
+==== Form fields ====
+
+*DFASDL ID*
+
+The DFASDL ID allows the explicit differentiation of the available DFSADLs. The
+following requirements should be considered during the creation of the ID:
+
+* No empty spaces
+* Use the minus (-) as separator
+* A clear description of the DFASDL (Example: `my-system-version-x`)
+
+*Version*
+
+The version of the DFASDL is automatically increased by the system during later
+updates. That allows the selection of former versions.
+
+*The DFASDL*
+
+The integrated editor supports the creation of a concrete DFASDL and supports
+syntax highlighting, validation and auto-complete. Additional functionalities
+are:
+
+[horizontal]
+CTRL + SPACE:: Activate the auto-complete for a DFASDL element or attribute
+CTRL + SPACE:: Within an attribute, the auto-complete is activated
+CTRL-Q:: Fold parts of the DFASDL
+F11:: Activate the fullscreen mode
+CTRL-F:: Start a search within the DFASDL
+
+.Example for a DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="persons">
+    <elem id="row">
+      <str id="lastname" stop-sign=","/>
+      <str id="firstname" stop-sign=","/>
+      <formatstr format="(.*@.*\..*)" id="email" stop-sign=","/>
+      <formattime format="dd.MM.yyyy" id="birthday" stop-sign=","/>
+      <str id="phone" stop-sign=","/>
+      <str id="division"/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+TIP: More DFASDLs for different use cases are in the Tensei-Data cookbook
+and the link:https://github.com/DFASDL/dfasdls[DFASDL repository].
+
+*Access rights*
+
+The access rights restrict the visibility of the DFASDL to specific users.
+
+. public: All user can access the DFSADL.
+. private: Only the creator and the optionally added group can access the
+DFASDL
+
+[[dfasdl-filter]]
+=== Filtering of source data ===
+
+Sometimes it is desired to use not all data from a sequence. The dfasdl
+attribute `filter` makes this possible. It is allowed only on the
+sequence element `seq`.
+
+IMPORTANT: Currently filtering of source data is supported on databases
+only!
+
+.Filtering example
+[source,xml]
+----
+...
+<seq id="rows" filter="salary > 20000">
+  <elem id="row">
+    <str id="name"/>
+    <num id="salary"/>
+  </elem>
+</seq>
+...
+----
+
+[[dfasdl-reduce-structure]]
+=== Reducing the visible structure ===
+
+If not all elements of the DFASDL are relevant, they can be excluded. Thus,
+these elements are no longer available in the visual mapping. It increases
+the clarity onto the relevant elements and simplifies the visual mapping.
+
+.Example of a complete DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+Elements of a DFASDL structure can be excluded in two different ways. (1)
+Delete the elements in the DFASDL. (2) Make a comment around the elements in
+the DFASDL.
+
+.(1) Delete the `contacts` from the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+.(2) Make a comment around the `contacts` in the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <!--
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  -->
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+=== Compare DFASDL versions ===
+
+It is possible to compare the actual DFASDL version with former
+versions (diff). Do the following:
+
+* Click the *name* of the DFASDL on the overview page of all DFASDLs
+* In the field *version*, the actual version of the DFASDL is displayed
+* If former versions are available, a button to select a former version
+  for the comparison is displayed
+
+image::dfasdl-diff-button.png[scaledwidth=100%,align="center"]
+
+On the comparison page is another button that allows the selection of
+other versions for the comparison.
+
+[[cookbook]]
+== Cookbook ==
+
+A cookbook allows the creation of mappings and
+<<mapping-transformators,transformations>> between the source and the target
+DFASDLs.
+
+=== Create ===
+
+The creation of the cookbook requires the following steps:
+
+. Click the btn:[New cookbook] button
+. Insert a unique ID for the cookbook
+
+The following tabs are used to change specific settings:
+
+Resources-Tab:: Select the source and target DFASDLs
+Settings-Tab:: Select the version of the source and target DFASDLs
+Mappings-Tab:: Create recipes and mappings
+
+=== Mappings-Tab ===
+
+The Mappings-Tab provides the following information:
+
+* Recipes
+* Graphical visualisation of the source and target DFASDLs
+
+[[cookbook-recipe]]
+==== Create a recipe ====
+A recipe contains all mappings for a logically connected data structure (e.g.
+for a sequence (`seq`) or all data elements within a structural element (e.g.
+`elem`)).
+
+IMPORTANT: Logically connected data elements (e.g. `str`, `num`, ...) must be
+processed within *one* recipe. Logically connected are all elements that are
+under the same `sequence (seq)` or within a superordinated `structural element (e.g.
+elem)`. The number of used mappings is not relevant. More information about this
+basic principle in <<mapping-basics,`Principles for the mappings`>>.
+
+IMPORTANT: All data elements of a logically connected structure must be
+connected within the target DFASDL. If specific elements of the target are
+irrelevant, they must be connected with at least a <<transformator-nullify,Nullify
+transformer>>. Additional information in <<mapping-basics,`Principles for the
+mappings`>>.
+
+. Click the btn:[+] button to create a new recipe
+. Set a name for the recipe (optional)
+. Select the modus of the recipe
+** <<cookbook-recipe-mode-alltoall,MapAllToAll>>: *All* source elements are completely mapped to *each* target
+element.
+** <<cookbook-recipe-mode-onetoone,MapOneToOne>>: *Each single* source element is mapped one-to-one to its
+corresponding target element.
+
+The mappings between the source and target data are created within a recipe.
+A new mapping can be created as follows:
+
+. Create a new mapping by clicking the btn:[Mappings(+)] button
+. Select the source and target elements by clicking into the graphical
+visualisation (Select a source and a target element)
+** The order of the elements can be changed via Drag&Drop
+. Create a transformation (T)
+** A transformation transforms data from the source to the target
+** Create a new transformation by clciking the btn:[Transformations(+)] button
+** Select the desired <<mapping-transformators-general,transformer>>
+** Fill the specific fields of the selected transformer
+** This step is *optional*
+. Create an atomic transformation (A)
+** An atomic transformation transforms the data in the source
+** Create an atomic transformation by clicking the btn:[Atomic
+Transformations(+)] button
+** Select the source element that is transformed by the atomic transformation
+** Select the desired <<mapings-transformators-atomar,atomic transformer>>
+** Fill the specific fields of the selected transformer
+** This step is *optional*
+. Select a mapping key
+** Fields in multiple source files can be merged with an ID that has the
+same name.
+** Fields in a database can be merged by using this key. This is a
+simple alternative for an own select via `db-select` attribute.
+** This step is *optional*
+
+IMPORTANT: If you want to map elements into a *target sequence*, *all* the 
+elements of the target sequence must be specified in *one* recipe. This is
+necessary because a sequence always describes an entire row and all elements of
+the row must be available during processing. Within the recipe the elements can 
+be split into multiple mappings.
+
+[[cookbook-recipe-mode]]
+==== Recipe mode : MapOneToOne and MapAllToAll ====
+
+A recipe can be of mode <<cookbook-recipe-mode-onetoone,MapOneToOne>> or
+<<cookbook-recipe-mode-alltoall,MapAllToAll>>. The difference between
+these two modes is mainly the kind of mapping of elements from the
+source to the target.
+
+[[cookbook-recipe-mode-onetoone]]
+===== MapOneToOne =====
+
+*Each single* source element is mapped one-to-one to its corresponding target element.
+
+.Example for MapOneToOne
+====
+Source elements:
+
+* element1
+* element2
+
+Target elements:
+
+* elementY
+* elementZ
+
+Mapping:
+
+* element1 -> elementY
+* element2 -> elementZ
+====
+
+===== MapAllToAll =====
+
+*All* source elements are completely mapped to *each* target element.
+
+.Example for MapAllToAll
+====
+Source elements:
+
+* element1
+* element2
+
+Target elements:
+
+* elementY
+* elementZ
+
+Mapping:
+
+* element1, element2 -> elementY
+* element1, element2 -> elementZ
+====
+
+[[mapping-transformators]]
+=== Transformers ===
+
+Transformers are used to transform the data during the migration. A distinction
+is made between genereal and atomic transformers.
+
+[[mapping-transformators-diff]]
+==== Difference between General and Atomic transformers ====
+
+The <<mapping-transformators-general,General Transformers>> and the
+<<mapings-transformators-atomar,Atomic Transformers>> differ in two
+essential aspects:
+
+* Execution time
+* Transformed elements
+
+===== Execution time =====
+
+The two types of transformers are executed at different execution times.
+
+.General Transformers
+The <<mapping-transformators-general,General Transformers>> are executed
+after the <<mapings-transformators-atomar,Atomic Transformers>>.
+
+.Atomic Transformers
+The <<mapings-transformators-atomar,Atomic Transformers>> are executed
+before the <<mapping-transformators-general,General Transformers>>.
+
+.Order of Execution time
+Recipe -> Mapping -> Atomic Transformers -> General Transformers
+
+===== Transformed Elements =====
+
+The two types of transformers differ in the number of elements that are
+transformed during the execution of a mapping.
+
+.General Transformers
+The <<mapping-transformators-general,General Transformers>> are used on
+all elements that are specified in the mapping.
+Within a <<cookbook-recipe-mode-onetoone,MapOneToOne>> recipe, the
+transformer is consecutively executed to each element of the source.
+Within a <<cookbook-recipe-mode-alltoall,MapAllToAll>> recipe, the
+transformer is simultaneously executed to all elements from the source.
+
+.Atomic Transformers
+The <<mapings-transformators-atomar,Atomic Transformers>> are
+independent of the <<cookbook-recipe-mode,mode of the recipe>> executed
+on *one* specified element from the source within the mapping.
+
+[[mapping-transformators-general]]
+==== General Transformers ====
+
+General transformers are used to transform the data during the migration from
+the source to the target. General transformers are executed after the atomic
+transformers.
+
+[[transformator-concat]]
+===== Concat =====
+
+The *Concat* transformer connects the incoming data and returns a character
+string.
+
+.Options
+=====
+separator:: A character string that is placed between the data during the
+connection.
+prefix:: A character string that is added to the beginning.
+suffix:: A character string that is added to the end.
+=====
+
+.Examples
+====
+. Connect two elements with a space character
+Options:::
+* separator: " " (space character)
+Elements:::
+* foo, bar
+Result:::
+* "foo bar"
+. Connect three elements with a hyphen
+Options:::
+* separator: -
+Elements:::
+* foo, bar, baz
+Result:::
+* "foo-bar-baz"
+. Connect two elements with an underscore and add a prefix
+Options:::
+* separator: _
+* prefix: Super
+Elements:::
+* foo, bar
+Result:::
+* "Super foo_bar"
+====
+
+[[transformator-dateconverter]]
+===== DateConverter =====
+
+The *DateConverter* converts a `DateTime` into a `Timestamp` or a `Timestamp`
+into a `DateTime`.
+
+.Options
+=====
+format:: The format of the `DateTime` value. Default: `yyyy-MM-dd
+HH:mm:ss`. Possible formats depend on the link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter] class.
+timezone:: Timezone of the `DateTime` value as numerical specification (e.g.
+`+0200`). Default: `Z`
+=====
+
+TIP: A `format` can be specified via the definitions from
+link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter].
+
+.Examples
+====
+. Convert a `Timestamp` into a `DateTime` with timezone of +02
+Options:::
+* timezone: +200
+Element:::
+* 42 (Timestamp that defines 42 milli seconds from 1970-01-01)
+Result:::
+* 1970-01-01 02:00:00.042
+====
+
+[[transformer-datetypeconverter]]
+===== DateTypeConverter =====
+
+The *DateTypeConverter* converts a given date, time or timestamp into
+the specified target type.
+
+.Options
+=====
+target:: The specified target type. Available values are `date` (to
+`1970-01-01`), `time` (to `12:13:55`) or `dateime` (to `2001-07-04
+14:25:22`).
+=====
+
+.Examples
+=====
+. Convert a `Date` value into a `Timestamp`
+Options:::
+* target: datetime
+Element:::
+* 2012-01-01
+Result:::
+* 2012-01-01 00:00:00.0
+. Convert a `Timestamp` into a `Time` value.
+Options:::
+* target: time
+Element:::
+* 2001-11-22 14:22:33.0
+Result:::
+* 14:22:33
+. Convert a `Time` value into a `Date`.
+Options:::
+* target: date
+Element:::
+* 12:55:11
+Result:::
+* 1970-01-01
+. Convert a `Timestamp` into a `Date`.
+Options:::
+* target: date
+Element:::
+* 1986-12-12 18:25:22.0
+Result:::
+* 1986-12-12
+=====
+
+[[transformator-datevaluetostring]]
+===== DateValueToString =====
+
+The *DateValueToString* transformer converts a given `Date`, `Time` or
+`Datetime` value to a String. The `format` parameter can be used to
+define a different target format of the value. If the `format` parameter
+is empty, the value is simply converted into a String.
+
+.Options
+=====
+format:: A target format that is used to transform the given `Date`, `Time` or
+`Datetime` value. If this parameter is empty, the value is simply converted
+into String. Possible formats depend on the
+link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]
+class.
+=====
+
+.Examples
+=====
+. Convert a `Date` value into another format
+Options:::
+* format: dd.MM.yyyy
+Element:::
+* 2016-04-27
+Result:::
+* 27.04.2016
+. Convert a `Time` value into another format
+Options:::
+* format: HH:mm
+Element:::
+* 13:22:22
+Result:::
+* 13:22
+. Convert a `DateTime` value into another format
+Options:::
+* format: dd.MM.yyyy h:mm a
+Element:::
+* 2016-04-27 13:22:22
+Result:::
+* 27.04.2016 1:22 PM
+=====
+
+[[transformator-emptystring]]
+===== EmptyString =====
+
+The *EmptyString* transformer writes an empty character string into the target
+element.
+
+NOTE: The target data type must be able to accept a character string.
+
+[[transformator-extractbiggestvalue]]
+===== ExtractBiggestValue =====
+
+The *ExtractBiggestValue* transformer determines the biggest / longest value
+from the given data.
+
+If the incoming data are character string, the longest character string will be
+returned. If the incoming data are numerical values, the biggest value will be
+returned. If the incoming data are mixed with character strings and numerical
+values, the longest value will be returned.
+
+[[transformator-idtransformer]]
+===== IDTransformer =====
+
+The *IDTransformer* creates a `new` ID for a target field. Depending on the
+specification, a `Long` or an `UUID` will be created. If the data sets are
+successive, the transformer creates incremented values.
+
+.Options
+=====
+field:: The name of the target field in the mapping.
+start:: An optional start value for a `Long` ID: Default: `0`
+type:: The created ID can be a Long (`long`) or an UUID (`uuid`). Default:
+`long`
+=====
+
+.Examples
+====
+. Get an integer ID starting on 41 for a specific field
+Options:::
+* field: field1 (Element of the DFASDL)
+* start: 41
+* type: long
+Element:::
+* -
+Result:::
+* For the first call of the transformer: 41
+* For the next call: 42, and so on ...
+====
+
+[[transformator-ifthenelsenumeric]]
+===== IfThenElseNumeric =====
+
+The *IfThenElseNumeric* transformer allows simple `if-then-else` expressions for
+numerical values.
+
+.Options
+=====
+if:: A function that determines whether the `then` or the `else` branch will be
+executed. The function supports the following operators: `==, !=, <, <=, >=, >`.
+then:: A function that describes a transformation of the data. Supported
+operators are: `+, -, *, /`
+else:: A function that describes a transformation of the data. Supported
+operators are: `+, -, *, /`
+format:: Defines the `type` of the returned values as long (`num`) or BigDecimal
+(`dec`). Default: `dec`
+=====
+
+TIP: An `if` condition could be as follows: `x>42 or 3.141 != x`
+
+TIP: A `then` or `else` function must be specified for assignments as follows:
+`x=x+1 oder x=3-x`. If a constant is required, the function will be specified
+without operator: `42`
+
+.Examples
+====
+. Values that are bigger than 6 should be changed to 0
+Options:::
+* if: x>6
+* then: 0
+Elements:::
+* 1,2,3,4,5,6,7,8
+Result:::
+* 1,2,3,4,5,6,0,0
+. Values that are bigger than 3 must be added with 2
+Options:::
+* if: x>3
+* then: x=x+2
+Elements:::
+* 1,2,3,4,5
+Result:::
+* 1,2,3,6,7
+. Values smaller than 3 must be multiplied with 3, otherwise substracted from 2
+Options:::
+* if: x<=2
+* then: x=x*3
+* else: x=2-x
+Elements:::
+* 1,2,3,4,5
+Result:::
+* 3,6,-1,-2,-3
+. Values that are bigger than 2 must be added with 1, otherwise substracted with 1 and returned as integer
+Options:::
+* if: x>2
+* then: x=x+1
+* else: x=x-1
+* format: num
+Elements:::
+* 1.5,2,3,4,5
+Result:::
+* 1,1,4,5,6
+====
+
+[[transformator-lowerorupper]]
+===== LowerOrUpper =====
+
+This transformer returns a lower or upper version of the provided string.
+
+.Options
+====
+locale:: The link:https://en.wikipedia.org/wiki/Locale_(computer_software)[Locale]
+defines how operations like lowercase and uppercase are executed. If this
+parameter is left empty then the locale of the system will be used on which
+the agent is running.
+perform:: Perform one of the following transformations. `lower` - All characters
+as lower characters. `upper` - All characters as upper characters. `firstlower`
+- Only the first character as lower character, the others are unchanged.
+  `firstupper` - Only the first character as upper character, the others are
+  unchanged.
+====
+
+.Examples
+====
+. Write all characters as lower characters
+Options:::
+* perform: lower
+Element:::
+* Foo BAR
+Result:
+* foo bar
+. Write only the first character as lower character
+Options:::
+* perform: lower
+Element:::
+* FOO Bar
+Result:
+* fOO Bar
+====
+
+[[transformator-mergeandextractbyregex]]
+===== MergeAndExtractByRegEx =====
+
+The *MergeAndExtractByRegEx* transformer connects the incoming data and
+executes a reular expression. The result of the regular expression will be
+returned.
+
+.Options
+=====
+regexp:: The regular expression that is executed on the character string.
+filler:: A character string that is placed between the resulting groups
+(default: "")
+groups:: A list of groups that should be returned. (comma separated, beginning
+with 0. Default: All groups are returned.)
+=====
+
+.Examples
+====
+. Extract a specific word out of a sentence
+Options:::
+* regexp: .\*(home).*
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* home
+. Extract all matched groups from a sentence
+Options:::
+* regexp: .\*(home).*(windows).*
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* homewindows
+. Extract all matched groups from a sentence and connect them with a specific character
+Options:::
+* regexp: .\*(home).*(windows).*
+* filler: -
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* home-windows
+. Return specific groups
+Options:::
+* regexp: .\*(This).*(home).\*(window).*
+* filler: #
+* groups: 0,2
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* This#window
+. Remove space characters before and after a word group
+Options:::
+* regexp: \s*?(\w+\s?\w+)\s*?
+** \s*? - An undefined number of space characters before and after the word group
+** \w - word character [A-Za-z0-9_]
+** \s? - a space character can between the word characters
+* groups: 1
+Element:::
+* "  Max Mustermann  "
+Result:::
+* "Max Mustermann"
+====
+
+[[transformator-nullify]]
+===== Nullify =====
+
+The *Nullify* transformer returns *no* data. This transformer allows
+the mapping of fields in the target that must be considered but contain no
+data.
+
+A common use case is a *MapAllToAll* where *one* source element is mapped to
+numerous elements in the target. These elements are considered in the structure
+but not filled with any data.
+
+NOTE: The target data type must be able to accept a "Null" value. You
+should not send the result of this transformer into a field of a
+database that is specified as "Not Null".
+
+TIP: If a mapped field has a *default* attribute, the value will be filled
+into the target.
+
+[[transformator-overwrite]]
+===== Overwrite =====
+
+The *Overwrite* transformer writes the given `value` into the target element and
+converts the `value` into the specified `type`.
+
+.Options
+=====
+value:: The value that should be written into the target element.
+type:: The expected data type of the `value`. Possible types are: `byte` (as
+Array[Byte]), `string` (e.g. "foo"), `long` (z.B. 0), `bigdecimal` (e.g. 0 or
+2.3), `date` (e.g. 1970-01-01), `time` (e.g. 00:00:00), `datetime` (e.g.
+1970-01-01 00:00:00), `none` (as undefined value)
+=====
+
+NOTE: If you have a `num` element, you must choose the `type: long`. If you
+overwrite a comma separated number or `formatnum`, you should select `type:
+bigdecimal`.
+
+TIP: The actual `time`, `date` or `timestamp` can automatically be
+written by setting `value` to `now` (See example below).
+
+.Examples
+====
+. Write a word into the target field
+Options:::
+* value: foo
+* type: string
+Element:::
+* bar
+Result:::
+* foo
+. Replace a string with a defined number
+Options:::
+* value: 1
+* type: long
+Element:::
+* foo
+Result:::
+* 1
+. Write a date into the target field
+Options:::
+* value: 2015-12-31
+* type: date
+Element:::
+* foo
+Result:::
+* 2015-12-31
+. Write the actual date / time / datetime value
+Options:::
+* value: now
+* type: date (or time, datetime)
+Element:::
+* 0000-00-00
+Result:::
+* 2016-04-15
+====
+
+[[mapping-transformators-general-replace]]
+[[transformator-replace]]
+===== Replace =====
+
+The *Replace* transformer replaces all occurences of a given search
+string by a given one. The search string can be a regular expression.
+
+.Options
+=====
+search:: Die string to be replaced which can be a regular expression. If
+multiple strings shall be replaced they can be given as a comma
+separated list inside single quotes for example: 
+`'ReplaceMe','\\sReplaceMeToo',' I wanna be replaced\?'`
+replace:: The string that shall be used as a replacement. If left empty
+the found search strings will be deleted.
+count:: The number of found strings that shall be replaced. If no value
+is given then all occurences will be replaced.
+
+=====
+
+IMPORTANT: Within the search string special characters have to be
+escaped by using a backslash (`\`). Examples for special characters are:
+`. $ ^ { [ ( | ) * + ? \` This means that control characters for regular
+expression have to be adjusted accordingly (for example `\\w` instead of
+`\w`).
+
+.Examples
+====
+. Replace a word by another word
+Options:::
+* search: original
+* replace: actual
+Element:::
+* This is the original source string!
+Result:::
+* This is the actual source string!
+. Replace multiple words
+Options:::
+* search: 'original','actual'
+* replace: bar
+Element:::
+* This is the original actual source string"
+Result:::
+* This is the bar bar source string!
+. Replace a word and the space characters
+Options:::
+* search: ' original '
+* replace: bar
+Element:::
+* This is the original actual source string!
+Result:::
+* This is thebaractual source string!
+. Replace a word just once
+Options:::
+* search: original
+* replace: bar
+* count: 1
+Element:::
+* This is the original original original source string!
+Result:::
+* This is the bar original original source string!
+. Replace a matched regex
+Options:::
+* serarch: '\\w+'
+* replace: 22
+Element:::
+* test test
+Result:::
+* 22 22
+====
+
+[[transformator-split]]
+===== Split =====
+
+The *Split* transformer separates the incoming data by using a defined pattern.
+
+.Options
+=====
+pattern:: This pattern is used to separate the character string.
+limit:: Return the first x separated elements. (Default: -1 for all)
+selected:: Return the separated elements at the given position (Comma separated
+list of integer values beginning with 0)
+=====
+
+.Examples
+====
+. Split a character string at the comma
+Options:::
+* pattern: ,
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","mustermann","2015-12-31"
+. Return only the first two splits
+Options:::
+* pattern: ,
+* limit: 2
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","mustermann"
+. Return specific hits of the split
+Options:::
+* pattern: ,
+* selected: 0,2
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","2015-12-31"
+====
+
+[[transformator-timestampcalibrate]]
+===== TimestampCalibrate =====
+
+The *TimestampCalibrate* transformer adapts the value of a list of timestamps.
+
+.Options
+=====
+perform:: Add or reduce a value to the timestamp. With `add`, the timestamp will
+be multiplied by 1000, with `reduce` the timestamp will be divided by 1000.
+=====
+
+.Examples
+====
+. Add the milliseconds to a timestamp
+Options:::
+* perform: add
+Element:::
+* 1441196805
+Result:::
+* 1441196805000
+====
+
+[[mapings-transformators-atomar]]
+==== Atomic Transformers ====
+
+Atomic transformers are used on the source data and will be executed before the <<mapping-transformators-general,general transformers>>.
+
+===== BoxDataIntoList =====
+
+The *BoxDataIntoList* transformer creates a simple list from the incoming data.
+
+===== Replace =====
+
+Same as at <<mapping-transformators-general-replace, Replace>>.
+
+[[transformator-timestampadjuster]]
+===== TimestampAdjuster =====
+
+The *TimestampAdjuster* transformer adapts the value of a list of timestamps.
+
+.Options
+=====
+perform:: Add or reduce a value to the timestamp. With `add`, the timestamp will
+be multiplied by 1000, with `reduce` the timestamp will be divided by 1000.
+=====
+
+.Examples
+====
+See <<transformator-timestampcalibrate, TimestampCalibrate-Transformer>>
+====
+
+==== Execute transformers consecutively ====
+
+It is possible to execute transformers consecutively within a mapping to
+perform complex transformations.
+
+.Example for the transformation of a Timestamp into a java.sql.Date
+
+The following example transforms a Timestamp, that is not in
+milliseconds, into a java.sql.Date which can be stored into a database
+field of type `Date`.
+
+The following three transformers are used:
+
+* <<transformator-timestampcalibrate,TimestampCalibrate>>
+** Parameter `perform` with value `add`
+* <<transformator-dateconverter,DateConverter>>
+* <<transformer-datetypeconverter,DateTypeConverter>>
+** Parameter `target` with value `date`
+
+image::transformer-sequentially.png[scaledwidth=100%,align="center"]
+
+The transformers perform the following transformations with the data:
+
+* <<transformator-timestampcalibrate,TimestampCalibrate>> multiplies the
+  Timestamp with 1000 to create a Timestamp in milliseconds.
+* The <<transformator-dateconverter,DateConverter>> transforms the Unix
+  Timestamp into an ISO `LocalDateTime`.
+* Finally, the <<transformer-datetypeconverter,DateTypeConverter>>
+  transforms the value into a `java.sql.Date` which can be stored into a
+  database field of type `Date`.
+
+An example could be as follows:
+
+* Transformation with
+  <<transformator-timestampcalibrate,TimestampCalibrate>>
+** 1461712920 -> 1461712920000
+* Transformation with <<transformator-dateconverter,DateConverter>>
+** 1461712920000 -> 2016-04-26T23:22
+* Transformation with
+  <<transformer-datetypeconverter,DateTypeConverter>>
+** 2016-04-26T23:22 -> 2016-04-26
+
+[[mapping-basics]]
+=== Principles for the mappings ===
+
+==== A recipe contains logically connected data elements ====
+Connected data elements must always be processed within one recipe. Data
+elements are logically connected when they have the following characteristics:
+
+* They are within a sequence (`seq`)
+* They are within a superordinated structural element (e.g. `elem`)
+* They must be migrated in a logically connected target structure (e.g. a
+  sequence or a structural element that contains the relevant data elements)
+
+.Example for logically connected data structures
+image:mapping-recipes-all-target.png[scalewidth=100%,align="center"]
+
+The example contains two recipes that fulfill the following principles:
+
+* `Recipe 1 (Rezept 1)` connects `vorname`, `nachname`, `geburtsssdaetum` and
+  `telefon` from the source element (`elem` with id `csv_header`) into the
+  target element (`elem` with id `header`) and its data elements (`vorname`,
+  `nachname`, `datum` and `telefon`). The data elements are all within the
+  superordinated target element and describe a logically connected structure.
+* `Recipe 2 (Rezept 2)` connects all data elements from the source sequence with
+  the data elements of the target sequence. The data elements are within a
+  sequence and describe a logically connected structure.
+
+==== Elements of a connected target structure must be processed within one recipe ====
+All data elements of a logically connected data structure of the target DFASDL must be
+connected within at least one mapping. If elements are irrelevant, they must be
+connected with at least a <<transformator-nullify,`Nullify transformer`>>.
+
+IMPORTANT: Tensei-Data migrates the data depending on the structure that is
+defined by the user. If an element of the target strucutre is irrelevant, the
+element can be deleted from the target DFASDL or must be connected with a
+<<transformator-nullify,`Nullify transformer`>>.
+
+.Example for the mapping of all target elements
+image:mapping-recipes-all-target-or-nullify.png[scalewidth=100%,align="center"]
+
+The example connects all elements of the target with elements from the source.
+The following mappings are created within *one* recipe (Mode is
+<<cookbook-recipe,`MapAllToAll`>>):
+
+* The fields `name` and `vorname` from the source are migrated with the
+  <<transformator-concat,`concat transformer`>> into the field `name` of the
+  target. (Mapping 1)
+* The field `title` is simply connected with the `title` field of the target.
+  (Mapping 2)
+* The field `city` is simply connected with the field `city` of the target.
+  (Mapping 3)
+* The field `telefonnummer` is used as neutral element to apply the
+  <<transformator-nullify,`Nullify transformer`>> to the three fields
+  `area_code`, `main_number` and `telephone`. This transformer simply creates an
+  empty mapping to the target structure. (Mapping 4)
+
+[[connection-information]]
+== Connection information ==
+
+The connection information defines all necessary parameters to access the data
+in the source or the target.
+
+=== Create ===
+
+If a connection information is created, the following steps must be fulfilled:
+
+. Click the btn:[New connection information] button
+. Insert a valid URI
+. Fill the required fields
+
+==== Form fields ====
+
+*URI*
+
+The URI describes a valid connection to the data source. A valid URI is:
+
+. Databases
+* `Derby`: jdbc:derby://path-to/derby-file
+* `H2`: jdbc:h2://Pfad/zur/h2-file
+* `HyperSQL`: jdbc:hsqldb:hsql://10.8.1.10/my-db
+* `MariaDB`: jdbc:mariadb://192.168.0.42/my-db
+* `Microsoft SQL Server`: jdbc:sqlserver://10.8.1.129:1433;databaseName=my-db;applicationName=myApplication
+* `MySQL`: jdbc:mysql://hostname/datenbank
+* `Oracle`: jdbc:oracle:thin:@10.0.2.2:1521:my-db
+* `Postgresql`: jdbc:postgresql://hostname:port/datenbank
+* `SQLite`: jdbc:sqlite:///path-to/sqlite-file
+. File
+* file:///home/path/file.csv
+. Network File
+* http://hostname/your-file.csv
+* ftp://hostname/folder/subfolder/your-file.csv
+* ftps://hostname/your-file.csv
+* sftp://hostname/another-folder/your-file.csv
+
+TIP: Different examples can be found in the *Demo-Guide* of the
+link:http://www.tensei-data.com/en/docs[Documentation]
+
+*Cokbook*
+
+A connection information is connected to a <<dfasdl,DFASDL>> from an available
+<<cookbook>>.
+
+TIP: The selection of the cookbook can also be done at a later time.
+
+*DFASDL-Id*
+
+A concrete <<dfasdl,DFASDL>> is connected with the connection information and
+describes the structure and the semantic of the data.
+
+*Username (optional)*
+
+The username to access the data source.
+
+*Password (optional)*
+
+The password to access the data source.
+
+*Checksum (optional)*
+
+A checksum to verify the data source.
+
+*Access rights*
+
+The access rights restrict the visibility of the connection information
+to specific users.
+
+. public: All user can access the connection information.
+. private: Only the creator and the optionally added group can access the
+connection information.
+
+[[dfasdl-automatic]]
+=== Automatic creation of the DFASDL ===
+
+The button btn:[New DFASDL] in the listz of connection informations allows the
+automatic creation of a <<dfasdl>> for the connection information.
+
+TIP: Currently available for database connections and files in CSV or
+JSON format.
+
+[[transformation-configuration]]
+== Transformation configurations ==
+
+A transformation configuration connects the
+<<connection-information,connection information>> and the <<cookbook>> for the
+execution by an <<agent, agent>>.
+
+=== Create ===
+
+During the creation of a transformation configuration, the following
+requirements must be fulfilled:
+
+. Click the btn:[New transformation configuration] button
+. Define a clear name
+. Select the <<cookbook>>
+. Select the <<connection-information,connection information>> for the sources
+. Select the <<connection-information,connection information>> for the target
+. Select access rights
+
+*Access rights*
+
+The access rights restrict the visibility of the transformation configuration
+to specific users.
+
+. public: All user can access the transformation configuration.
+. private: Only the creator and the optionally added group can access the
+transformation configuration.
+
+[[agents]]
+== Agents ==
+
+Tensei-Data is an agent based system. An agent executes a
+<<transformation-configuration,transformation configuration>>.
+
+Agents can have the following connection status:
+
+. Connected
+. Disconnected
+. Unauthorized
+
+=== Connected agents ===
+
+Connected agents can be used to execute
+<<transformation-configuration,transformation configurations>> and are correctly
+connected to the system.
+
+=== Disconnected agents ===
+
+Disconnected agents are not correctly connected to the system.
+
+=== Unauthorized agents ===
+
+Unauthorized agents are not authorized to connect to the system.
+
+[[configuration-execution]]
+== Execute a transformation configuration ==
+
+A transformation configuration can be executed on three different ways:
+
+. Manually on the dashboard by clicking the respective transformation
+configuration
+. Automatically by a <<cronjob>>
+. Automatically by an event via <<trigger>>
+
+[[queue]]
+== Queue of transformation configurations ==
+
+Depending on the number of available agents, x transformation configurations
+can be executed in parallel by x agents. The additional transformation
+configurations are stored in the queue.
+
+The stored transformation configurations are executed by the next free agents.
+
+[[services]]
+== Services ==
+
+Two services are available for the automatic execution of transformation
+configurations.
+
+[[cronjob]]
+=== Cronjob ===
+
+Cronjobs are timed actions which perform a transformation configuration.
+
+==== Create ====
+
+For the creation of a cronjob, the following steps must be fulfilled:
+
+. Click the btn:[New Cronjob] button
+. Select the <<transformation-configuration, transformation configuration>>
+. Specify a valid timestamp that defines the interval for the execution of the
+transformation configuration
+** Additional information below the field in the frontend
+. Activate or deactivate the cron
+. Specifiy access rights
+
+[[trigger]]
+=== Trigger ===
+
+A trigger allows an event-based execution of a
+<<transformation-configuration,transformation configuration>>.
+
+==== Create ====
+
+For the creation of a trigger, the following steps must be fulfilled:
+
+. Click the btn:[New Trigger] button
+. Select a <<transformation-configuration, transformation configuration>>
+. Specify the type of the trigger
+** Here you must specify if the trigger will be executed via an Apache
+Camel endpoint uri or via the successful completion of another
+transformation configuration.
+. Now you either
+** specify a valid endpoint URI that defines a monitored event.
+** or select the transformation configuration that should execute the
+trigger.
+. Activate or deactivate the trigger
+. Specifiy access rights
+
+TIP: Through the usage of triggers that execute upon the successful
+completion of transformation configurations you can model complex
+scenarios.
+
+.Example for a local trigger in the VM
+[source]
+----
+jetty:http://0.0.0.0:8192/PFAD
+----
+
+The `port (8192)` is locally defined in the `Vagrantfile` of the VM.
+
+Activate the trigger on the local machine.
+
+.Activate the trigger
+[source]
+----
+http://localhost:8192/PFAD
+----
+
+[[administration]]
+== Administrator ==
+
+The administrator can specifiy additional settings.
+
+[[user-management]]
+=== User management ===
+
+User can be created, administered and deleted.
+
+[[groups]]
+=== Groups ===
+
+Groups can be created, administered and deleted. Additioanlly, users can be
+assigned to specific groups.
+
+[[profile]]
+== Profile ==
+
+Every user can change the following settings within his profile:
+
+. Change the e-mail
+. Change the name
+. Set a new password
+
+== Use Case ==
+
+The following use cases show some concrete representations of the single components.
+
+=== Read data from a CSV file and write to database ===
+
+Read the content of a CSV file and store into a database. The `telefonnummer`
+will be transformed and stored into different target columns. `name` and
+`vorname` will be combined and stored into the `name` column of the database.
+
+.DFASDL for the CSV file
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="mitarbeiter">
+    <elem id="column">
+      <str id="name" stop-sign="," />
+      <str id="vorname" stop-sign="," />
+      <str id="title" stop-sign="," />
+      <str id="telefonnummer" stop-sign="," />
+      <str id="city" />
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+.DFASDL for the target database
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="mitarbeiter">
+    <elem id="column">
+      <str id="title" stop-sign=","/>
+      <str id="name" stop-sign="," />
+      <num id="area_code" stop-sign=","/>
+      <num id="main_number" stop-sign=","/>
+      <num id="telephone" stop-sign=","/>
+      <str id="city" />
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+The mapping of the two DFASDLs looks as follows.
+
+image::mapping-csv-db.png[scaledwidth=100%,align="center"]
+
+. The mappings are created in one <<cookbook-recipe,`MapAllToAll`>> recipe
+. There are *6* mappings
+.. `name`, `vorname` -> `name`
+.. `title` -> `title`
+.. `telefonnummer` -> `area_code`
+.. `telefonnummer` -> `main_number`
+.. `telefonnummer` -> `telephone`
+.. `city` -> `city`
+. `name` and `vorname` are combined with the <<transformator-concat>>
+transformator
+. The `telefonnummer` has the this format in the CSV file: `(733) 102-8755`
+.. The area code is determined with the <<transformator-mergeandextractbyregex>>
+transformator and stored into the `area_code` column. The regular expression is
+: `\((\d+)\).*`
+.. The main number is extracted by using the <<transformator-split>> transformator
+two times
+... The first split has a `space` as `pattern` and a `1` in the `select` field
+... The second split separates the main number at the `-` sign, which is also used
+in the `pattern` field. The returned character string contains only numbers
+.. Only numbers can be stored into the `telephone` column. First the
+<<transformator-mergeandextractbyregex>> is used, secondly, the
+<<transformator-split>> transformator
+... The regular expression for the MergeAndExtractByRegEx transformator is
+`([\d[^-\(\)]]*)`
+... The `pattern` for the Split is a space character
+
+Finally, the following steps must be done:
+
+. Create a <<connection-information>> for the CSV file
+. Create a <<connection-information>> for the target databse
+. Create a <<transformation-configuration>> for the execution
+. Execute the <<transformation-configuration>> at the dashboard
