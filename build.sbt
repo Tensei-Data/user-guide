@@ -1,15 +1,18 @@
-// Determine the project version via the "git describe" strategy (recommended).
-git.useGitDescribe := true
 
-lazy val commonSettings = Seq(
-  organization := "com.wegtam.tensei"
-)
-
-// Tensei-User-Guide
-lazy val userGuide = project.in(file("."))
-  .settings(commonSettings: _*)
+lazy val tenseiUserGuide = project.in(file("."))
   .settings(
-    name := "user-guide"
+    organization := "com.wegtam.tensei",
+    organizationName := "Wegtam GmbH",
+    name := "tensei-user-guide",
+    git.useGitDescribe := true,
+    ghpagesNoJekyll := true,
+    git.remoteRepo := "git@github.com:Tensei-Data/user-guide.git",
+    sourceDirectory in Asciidoctor := baseDirectory.value / "doc"
   )
-  .enablePlugins(AsciidoctorPlugin, GitBranchPrompt, GitVersioning)
+  .enablePlugins(
+    AsciidoctorPlugin,
+    GitBranchPrompt,
+    GitVersioning,
+    GhpagesPlugin
+  )
 
