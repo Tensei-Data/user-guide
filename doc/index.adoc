@@ -1,0 +1,99 @@
+= Tensei-Data User Guide
+Contributors as noted in the AUTHORS.md file.
+:doctype: book
+:toc: left
+:toclevels: 4
+:numbered:
+:icons: font
+:imagesdir: images
+:source-highlighter: coderay
+:Revision: {project-version}
+:stylesheet: stylesheets/rocket-panda.css
+
+[[preamble]]
+== Preamble ==
+This guide is intended for users that want to understand, install and
+use the Tensei-Data system. It is also feasible for administrators
+that strive for a better understanding of the system components.
+
+Version:: {project-version}
+
+[source,plain]
+----
+Copyright (c) 2014 - 2017 Contributors as noted in the AUTHORS.md file
+
+The Tensei-Data user guide is distributed under the terms of the 
+Creative Commons Attribution-ShareAlike 4.0 International license 
+(CC BY-SA 4.0).
+----
+
+=== Authors ===
+The following authors contributed to this guide:
+
+[source, plain]
+----
+include::../AUTHORS.md[]
+----
+
+== Overview ==
+
+=== Objectives ===
+
+=== Structure ===
+
+=== Components ===
+
+== Installation ==
+
+=== VM ===
+
+==== Windows ====
+
+==== Linux ====
+
+=== Debian packages ===
+
+== Frontend ==
+
+=== Overview ===
+
+=== Structure ===
+
+=== Functionalities ===
+
+=== First access ===
+
+=== Login ===
+
+=== License ===
+
+=== Best practice ===
+
+=== Dashboard ===
+
+=== DFASDL ===
+
+=== Cookbook ===
+
+=== Connection Information (CI) ===
+
+=== Transformation Configuration (TK) ===
+
+==== Execute Transformation Configuration ====
+
+=== Agent ===
+
+==== Queue ====
+
+=== Services ===
+
+==== Cronjob ====
+
+==== Trigger ====
+
+=== Administrator ===
+
+=== Profile ===
+
+=== Use Cases ===
+
