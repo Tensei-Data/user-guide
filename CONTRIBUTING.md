@@ -12,18 +12,15 @@ support you.
  
 ### Additions to C4.2
  
-1. This project is licensed under Creative Commons Attribution 4.0 
-International Public License (CC BY 4.0) and the Mozilla Public License 2.0.
-See [LICENSE](LICENSE) for details.
+1. This project is licensed under Creative Commons Attribution-ShareAlike 4.0 
+International license (CC BY-SA 4.0). See [LICENSE](LICENSE) for details.
  
 2. Contributors are listed in the file [AUTHORS.md](AUTHORS.md). Add
 yourself if you have contributed.
-
+ 
 3. Please maintain the existing code style and try to keep your commits
-small and focused. The xsd and possible xml or html files MUST be 
-indented using 2 spaces and their line length SHOULD not exceed 80 
-characters.
-
+small and focused.
+ 
 4. Please rebase your branch if the project diverges from your branch.
  
 5. Before a pull request is merged the commits done on the feature branch
@@ -38,8 +35,7 @@ The changes in the section `Unreleased` in the [CHANGELOG.md](CHANGELOG.md)
 file MUST be moved to a section named after the release and a new empty
 `Unreleased` section MUST be created.
  
-A release SHALL be accompanied by an annotated and signed tag 
-(`git tag -as NAME`) that holds a description of the changes that are 
-included in the release. This description SHOULD be same as in the file 
-[CHANGELOG.md](CHANGELOG.md).
+A release SHALL be accompanied by an annotated tag (`git tag -a NAME`) that
+holds a description of the changes that are included in the release. This
+description SHOULD be same as in the file [CHANGELOG.md](CHANGELOG.md).
 
