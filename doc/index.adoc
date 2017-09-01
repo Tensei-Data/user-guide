@@ -8,7 +8,7 @@ Contributors as noted in the AUTHORS.md file.
 :imagesdir: images
 :source-highlighter: coderay
 :Revision: {project-version}
-:stylesheet: stylesheets/rocket-panda.css
+//:stylesheet: stylesheets/rocket-panda.css
 
 [[preamble]]
 == Preamble ==
@@ -37,63 +37,125 @@ include::../AUTHORS.md[]
 
 == Overview ==
 
+*TODO*
+
 === Objectives ===
 
+*TODO*
+
 === Structure ===
+
+*TODO*
 
 === Components ===
 
+*TODO*
+
 == Installation ==
+
+*TODO*
 
 === VM ===
 
+*TODO*
+
 ==== Windows ====
+
+*TODO*
 
 ==== Linux ====
 
+*TODO*
+
 === Debian packages ===
+
+*TODO*
 
 == Frontend ==
 
+*TODO*
+
 === Overview ===
+
+*TODO*
 
 === Structure ===
 
+*TODO*
+
 === Functionalities ===
+
+*TODO*
 
 === First access ===
 
+*TODO*
+
 === Login ===
+
+*TODO*
 
 === License ===
 
+*TODO*
+
 === Best practice ===
+
+*TODO*
 
 === Dashboard ===
 
+*TODO*
+
 === DFASDL ===
+
+*TODO*
 
 === Cookbook ===
 
+*TODO*
+
 === Connection Information (CI) ===
+
+*TODO*
 
 === Transformation Configuration (TK) ===
 
+*TODO*
+
 ==== Execute Transformation Configuration ====
+
+*TODO*
 
 === Agent ===
 
+*TODO*
+
 ==== Queue ====
+
+*TODO*
 
 === Services ===
 
+*TODO*
+
 ==== Cronjob ====
+
+*TODO*
 
 ==== Trigger ====
 
+*TODO*
+
 === Administrator ===
+
+*TODO*
 
 === Profile ===
 
+*TODO*
+
 === Use Cases ===
+
+*TODO*
 
