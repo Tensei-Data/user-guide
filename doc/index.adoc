@@ -35,46 +35,175 @@ The following authors contributed to this guide:
 include::../AUTHORS.md[]
 ----
 
+=== Contributing ===
+If you want to contribute to the project, you should follow the
+following Contribution Guide that has been adopted.
+
+[source, play]
+----
+include::../CONTRIBUTING.md[]
+----
+
+[[overview]]
 == Overview ==
 
-*TODO*
+The Tensei-Data software system can be used to merge, standardize and
+simplify data integration, data migration, data transformation and
+interface management processes.
 
+These processes can be manually executed or automatically by specified
+routines or triggers that are monitored.
+
+The system is based on modern technologies like _Akka_, _Scala_ and the
+_Play Framework_. Therefore, the application is scalable, flexible and highly
+performant.
+The integrated Data Description Language (_DFASDL_) allows the dynamic
+mapping of almost any source and target system and is called within the
+application as `dynamic connectors`.
+
+For the modification of data, the Tensei-Data application offers diverse
+`transformers` which can be combined and modified.
+
+[[overview-features]]
+=== Features ===
+
+*Key features of the Tensei-Data system are:*
+
+Dynamic Connectors:: The structures of the source and the target system
+can automatically be retrieved and expressed via the integrated Data
+Description Language (DFASDL). That allows the connection of
+standardized and individual resources.
+Referential Integrity:: Existing dependencies (Primary keys, Foreign
+Keys) between the data are automatically considered and integrated into
+the target system. That preserves the correctness of the referential
+integrity when depending keys are changing.
+Normalization:: Normalization allows the extraction of data from the
+source system and avoids redundancies in the target system. Tensei-Data
+extracts the data depending on the specifications and provides the
+created dependencies for the linking of the dependent data.
+Virutal Views:: Tensei-Data allows the creation of virtual views on the
+existing data which create new relations and aggregations.
+Transformers:: A row of basic transformers are already included in the
+Tensei-Data system to modify the data in diverse ways. Multiple
+transformers can be connected in series to execute various modifications
+on the data. This flexibility enables endless ways to transform data
+regarding diverse use cases.
+Automatic Execution:: The execution of the integration and
+transformation processes can be established continuously or manually.
+For the continuous execution are Cronjobs (time-based execution) or
+Trigger (event-based execution) available.
+Scalable:: The system is based on a modern software stack of Scala and
+Akka. The advantages of this agent based system are scalability by the
+Akka cluster and parallelization that can be upscaled depending on the
+number of available agents.
+Diverse database systems and file types:: Tensei-Data supports various
+<<overview-connections,databases and file types>> and provides connection out
+of the box.
+
+_Additional features are_:
+
+* Automatic description of the data structure
+* Complex integration tasks can be subdivided into subtasks and automatically
+executed
+* Besides the graphical frontend exists an admin mode that allows the 
+specification of database dependent queries
+* Filtering of data
+* Export / Import of existing cookbooks for reuse
+* Intuitive mapping visualization
+* Extreme short training periods
+
+[[overview-objectives]]
 === Objectives ===
 
 *TODO*
 
-=== Structure ===
+[[overview-connections]]
+=== Database and file type connections out of the box ===
+
+|===
+|Databases | Files | File access
+
+|Derby
+|Text
+|Local
+
+|H2
+|CSV
+|Http
+
+|HypeSQL
+|XML
+|FTP
+
+|Firebird
+|Excel
+|FTPS
+
+|MariaDB
+|JSON
+|SFTP
+
+|Microsoft SQL Server
+|Email
+|
+
+|MySQL
+|TSV
+|
+
+|Oracle
+|
+|
+
+|PostgreSQL
+|
+|
+
+|SQLite
+|
+|
+
+|others (via JDBC)
+|
+|
+|===
+
+[[overview-structure]]
+=== Structure and Components ===
 
 *TODO*
 
-=== Components ===
-
-*TODO*
-
+[[installation]]
 == Installation ==
 
 *TODO*
 
+[[installation-vm]]
 === VM ===
 
 *TODO*
 
+[[installation-windows]]
 ==== Windows ====
 
 *TODO*
 
+[[installation-linux]]
 ==== Linux ====
 
 *TODO*
 
+[[installation-debian-packages]]
 === Debian packages ===
 
 *TODO*
 
+[[frontend]]
 == Frontend ==
 
 *TODO*
 
+[[frontend-overview]]
 === Overview ===
 
 *TODO*
