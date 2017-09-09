@@ -115,7 +115,22 @@ specification of database dependent queries
 [[overview-objectives]]
 === Objectives ===
 
-*TODO*
+The Tensei-Data application is designed with the following objectives in
+mind:
+
+* Integrate, migrate and transform data with ease
+
+* One platform for all data transformation and integration processes
+
+* Reduce errors during system setup
+
+* Easy adaptation of the application to new requirements
+
+* Scalability
+
+* Reusability
+
+* Minimal training periods
 
 [[overview-connections]]
 === Database and file type connections out of the box ===
@@ -171,27 +186,170 @@ specification of database dependent queries
 [[overview-structure]]
 === Structure and Components ===
 
-*TODO*
+Tensei-Data is designed as microservice application structure and
+consists of the following components:
+
+Frontend:: Administer the Transformation Configurations for executing
+the integration and transformation processes. The graphical editor
+allows the definition and adaptation of all process relevant steps.
+
+Server:: Administer the connection between the frontend and the
+registered agents.
+
+Agent:: Agents are the workhorse of the Tensei-Data system and finally
+execute the Transformation Configurations.
 
 [[installation]]
 == Installation ==
 
-*TODO*
+The installation of the Tensei-Data system can be done by using a
+<<installation-vm-windows,Virtual Machine for Windows>>, a
+<<installation-vm-linux,Virtual Machine for Linux>> or the
+installation of <<installation-debian-packages,Debian packages>>.
 
 [[installation-vm]]
 === VM ===
 
-*TODO*
+The minimum requirements for the Virtual Machine are as follows:
 
-[[installation-windows]]
+.System requirements for the Virtual Machine installation
+|========================================================
+| CPU | 4 cores or more
+| RAM | 3 gb memory or more
+| HDD | sufficient space on hard disk (at least 12 gb) 
+| VirtualBox | The virtualisation software VirtualBox
+footnoteref:[virtualbox, VirtualBox Homepage:
+https://www.virtualbox.org/] needs to be installed.
+| VMWare | As an alternative to VirtualBox, we offer a VMWare version.
+This box can be executed with Vagrant, too.
+| Vagrant | Vagrant footnoteref:[vagrant, Vagrant Homepage: https://www.vagrantup.com/]
+needs to be installed.
+| SSH | Alternatively Git footnoteref:[Git, Git Hompeage: https://git-scm.com/]
+|========================================================
+
+[[installation-vm-windows]]
 ==== Windows ====
 
-*TODO*
+The following steps describe the installation of the required components to
+execute the Tensei-Data system.
 
-[[installation-linux]]
+===== Installation of VirtualBox =====
+VirtualBox is a virtualization software that is available for various systems.
+
+. Download the `Windows Installer` from https://www.virtualbox.org/
+. Execute the `Installer` and follow the instructions
+
+===== Installation of Vagrant =====
+Vagrant is used to create the system that executes the Tensei-Data components.
+
+. Download the `Windows Installer` from https://www.vagrantup.com/
+. Execute the `Installer` and follow the instructions
+
+TIP: The system must be rebooted after installing Vagrant.
+
+===== Installation of the Tensei-Data Demobox =====
+
+1. Create an empty folder.
+2. Open a command prompt in the created folder.
+3. Enter the command `vagrant init wegtam/tensei-demo` at command prompt.
+
+To start the demo version a command prompt has to be opened in the created·
+directory. At the prompt the following command starts the demo version:
+
+[source]
+----
+vagrant up
+----
+
+image::windows_eingabeaufforderung_vagrant_up.png[scaledwidth=100%,align="center"]
+
+* If you are using the *VMWare* version, you have to add the specific
+  provider
+
+[source]
+----
+vagrant up --provider vmware_workstation
+----
+
+IMPORTANT: You need the VMWare plugin from
+https://www.vagrantup.com/vmware/
+
+* The first start of the system takes a while.
+
+* You can access the system at http://localhost:9000
+
+image::windows_localhost_9000.png[scaledwidth=100%,align="center"]
+
+IMPORTANT: The correct IP for the *VMWare* version can be determined as
+follows
+
+.Determine the correct IP fpr VMWare
+----
+* Log into the box from the command line with `vagrant ssh`
+* Determine the IP of the ethernet connection with `ifconfig`
+* Access the frontend with http://IP-ETHERNET:9000
+----
+
+* You can stop the system with
+[source]
+----
+vagrant halt
+----
+
+* If you have problems during the start, you have to start the processes by
+  hand.
+
+* The demo is installed and can be restarted with `vagrant up`
+
+[[installation-vm-linux]]
 ==== Linux ====
 
-*TODO*
+1. Create an empty folder.
+2. Open a command prompt in the created folder.
+3. Enter the command `vagrant init wegtam/tensei-demo` at command prompt.
+
+To start the demo version a command prompt has to be opened in the created·
+directory. At the prompt the following command starts the demo version:
+
+[source]
+----
+vagrant up
+----
+
+.Alternatively booting the VMWare version
+[source]
+----
+vagrant up --provider vmware_workstation
+----
+
+IMPORTANT: You need the VMWare plugin from
+https://www.vagrantup.com/vmware/
+
+NOTE: The first booting of the virtual machine may take longer because
+the vagrant box must be decompressed and installed.
+
+After the VM has started the application, the frontend is available under the
+following address: http://localhost:9000
+
+IMPORTANT: The *VMWare* version does not provide a correct port and IP
+forwarding. Therefore, the correct IP can be determined as follows
+
+.Determine the correct IP for VMWare
+* Log into the box from the command line via `vagrant ssh`
+* If a `Authentication failure` occurs the login is stil possible with
+  the password `vagrant`
+* Determine the IP of the ethernet connection via `ifconfig`
+* The frontend is available at http://IP-ETHERNET:9000
+
+IMPORTANT: If the following error message `Server connection unavailable`
+appears on the screen, the services must be started manually.
+
+The VM can be shutdown via `vagrant halt` or via `vagrant suspend`. To
+boot it again just use the `vagrant up` command.
+
+CAUTION: The virtual machine will not shutdown automatically with the
+shutdown of the host system. The VM may be damaged if it is not shutdown
+properly.
 
 [[installation-debian-packages]]
 === Debian packages ===
