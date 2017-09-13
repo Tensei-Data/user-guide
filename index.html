@@ -537,8 +537,14 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#installation-vm">3.1. VM</a>
 <ul class="sectlevel3">
-<li><a href="#installation-windows">3.1.1. Windows</a></li>
-<li><a href="#installation-linux">3.1.2. Linux</a></li>
+<li><a href="#installation-vm-windows">3.1.1. Windows</a>
+<ul class="sectlevel4">
+<li><a href="#_installation_of_virtualbox">Installation of VirtualBox</a></li>
+<li><a href="#_installation_of_vagrant">Installation of Vagrant</a></li>
+<li><a href="#_installation_of_the_tensei_data_demobox">Installation of the Tensei-Data Demobox</a></li>
+</ul>
+</li>
+<li><a href="#installation-vm-linux">3.1.2. Linux</a></li>
 </ul>
 </li>
 <li><a href="#installation-debian-packages">3.2. Debian packages</a></li>
@@ -594,7 +600,7 @@ that strive for a better understanding of the system components.</p>
 <dl>
 <dt class="hdlist1">Version</dt>
 <dd>
-<p>8fea531baca16455ce710649ec18ed7bd6ea933c</p>
+<p>32ab7aa033625441704596c00f0ce421c9cc5802</p>
 </dd>
 </dl>
 </div>
@@ -802,7 +808,33 @@ specification of database dependent queries</p>
 <div class="sect2">
 <h3 id="overview-objectives">2.2. Objectives</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The Tensei-Data application is designed with the following objectives in
+mind:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrate, migrate and transform data with ease</p>
+</li>
+<li>
+<p>One platform for all data transformation and integration processes</p>
+</li>
+<li>
+<p>Reduce errors during system setup</p>
+</li>
+<li>
+<p>Easy adaptation of the application to new requirements</p>
+</li>
+<li>
+<p>Scalability</p>
+</li>
+<li>
+<p>Reusability</p>
+</li>
+<li>
+<p>Minimal training periods</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -882,7 +914,28 @@ specification of database dependent queries</p>
 <div class="sect2">
 <h3 id="overview-structure">2.4. Structure and Components</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>Tensei-Data is designed as microservice application structure and
+consists of the following components:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Frontend</dt>
+<dd>
+<p>Administer the Transformation Configurations for executing
+the integration and transformation processes. The graphical editor
+allows the definition and adaptation of all process relevant steps.</p>
+</dd>
+<dt class="hdlist1">Server</dt>
+<dd>
+<p>Administer the connection between the frontend and the
+registered agents.</p>
+</dd>
+<dt class="hdlist1">Agent</dt>
+<dd>
+<p>Agents are the workhorse of the Tensei-Data system and finally
+execute the Transformation Configurations.</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -891,23 +944,343 @@ specification of database dependent queries</p>
 <h2 id="installation">3. Installation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The installation of the Tensei-Data system can be done by using a
+<a href="#installation-vm-windows">Virtual Machine for Windows</a>, a
+<a href="#installation-vm-linux">Virtual Machine for Linux</a> or the
+installation of <a href="#installation-debian-packages">Debian packages</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="installation-vm">3.1. VM</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The minimum requirements for the Virtual Machine are as follows:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. System requirements for the Virtual Machine installation</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 cores or more</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RAM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3 gb memory or more</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HDD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sufficient space on hard disk (at least 12 gb)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VirtualBox</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The virtualisation software VirtualBox
+<sup class="footnote" id="_footnote_virtualbox">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup> needs to be installed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMWare</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As an alternative to VirtualBox, we offer a VMWare version.
+This box can be executed with Vagrant, too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vagrant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vagrant <sup class="footnote" id="_footnote_vagrant">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup>
+needs to be installed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alternatively Git <sup class="footnote" id="_footnote_Git">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="installation-vm-windows">3.1.1. Windows</h4>
+<div class="paragraph">
+<p>The following steps describe the installation of the required components to
+execute the Tensei-Data system.</p>
+</div>
+<div class="sect4">
+<h5 id="_installation_of_virtualbox">Installation of VirtualBox</h5>
+<div class="paragraph">
+<p>VirtualBox is a virtualization software that is available for various systems.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the <code>Windows Installer</code> from <a href="https://www.virtualbox.org/" class="bare">https://www.virtualbox.org/</a></p>
+</li>
+<li>
+<p>Execute the <code>Installer</code> and follow the instructions</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_installation_of_vagrant">Installation of Vagrant</h5>
+<div class="paragraph">
+<p>Vagrant is used to create the system that executes the Tensei-Data components.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the <code>Windows Installer</code> from <a href="https://www.vagrantup.com/" class="bare">https://www.vagrantup.com/</a></p>
+</li>
+<li>
+<p>Execute the <code>Installer</code> and follow the instructions</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The system must be rebooted after installing Vagrant.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_installation_of_the_tensei_data_demobox">Installation of the Tensei-Data Demobox</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an empty folder.</p>
+</li>
+<li>
+<p>Open a command prompt in the created folder.</p>
+</li>
+<li>
+<p>Enter the command <code>vagrant init wegtam/tensei-demo</code> at command prompt.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>To start the demo version a command prompt has to be opened in the created·
+directory. At the prompt the following command starts the demo version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>vagrant up</code></pre>
+</div>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images/windows_eingabeaufforderung_vagrant_up.png" alt="windows eingabeaufforderung vagrant up">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you are using the <strong>VMWare</strong> version, you have to add the specific
+provider</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>vagrant up --provider vmware_workstation</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You need the VMWare plugin from
+<a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The first start of the system takes a while.</p>
+</li>
+<li>
+<p>You can access the system at <a href="http://localhost:9000" class="bare">http://localhost:9000</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="images/windows_localhost_9000.png" alt="windows localhost 9000">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The correct IP for the <strong>VMWare</strong> version can be determined as
+follows
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Determine the correct IP fpr VMWare</div>
+<div class="content">
+<pre>* Log into the box from the command line with `vagrant ssh`
+* Determine the IP of the ethernet connection with `ifconfig`
+* Access the frontend with http://IP-ETHERNET:9000</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can stop the system with</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>vagrant halt</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you have problems during the start, you have to start the processes by
+hand.</p>
+</li>
+<li>
+<p>The demo is installed and can be restarted with <code>vagrant up</code></p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="installation-windows">3.1.1. Windows</h4>
+<h4 id="installation-vm-linux">3.1.2. Linux</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an empty folder.</p>
+</li>
+<li>
+<p>Open a command prompt in the created folder.</p>
+</li>
+<li>
+<p>Enter the command <code>vagrant init wegtam/tensei-demo</code> at command prompt.</p>
+</li>
+</ol>
+</div>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>To start the demo version a command prompt has to be opened in the created·
+directory. At the prompt the following command starts the demo version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>vagrant up</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="installation-linux">3.1.2. Linux</h4>
+<div class="listingblock">
+<div class="title">Alternatively booting the VMWare version</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>vagrant up --provider vmware_workstation</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You need the VMWare plugin from
+<a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The first booting of the virtual machine may take longer because
+the vagrant box must be decompressed and installed.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>After the VM has started the application, the frontend is available under the
+following address: <a href="http://localhost:9000" class="bare">http://localhost:9000</a></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The <strong>VMWare</strong> version does not provide a correct port and IP
+forwarding. Therefore, the correct IP can be determined as follows
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<div class="title">Determine the correct IP for VMWare</div>
+<ul>
+<li>
+<p>Log into the box from the command line via <code>vagrant ssh</code></p>
+</li>
+<li>
+<p>If a <code>Authentication failure</code> occurs the login is stil possible with
+the password <code>vagrant</code></p>
+</li>
+<li>
+<p>Determine the IP of the ethernet connection via <code>ifconfig</code></p>
+</li>
+<li>
+<p>The frontend is available at <a href="http://IP-ETHERNET:9000" class="bare">http://IP-ETHERNET:9000</a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If the following error message <code>Server connection unavailable</code>
+appears on the screen, the services must be started manually.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The VM can be shutdown via <code>vagrant halt</code> or via <code>vagrant suspend</code>. To
+boot it again just use the <code>vagrant up</code> command.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+The virtual machine will not shutdown automatically with the
+shutdown of the host system. The VM may be damaged if it is not shutdown
+properly.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1054,9 +1427,21 @@ specification of database dependent queries</p>
 </div>
 </div>
 </div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. VirtualBox Homepage: <a href="https://www.virtualbox.org/" class="bare">https://www.virtualbox.org/</a>
+</div>
+<div class="footnote" id="_footnote_2">
+<a href="#_footnoteref_2">2</a>. Vagrant Homepage: <a href="https://www.vagrantup.com/" class="bare">https://www.vagrantup.com/</a>
+</div>
+<div class="footnote" id="_footnote_3">
+<a href="#_footnoteref_3">3</a>. Git Hompeage: <a href="https://git-scm.com/" class="bare">https://git-scm.com/</a>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-03 22:24:27 +02:00
+Last updated 2017-09-09 22:06:30 +02:00
 </div>
 </div>
 </body>
