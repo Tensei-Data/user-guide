@@ -316,23 +316,21 @@ directory. At the prompt the following command starts the demo version:
 vagrant up
 ----
 
+After the VM has started the application, the frontend is available under the
+following address: http://localhost:9000
+
 .Alternatively booting the VMWare version
 [source]
 ----
 vagrant up --provider vmware_workstation
 ----
-
-IMPORTANT: You need the VMWare plugin from
-https://www.vagrantup.com/vmware/
+_You need the VMWare plugin from https://www.vagrantup.com/vmware/_
 
 NOTE: The first booting of the virtual machine may take longer because
 the vagrant box must be decompressed and installed.
 
-After the VM has started the application, the frontend is available under the
-following address: http://localhost:9000
-
-IMPORTANT: The *VMWare* version does not provide a correct port and IP
-forwarding. Therefore, the correct IP can be determined as follows
+The *VMWare* version does not provide a correct port and IP forwarding.
+Therefore, the correct IP can be determined as follows
 
 .Determine the correct IP for VMWare
 * Log into the box from the command line via `vagrant ssh`
@@ -347,9 +345,8 @@ appears on the screen, the services must be started manually.
 The VM can be shutdown via `vagrant halt` or via `vagrant suspend`. To
 boot it again just use the `vagrant up` command.
 
-CAUTION: The virtual machine will not shutdown automatically with the
-shutdown of the host system. The VM may be damaged if it is not shutdown
-properly.
+The virtual machine will not shutdown automatically with the shutdown of the
+host system. The VM may be damaged if it is not shutdown properly.
 
 [[installation-debian-packages]]
 === Debian packages ===
