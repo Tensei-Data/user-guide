@@ -263,6 +263,12 @@ vagrant up
 
 image::windows_eingabeaufforderung_vagrant_up.png[scaledwidth=100%,align="center"]
 
+* The first start of the system takes a while.
+
+* You can access the system at http://localhost:9000
+
+image::windows_localhost_9000.png[scaledwidth=100%,align="center"]
+
 * If you are using the *VMWare* version, you have to add the specific
   provider
 
@@ -271,17 +277,9 @@ image::windows_eingabeaufforderung_vagrant_up.png[scaledwidth=100%,align="center
 vagrant up --provider vmware_workstation
 ----
 
-IMPORTANT: You need the VMWare plugin from
-https://www.vagrantup.com/vmware/
+_You need the VMWare plugin from https://www.vagrantup.com/vmware/_
 
-* The first start of the system takes a while.
-
-* You can access the system at http://localhost:9000
-
-image::windows_localhost_9000.png[scaledwidth=100%,align="center"]
-
-IMPORTANT: The correct IP for the *VMWare* version can be determined as
-follows
+The correct IP for the *VMWare* version can be determined as follows.
 
 .Determine the correct IP for VMWare
 ----
