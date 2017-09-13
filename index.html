@@ -600,7 +600,7 @@ that strive for a better understanding of the system components.</p>
 <dl>
 <dt class="hdlist1">Version</dt>
 <dd>
-<p>350b6bc2c541fc846d962e529046aa9388b17a43</p>
+<p>5b8bf3f3c078df2ce2019db13deac1623a4053d0</p>
 </dd>
 </dl>
 </div>
@@ -1184,24 +1184,18 @@ directory. At the prompt the following command starts the demo version:</p>
 <pre class="CodeRay highlight"><code>vagrant up</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>After the VM has started the application, the frontend is available under the
+following address: <a href="http://localhost:9000" class="bare">http://localhost:9000</a></p>
+</div>
 <div class="listingblock">
 <div class="title">Alternatively booting the VMWare version</div>
 <div class="content">
 <pre class="CodeRay highlight"><code>vagrant up --provider vmware_workstation</code></pre>
 </div>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-You need the VMWare plugin from
-<a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p><em>You need the VMWare plugin from <a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a></em></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1217,21 +1211,8 @@ the vagrant box must be decompressed and installed.
 </table>
 </div>
 <div class="paragraph">
-<p>After the VM has started the application, the frontend is available under the
-following address: <a href="http://localhost:9000" class="bare">http://localhost:9000</a></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-The <strong>VMWare</strong> version does not provide a correct port and IP
-forwarding. Therefore, the correct IP can be determined as follows
-</td>
-</tr>
-</table>
+<p>The <strong>VMWare</strong> version does not provide a correct port and IP forwarding.
+Therefore, the correct IP can be determined as follows</p>
 </div>
 <div class="ulist">
 <div class="title">Determine the correct IP for VMWare</div>
@@ -1268,19 +1249,9 @@ appears on the screen, the services must be started manually.
 <p>The VM can be shutdown via <code>vagrant halt</code> or via <code>vagrant suspend</code>. To
 boot it again just use the <code>vagrant up</code> command.</p>
 </div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-caution" title="Caution"></i>
-</td>
-<td class="content">
-The virtual machine will not shutdown automatically with the
-shutdown of the host system. The VM may be damaged if it is not shutdown
-properly.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>The virtual machine will not shutdown automatically with the shutdown of the
+host system. The VM may be damaged if it is not shutdown properly.</p>
 </div>
 </div>
 </div>
@@ -1441,7 +1412,7 @@ properly.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-13 13:31:44 +02:00
+Last updated 2017-09-13 15:18:39 +02:00
 </div>
 </div>
 </body>
