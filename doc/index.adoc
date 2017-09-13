@@ -283,10 +283,10 @@ image::windows_localhost_9000.png[scaledwidth=100%,align="center"]
 IMPORTANT: The correct IP for the *VMWare* version can be determined as
 follows
 
-.Determine the correct IP fpr VMWare
+.Determine the correct IP for VMWare
 ----
 * Log into the box from the command line with `vagrant ssh`
-* Determine the IP of the ethernet connection with `ifconfig`
+* Determine the IP of the Ethernet connection with `ifconfig`
 * Access the frontend with http://IP-ETHERNET:9000
 ----
 
