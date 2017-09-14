@@ -616,35 +616,36 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#frontend">6. Frontend</a>
 <ul class="sectlevel2">
 <li><a href="#frontend-overview">6.1. Overview</a></li>
-<li><a href="#_structure">6.2. Structure</a></li>
-<li><a href="#_functionalities">6.3. Functionalities</a></li>
-<li><a href="#_first_access">6.4. First access</a></li>
-<li><a href="#_login">6.5. Login</a></li>
-<li><a href="#_license">6.6. License</a></li>
-<li><a href="#_best_practice">6.7. Best practice</a></li>
-<li><a href="#_dashboard">6.8. Dashboard</a></li>
-<li><a href="#_dfasdl">6.9. DFASDL</a></li>
-<li><a href="#_cookbook">6.10. Cookbook</a></li>
-<li><a href="#_connection_information_ci">6.11. Connection Information (CI)</a></li>
-<li><a href="#_transformation_configuration_tk">6.12. Transformation Configuration (TK)</a>
+<li><a href="#frontend-structure">6.2. Structure</a></li>
+<li><a href="#frontend-terminology">6.3. Terminology</a></li>
+<li><a href="#frontend-functionalities">6.4. Functionalities</a></li>
+<li><a href="#frontend-bestapproach">6.5. Best practice to execute a transformation configuration</a></li>
+<li><a href="#frontend-firstaccess">6.6. First access</a></li>
+<li><a href="#frontend-login">6.7. Login</a></li>
+<li><a href="#frontend-license">6.8. License</a></li>
+<li><a href="#frontend-dashboard">6.9. Dashboard</a></li>
+<li><a href="#frontend-dfasdl">6.10. DFASDL</a></li>
+<li><a href="#frontend-cookbook">6.11. Cookbook</a></li>
+<li><a href="#frontend-ci">6.12. Connection Information (CI)</a></li>
+<li><a href="#frontend-tc">6.13. Transformation Configuration (TC)</a>
 <ul class="sectlevel3">
-<li><a href="#_execute_transformation_configuration">6.12.1. Execute Transformation Configuration</a></li>
+<li><a href="#frontend-tc-execute">6.13.1. Execute Transformation Configuration</a></li>
 </ul>
 </li>
-<li><a href="#_agent">6.13. Agent</a>
+<li><a href="#frontend-agent">6.14. Agent</a>
 <ul class="sectlevel3">
-<li><a href="#_queue">6.13.1. Queue</a></li>
+<li><a href="#frontend-queue">6.14.1. Queue</a></li>
 </ul>
 </li>
-<li><a href="#_services">6.14. Services</a>
+<li><a href="#frontend-services">6.15. Services</a>
 <ul class="sectlevel3">
-<li><a href="#_cronjob">6.14.1. Cronjob</a></li>
-<li><a href="#_trigger">6.14.2. Trigger</a></li>
+<li><a href="#frontend-cronjob">6.15.1. Cronjob</a></li>
+<li><a href="#frontend-trigger">6.15.2. Trigger</a></li>
 </ul>
 </li>
-<li><a href="#_administrator">6.15. Administrator</a></li>
-<li><a href="#_profile">6.16. Profile</a></li>
-<li><a href="#_use_cases">6.17. Use Cases</a></li>
+<li><a href="#frontend-administrator">6.16. Administrator</a></li>
+<li><a href="#frontend-profile">6.17. Profile</a></li>
+<li><a href="#frontend-usecases">6.18. Use Cases</a></li>
 </ul>
 </li>
 <li><a href="#agent">7. Agent</a>
@@ -672,7 +673,7 @@ that strive for a better understanding of the system components.</p>
 <dl>
 <dt class="hdlist1">Version</dt>
 <dd>
-<p>6788e24c2076850eeb81b04c0ad04c97b94f607f</p>
+<p>6788e24c2076850eeb81b04c0ad04c97b94f607f-SNAPSHOT</p>
 </dd>
 </dl>
 </div>
@@ -2508,130 +2509,304 @@ Within the VM, the logs are available at the following paths:</p>
 <h2 id="frontend">6. Frontend</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>This part describes the <a href="#functionalities">functionalities</a> and the
+<a href="#frontend-structure">structure</a> of the graphical editor, that is provided for
+the use of the Tensei-Data system.</p>
 </div>
 <div class="sect2">
 <h3 id="frontend-overview">6.1. Overview</h3>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The <strong>Frontend</strong> allows the administration of the data integration and data
+management processes that can be executed via the components of the
+Tensei-Data system.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_structure">6.2. Structure</h3>
+<h3 id="frontend-structure">6.2. Structure</h3>
+<div class="paragraph">
+<p>The different functionalities of the <strong>Frontend</strong> are reachable via the upper
+navigation. If functionalities are connected or dependent on each other, they
+are summarized under navigational elements.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-terminology">6.3. Terminology</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="#frontend-license">License</a></dt>
+<dd>
+<p>A valid license is necessary for the use of the
+Tensei-Data system. A default license is provided with the system.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-dashboard">Dashboard</a></dt>
+<dd>
+<p>The dashboard provides an overview of all currently
+active components that are relevant for the execution of
+<a href="#frontend-tc">transformation configurations</a>
+(e.g. transformation configurations, <a href="#frontend-agent">Agent</a>, <a href="#frontend-queue">Queue</a>,
+<a href="#frontend-cronjob">Cronjob</a>, <a href="#frontend-trigger">Trigger</a>).</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-ci">Connection Information (CI)</a></dt>
+<dd>
+<p>Connection information are necessary to connect
+the resources to the transformation configurations.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-dfasdl">DFASDL</a></dt>
+<dd>
+<p>A DFASDL describes the structure and semantic of the data.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-cookbook">Cookbook</a></dt>
+<dd>
+<p>A cookbook describes all relevant transformations and
+the mappings of the data from the source to the target.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-tc">Transformation Configuration (TC)</a></dt>
+<dd>
+<p>A transformation configuration contains all relevant
+information of a migration that are necessary for an agent.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-agent">Agent</a></dt>
+<dd>
+<p>A transformation configuration is executed by an agent.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-queue">Queue</a></dt>
+<dd>
+<p>All <a href="#frontend-tc">transformation configurations</a> that
+can&#8217;t be executed in parallel by the available agents, are stored in the
+queue and executed sequentially.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-cronjob">Cronjob</a></dt>
+<dd>
+<p>A periodical action that executes a
+<a href="#frontend-tc">transformation configuration</a>.</p>
+</dd>
+<dt class="hdlist1"><a href="#frontend-trigger">Trigger</a></dt>
+<dd>
+<p>An event-based action that executes a
+<a href="#frontend-tc">transformation configuration</a>.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-functionalities">6.4. Functionalities</h3>
+<div class="paragraph">
+<p>The following functionalities are available via the <strong>Frontend</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get an overview of the configured <code>Transformation configurations</code> on the
+Dashboard</p>
+</li>
+<li>
+<p>Automatically create a <code>DFASDL</code> (Data Format and Semantics Description
+Language) that describes the structure of the data.</p>
+</li>
+<li>
+<p>Create a <code>Connection Information</code> to the source and the target system.</p>
+</li>
+<li>
+<p>Create a <code>Cookbook</code> that contains all information about the data integration
+or migration processes.</p>
+</li>
+<li>
+<p>Administer the connected <code>Agents</code>.</p>
+</li>
+<li>
+<p>Administer services like <code>Cronjobs</code> or <code>Triggers</code>.</p>
+</li>
+<li>
+<p>Update the license that is used within the Tensei-Data environment</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-bestapproach">6.5. Best practice to execute a transformation configuration</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the administrator account by the "<a href="#frontend-firstaccess">First access</a>"</p>
+</li>
+<li>
+<p>Create the <a href="#frontend-dfasdl">DFASDLs</a> for the source and target systems (As
+alternative, a <a href="#frontend-ci">connection information</a> can be
+created that can be used to create the DFASDL automatically.)</p>
+</li>
+<li>
+<p>Create a <a href="#frontend-cookbook">cookbook</a> that describes the migration process</p>
+</li>
+<li>
+<p>Define the <a href="#frontend-ci">connection information</a> to the source and target
+systems</p>
+</li>
+<li>
+<p>Create a <a href="#frontend-tc">transformation configuration</a> for the execution of
+the migration</p>
+</li>
+<li>
+<p><a href="#frontend-tc-execute">Execute Transformation Configuration</a></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-firstaccess">6.6. First access</h3>
+<div class="paragraph">
+<p>The first access of the system displays a signup form which is necessary to
+create the administrator account. The form requires the following values:</p>
+</div>
+<div class="ulist">
+<div class="title">Values for the administrator account</div>
+<ul>
+<li>
+<p>an e-mail address</p>
+</li>
+<li>
+<p>a name</p>
+</li>
+<li>
+<p>a password with a minimum length of <strong>12 signs</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After creating the administrator account, the user is immediately logged-in.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-login">6.7. Login</h3>
+<div class="paragraph">
+<p>A user can log into the system with their <strong>e-mail address</strong> and <strong>password</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-license">6.8. License</h3>
+<div class="paragraph">
+<p>The usage of the Tensei-Data system requires a valid license. The license can
+be updated in the license administration via the btn:[Update] button.</p>
+</div>
+<div class="paragraph">
+<p>Select the license file in the appearing file dialog. A valid license file ends
+with <strong>.license.gz</strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A license is provided by default with the system.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-dashboard">6.9. Dashboard</h3>
+<div class="paragraph">
+<p>The dashboard provides a general overview about all configured and available
+<a href="#frontend-tc">transformation configurations</a> and the workload
+of the <a href="#frontend-agent">agents</a>. Moreover, some additional information are
+provided:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Available <code>Transformation configurations</code> and the status of the running
+configurations</p>
+</li>
+<li>
+<p>Number of <code>Transformation configurations</code> in the <a href="#frontend-queue">Queue</a></p>
+</li>
+<li>
+<p>Available <a href="#frontend-agent">agents</a> and their status</p>
+</li>
+<li>
+<p>The active <a href="#frontend-cronjob">Cronjobs</a></p>
+</li>
+<li>
+<p>The active <a href="#frontend-trigger">Triggers</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="frontend-dfasdl">6.10. DFASDL</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functionalities">6.3. Functionalities</h3>
+<h3 id="frontend-cookbook">6.11. Cookbook</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_first_access">6.4. First access</h3>
+<h3 id="frontend-ci">6.12. Connection Information (CI)</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_login">6.5. Login</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_license">6.6. License</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_best_practice">6.7. Best practice</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dashboard">6.8. Dashboard</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dfasdl">6.9. DFASDL</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_cookbook">6.10. Cookbook</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connection_information_ci">6.11. Connection Information (CI)</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_transformation_configuration_tk">6.12. Transformation Configuration (TK)</h3>
+<h3 id="frontend-tc">6.13. Transformation Configuration (TC)</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 <div class="sect3">
-<h4 id="_execute_transformation_configuration">6.12.1. Execute Transformation Configuration</h4>
+<h4 id="frontend-tc-execute">6.13.1. Execute Transformation Configuration</h4>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_agent">6.13. Agent</h3>
+<h3 id="frontend-agent">6.14. Agent</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 <div class="sect3">
-<h4 id="_queue">6.13.1. Queue</h4>
+<h4 id="frontend-queue">6.14.1. Queue</h4>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_services">6.14. Services</h3>
+<h3 id="frontend-services">6.15. Services</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 <div class="sect3">
-<h4 id="_cronjob">6.14.1. Cronjob</h4>
+<h4 id="frontend-cronjob">6.15.1. Cronjob</h4>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_trigger">6.14.2. Trigger</h4>
+<h4 id="frontend-trigger">6.15.2. Trigger</h4>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_administrator">6.15. Administrator</h3>
+<h3 id="frontend-administrator">6.16. Administrator</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_profile">6.16. Profile</h3>
+<h3 id="frontend-profile">6.17. Profile</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_use_cases">6.17. Use Cases</h3>
+<h3 id="frontend-usecases">6.18. Use Cases</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
@@ -2788,7 +2963,7 @@ all other nodes of the cluster must also be restarted.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-14 14:33:42 +02:00
+Last updated 2017-09-14 15:46:50 +02:00
 </div>
 </div>
 </body>
