@@ -548,6 +548,16 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#installation-debian-packages">3.2. Debian packages</a></li>
+<li><a href="#installation-faq">3.3. FAQ Installation</a>
+<ul class="sectlevel3">
+<li><a href="#installation-faq-ssh-support">3.3.1. Installation of SSH support for Windows</a></li>
+<li><a href="#installation-faq-reload">3.3.2. The system is not correctly loaded by vagrant</a></li>
+<li><a href="#installation-faq-services">3.3.3. Services do not start</a></li>
+<li><a href="#installation-faq-frontend-restart">3.3.4. Frontend doesn&#8217;t run and can not be restarted</a></li>
+</ul>
+</li>
+<li><a href="#installation-replace">3.4. Replace an existing Vagrant-Box</a></li>
+<li><a href="#installation-uninstall">3.5. Uninstall</a></li>
 </ul>
 </li>
 <li><a href="#frontend">4. Frontend</a>
@@ -1099,7 +1109,7 @@ directory. At the prompt the following command starts the demo version:</p>
 <ul>
 <li>
 <p>If you have problems during the start, you have to start the processes by
-hand.</p>
+hand: <a href="#installation-faq">FAQ Installation</a></p>
 </li>
 <li>
 <p>The demo is installed and can be restarted with <code>vagrant up</code></p>
@@ -1149,6 +1159,7 @@ box must be decompressed and installed.</p>
 <td class="content">
 If the following error message <code>Server connection unavailable</code>
 appears on the screen, the services must be started manually.
+<a href="#installation-faq-services">Services do not start</a>
 </td>
 </tr>
 </table>
@@ -1161,12 +1172,219 @@ boot it again just use the <code>vagrant up</code> command.</p>
 <p>The virtual machine will not shutdown automatically with the shutdown of the
 host system. The VM may be damaged if it is not shutdown properly.</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you have problems during the start, you have to start the processes
+by hand: <a href="#installation-faq">FAQ Installation</a></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="installation-debian-packages">3.2. Debian packages</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="installation-faq">3.3. FAQ Installation</h3>
+<div class="sect3">
+<h4 id="installation-faq-ssh-support">3.3.1. Installation of SSH support for Windows</h4>
+<div class="paragraph">
+<p>If no SSH support is available on your Windows system, you can install Git as
+one alternative.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the <code>Windows Installer</code> from <a href="https://git-scm.com/" class="bare">https://git-scm.com/</a></p>
+</li>
+<li>
+<p>Execute the <code>Installer</code> and follow the instructions</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>SSH is neccessary to execute the <code>vagrant ssh</code> command</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-faq-reload">3.3.2. The system is not correctly loaded by vagrant</h4>
+<div class="paragraph">
+<p>If the system does not run correctly after the first <code>vagrant up</code>, you should
+reload the system.</p>
+</div>
+<div class="listingblock">
+<div class="title">Reload the system</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% vagrant reload</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-faq-services">3.3.3. Services do not start</h4>
+<div class="paragraph">
+<p>In rare circumstances some services (frontend, server, agent) may not be started
+correctly for example the tensei-server or the tensei-agent.</p>
+</div>
+<div class="paragraph">
+<p>Sometimes it is enough to <a href="#installation-faq-reload">reload the VM</a>. If not, the
+following steps can be executed.</p>
+</div>
+<div class="paragraph">
+<p>To resolve this issue you should login to the virtual machine using the
+<code>vagrant ssh</code> command. From within the VM you can restart the services:</p>
+</div>
+<div class="listingblock">
+<div class="title">Connect to VM from Shell</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% vagrant ssh</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Restart server</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-server restart</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Restart agent</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-agent restart</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Restart frontend</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-frontend restart</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If it generates an error message during the restart of one of the services
+(because the service is not running), this service can be started with one of
+the following commands.</p>
+</div>
+<div class="listingblock">
+<div class="title">Start the server</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-server start</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start the agent</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-agent start</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start the frontend</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-frontend start</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-faq-frontend-restart">3.3.4. Frontend doesn&#8217;t run and can not be restarted</h4>
+<div class="paragraph">
+<p>If the VM was incorrectly stopped, the frontend service can be corrupted.
+The service can not be restarted.</p>
+</div>
+<div class="paragraph">
+<p>If so, you have to delete the <code>RUNNING_PID</code> file within the frontend folder.</p>
+</div>
+<div class="listingblock">
+<div class="title">Connect to the VM in the shell</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% vagrant ssh</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Delete the RUNNING_PID file</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% rm /srv/tensei/tensei-frontend/RUNNING_PID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restart the frontend service.</p>
+</div>
+<div class="listingblock">
+<div class="title">Restart frontend</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">% sudo service tensei-frontend restart</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="installation-replace">3.4. Replace an existing Vagrant-Box</h3>
+<div class="paragraph">
+<p>If you want to replace an existing Vagrant-Box, you must execute the following
+steps.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you want to keep existing Cookbooks, you must export them.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Switch to the folder where the actual Vagrant-Box is installed</p>
+</li>
+<li>
+<p>You can see the status of the box with <code>vagrant status</code></p>
+</li>
+<li>
+<p>Destroy the box with <code>vagrant destroy</code></p>
+</li>
+<li>
+<p>List the added boxes with <code>vagrant box list</code></p>
+</li>
+<li>
+<p>Delete the actual Vagrant-Box with <code>vagrant box remove NAME-OF-THE-BOX</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If the box has the name <code>tensei-demo</code>, the box can be removed with the
+following line: <code>vagrant box remove tensei-demo</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Install the new box like described in the <a href="#installation">Installation</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="installation-uninstall">3.5. Uninstall</h3>
+<div class="paragraph">
+<p>For a properly uninstallation of the application the command <code>vagrant destroy</code>
+has to be executed. Afterwards the working directory may be deleted.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In <code>C:\Users\&lt;username&gt;.vagrant.d\boxes\</code> (Windows) or
+<code>/home/&lt;username&gt;/.vagrant.d/boxes/</code> (Linux), a copy of the VM is stored that
+can be removed manually.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1320,7 +1538,7 @@ host system. The VM may be damaged if it is not shutdown properly.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-14 13:09:58 +02:00
+Last updated 2017-09-14 13:33:37 +02:00
 </div>
 </div>
 </body>
