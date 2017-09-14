@@ -545,53 +545,115 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#installation-vm-linux">3.1.2. Linux</a></li>
+<li><a href="#installation-vm-replace">3.1.3. Replace an existing Vagrant-Box</a></li>
+<li><a href="#installation-vm-uninstall">3.1.4. Uninstall</a></li>
 </ul>
 </li>
-<li><a href="#installation-debian-packages">3.2. Debian packages</a></li>
-<li><a href="#installation-faq">3.3. FAQ Installation</a>
+<li><a href="#installation-manual">3.2. Manually</a>
 <ul class="sectlevel3">
-<li><a href="#installation-faq-ssh-support">3.3.1. Installation of SSH support for Windows</a></li>
-<li><a href="#installation-faq-reload">3.3.2. The system is not correctly loaded by vagrant</a></li>
-<li><a href="#installation-faq-services">3.3.3. Services do not start</a></li>
-<li><a href="#installation-faq-frontend-restart">3.3.4. Frontend doesn&#8217;t run and can not be restarted</a></li>
+<li><a href="#installation-manual-requirements">3.2.1. System requirements</a></li>
+<li><a href="#installation-manual-preparations">3.2.2. Preparing the installation</a>
+<ul class="sectlevel4">
+<li><a href="#installation-manual-preparations-users">Create user accounts</a></li>
 </ul>
 </li>
-<li><a href="#installation-replace">3.4. Replace an existing Vagrant-Box</a></li>
-<li><a href="#installation-uninstall">3.5. Uninstall</a></li>
+<li><a href="#installation-manual-server">3.2.3. Tensei-Server</a>
+<ul class="sectlevel4">
+<li><a href="#installation-manual-server-start">Start script and parameter</a></li>
 </ul>
 </li>
-<li><a href="#frontend">4. Frontend</a>
+<li><a href="#installation-manual-agent">3.2.4. Tensei-Agent</a>
+<ul class="sectlevel4">
+<li><a href="#installation-manual-agent-start">Start script and parameter</a></li>
+</ul>
+</li>
+<li><a href="#installation-manual-frontend">3.2.5. Frontend</a>
+<ul class="sectlevel4">
+<li><a href="#installation-manual-frontend-db">Database setup</a></li>
+<li><a href="#installation-manual-frontend-config">Configuration</a></li>
+<li><a href="#installation-manual-frontend-start">Start script and parameter</a></li>
+</ul>
+</li>
+<li><a href="#installation-manual-update">3.2.6. Update</a>
+<ul class="sectlevel4">
+<li><a href="#installation-manual-update-preparations">Preparations</a></li>
+<li><a href="#installation-manual-update-tensei-server">Server</a></li>
+<li><a href="#installation-manual-update-tensei-agent">Agent</a></li>
+<li><a href="#installation-manual-update-tensei-frontend">Frontend</a></li>
+<li><a href="#installation-manual-update-finish">Finish</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#installation-debian-packages">3.3. Debian packages (Todo)</a></li>
+<li><a href="#installation-faq">3.4. FAQ Installation</a>
+<ul class="sectlevel3">
+<li><a href="#installation-faq-ssh-support">3.4.1. Installation of SSH support for Windows</a></li>
+<li><a href="#installation-faq-reload">3.4.2. The system is not correctly loaded by vagrant</a></li>
+<li><a href="#installation-faq-services">3.4.3. Services do not start</a></li>
+<li><a href="#installation-faq-frontend-restart">3.4.4. Frontend doesn&#8217;t run and can not be restarted</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#configuration">4. Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#frontend-overview">4.1. Overview</a></li>
-<li><a href="#_structure">4.2. Structure</a></li>
-<li><a href="#_functionalities">4.3. Functionalities</a></li>
-<li><a href="#_first_access">4.4. First access</a></li>
-<li><a href="#_login">4.5. Login</a></li>
-<li><a href="#_license">4.6. License</a></li>
-<li><a href="#_best_practice">4.7. Best practice</a></li>
-<li><a href="#_dashboard">4.8. Dashboard</a></li>
-<li><a href="#_dfasdl">4.9. DFASDL</a></li>
-<li><a href="#_cookbook">4.10. Cookbook</a></li>
-<li><a href="#_connection_information_ci">4.11. Connection Information (CI)</a></li>
-<li><a href="#_transformation_configuration_tk">4.12. Transformation Configuration (TK)</a>
+<li><a href="#configuration-frontend">4.1. Frontend</a></li>
+<li><a href="#configuration-direct">4.2. Configuration files</a>
 <ul class="sectlevel3">
-<li><a href="#_execute_transformation_configuration">4.12.1. Execute Transformation Configuration</a></li>
+<li><a href="#configuration-direct-agent">4.2.1. Agent</a></li>
+<li><a href="#configuration-direct-frontend">4.2.2. Frontend</a></li>
+<li><a href="#configuration-direct-server">4.2.3. Server</a></li>
 </ul>
 </li>
-<li><a href="#_agent">4.13. Agent</a>
-<ul class="sectlevel3">
-<li><a href="#_queue">4.13.1. Queue</a></li>
 </ul>
 </li>
-<li><a href="#_services">4.14. Services</a>
-<ul class="sectlevel3">
-<li><a href="#_cronjob">4.14.1. Cronjob</a></li>
-<li><a href="#_trigger">4.14.2. Trigger</a></li>
+<li><a href="#maintenance">5. Maintenance</a>
+<ul class="sectlevel2">
+<li><a href="#maintenance-logs">5.1. Log files</a></li>
 </ul>
 </li>
-<li><a href="#_administrator">4.15. Administrator</a></li>
-<li><a href="#_profile">4.16. Profile</a></li>
-<li><a href="#_use_cases">4.17. Use Cases</a></li>
+<li><a href="#frontend">6. Frontend</a>
+<ul class="sectlevel2">
+<li><a href="#frontend-overview">6.1. Overview</a></li>
+<li><a href="#_structure">6.2. Structure</a></li>
+<li><a href="#_functionalities">6.3. Functionalities</a></li>
+<li><a href="#_first_access">6.4. First access</a></li>
+<li><a href="#_login">6.5. Login</a></li>
+<li><a href="#_license">6.6. License</a></li>
+<li><a href="#_best_practice">6.7. Best practice</a></li>
+<li><a href="#_dashboard">6.8. Dashboard</a></li>
+<li><a href="#_dfasdl">6.9. DFASDL</a></li>
+<li><a href="#_cookbook">6.10. Cookbook</a></li>
+<li><a href="#_connection_information_ci">6.11. Connection Information (CI)</a></li>
+<li><a href="#_transformation_configuration_tk">6.12. Transformation Configuration (TK)</a>
+<ul class="sectlevel3">
+<li><a href="#_execute_transformation_configuration">6.12.1. Execute Transformation Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_agent">6.13. Agent</a>
+<ul class="sectlevel3">
+<li><a href="#_queue">6.13.1. Queue</a></li>
+</ul>
+</li>
+<li><a href="#_services">6.14. Services</a>
+<ul class="sectlevel3">
+<li><a href="#_cronjob">6.14.1. Cronjob</a></li>
+<li><a href="#_trigger">6.14.2. Trigger</a></li>
+</ul>
+</li>
+<li><a href="#_administrator">6.15. Administrator</a></li>
+<li><a href="#_profile">6.16. Profile</a></li>
+<li><a href="#_use_cases">6.17. Use Cases</a></li>
+</ul>
+</li>
+<li><a href="#agent">7. Agent</a>
+<ul class="sectlevel2">
+<li><a href="#agent-cluster">7.1. Cluster agents</a>
+<ul class="sectlevel3">
+<li><a href="#agent-cluster-faq">7.1.1. FAQ</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -610,7 +672,7 @@ that strive for a better understanding of the system components.</p>
 <dl>
 <dt class="hdlist1">Version</dt>
 <dd>
-<p>7a2cb0c6dc8606279e9c6573931a76f9c5da8c05-SNAPSHOT</p>
+<p>6788e24c2076850eeb81b04c0ad04c97b94f607f</p>
 </dd>
 </dl>
 </div>
@@ -1181,17 +1243,685 @@ by hand: <a href="#installation-faq">FAQ Installation</a></p>
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="installation-vm-replace">3.1.3. Replace an existing Vagrant-Box</h4>
+<div class="paragraph">
+<p>If you want to replace an existing Vagrant-Box, you must execute the following
+steps.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you want to keep existing Cookbooks, you must export them.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Switch to the folder where the actual Vagrant-Box is installed</p>
+</li>
+<li>
+<p>You can see the status of the box with <code>vagrant status</code></p>
+</li>
+<li>
+<p>Destroy the box with <code>vagrant destroy</code></p>
+</li>
+<li>
+<p>List the added boxes with <code>vagrant box list</code></p>
+</li>
+<li>
+<p>Delete the actual Vagrant-Box with <code>vagrant box remove NAME-OF-THE-BOX</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If the box has the name <code>tensei-demo</code>, the box can be removed with the
+following line: <code>vagrant box remove tensei-demo</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Install the new box like described in the <a href="#installation">Installation</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-vm-uninstall">3.1.4. Uninstall</h4>
+<div class="paragraph">
+<p>For a properly uninstallation of the application the command <code>vagrant destroy</code>
+has to be executed. Afterwards the working directory may be deleted.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In <code>C:\Users\&lt;username&gt;.vagrant.d\boxes\</code> (Windows) or
+<code>/home/&lt;username&gt;/.vagrant.d/boxes/</code> (Linux), a copy of the VM is stored that
+can be removed manually.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="installation-debian-packages">3.2. Debian packages</h3>
+<h3 id="installation-manual">3.2. Manually</h3>
+<div class="sect3">
+<h4 id="installation-manual-requirements">3.2.1. System requirements</h4>
+<div class="paragraph">
+<p>The hardware requirements match those of the <a href="#installation-vm">VM</a>. In addition to that the following software requirements have to be
+fullfilled:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+Operating system
+</td>
+<td class="hdlist2">
+<p>Linux or FreeBSD (recommended is Ubuntu
+<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnote_4" title="View footnote.">4</a>]</sup> 14.04 LTS or FreeBSD
+<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnote_5" title="View footnote.">5</a>]</sup> 10 or higher)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Java
+</td>
+<td class="hdlist2">
+<p>Java version 1.8</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Datenbank
+</td>
+<td class="hdlist2">
+<p>PostgreSQL 9.3 or higher</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Sonstiges
+</td>
+<td class="hdlist2">
+<p>Scala-SBT 0.13.11</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-manual-preparations">3.2.2. Preparing the installation</h4>
+<div class="paragraph">
+<p>If all requirements have been installed the database has to be prepared.
+The following sections describe the steps needed for that.</p>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-preparations-users">Create user accounts</h5>
+<div class="paragraph">
+<p>If each component should be run with an individual user account then
+these accounts have to be created.</p>
+</div>
+<div class="paragraph">
+<p>The system consists of the following components:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Server</p>
+</li>
+<li>
+<p>Agent (At least 1 agent is needed.)</p>
+</li>
+<li>
+<p>Frontend</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-manual-server">3.2.3. Tensei-Server</h4>
+<div class="paragraph">
+<p>The server component is delivered via a file called <code>tensei-server.txz</code>.
+This file has to be extracted at the desired execution folder. During
+extraction a folder like <code>tensei-server-A.B.C</code> will be created. For
+convenience this folder should be renamed to <code>tensei-server</code>.</p>
+</div>
+<div class="paragraph">
+<p>The subfolder <code>conf</code> contains several configuration files including the
+file <code>logback.xml</code> which can be used to adjust the logging.</p>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-server-start">Start script and parameter</h5>
+<div class="paragraph">
+<p>The start scripts are located within the subfolder <code>bin</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tensei-server</code></p>
+</li>
+<li>
+<p><code>tensei-server.bat</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>According to your operating system you have to chose the proper file
+(for example <code>tensei-server.bat</code> for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.</p>
+</div>
+<table id="installation-manual-server-parameter" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Parameters</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Required?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-server</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Dlogback.configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the logback configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf/logback.xml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Dconfig.file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the server configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf/application.conf</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xms</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The minimum value of memory that should be allocated for the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400 bis 500 MB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xmx</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum value of memory that should be allocated for the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400 bis 500 MB</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Start with parameters</div>
+<div class="content">
+<pre>bin/tensei-server -J-server -J-Xms384m -J-Xmx384m·
+  -J-Dlogback.configuration=conf/logback.xml·
+  -J-Dconfig.file=conf/application.conf</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The parameters can be set permanently via in the file
+<code>conf/application.ini</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-manual-agent">3.2.4. Tensei-Agent</h4>
+<div class="paragraph">
+<p>The Agent is the "work horse" of a Tensei-Data system. It is delivered
+via a file called <code>tensei-agent.txz</code>.
+This file has to be extracted at the desired execution folder. During
+extraction a folder like <code>tensei-agent-A.B.C</code> will be created. For
+convenience this folder should be renamed to <code>tensei-agent</code>.</p>
+</div>
+<div class="paragraph">
+<p>The subfolder <code>conf</code> contains several configuration files including the
+file <code>logback.xml</code> which can be used to adjust the logging.</p>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-agent-start">Start script and parameter</h5>
+<div class="paragraph">
+<p>The start scripts are located within the subfolder <code>bin</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tensei-agent</code></p>
+</li>
+<li>
+<p><code>tensei-agent.bat</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>According to your operating system you have to chose the proper file
+(for example <code>tensei-agent.bat</code> for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.</p>
+</div>
+<table id="installation-manual-agent-parameter" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 3. Parameters</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Required?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-server</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Dlogback.configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the logback configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf/logback.xml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Dconfig.file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the agent configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf/application.conf</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xms</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The minimum value of memory that should be allocated for the agent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">at least 512 MB, depending on available hardware as much as possible</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xmx</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum value of memory that should be allocated for the agent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">at least 512 MB, depending on available hardware as much as possible</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-XX:MaxMetaspaceSize</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Determines how much additionaly memory should be allocated if the
+value defined by <code>Xmx</code> does not suffice.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">at least 512 MB, better are 1-2 GB</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Start with parameters</div>
+<div class="content">
+<pre>bin/tensei-agent -J-server -J-Xms4g -J-Xmx4g -XX:MaxMetaspaceSize=1g
+  -J-Dlogback.configuration=conf/logback.xml·
+  -J-Dconfig.file=conf/application.conf</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The parameters can be set permanently via in the file
+<code>conf/application.ini</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Upon the first start a file <code>tensei-agent-id.properties</code> will be
+created in the agent user&#8217;s home directory if it doesn&#8217;t already exist.
+Within this file the ID of the agent can be configured if this is
+desired.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-manual-frontend">3.2.5. Frontend</h4>
+<div class="paragraph">
+<p>The frontend provides the user interface and some additional
+functionality like cronjobs and trigger.
+It is delivered via a file called <code>tensei-frontend.txz</code>. This file has
+to be extracted at the desired execution folder. During extraction a
+folder like <code>tensei-frontend-A.B.C</code> will be created. For convenience
+this folder should be renamed to <code>tensei-frontend</code>.</p>
+</div>
+<div class="paragraph">
+<p>The subfolder <code>conf</code> contains several configuration files.</p>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-frontend-db">Database setup</h5>
+<div class="paragraph">
+<p>A database user and database have to be created for the frontend!</p>
+</div>
+<div class="paragraph">
+<p>The script below creates a database user and a database for the
+frontend.</p>
+</div>
+<div id="installation-manual-frontend-db-sql-script" class="listingblock">
+<div class="title">SQL script for creating a database user and database</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="sql"><span class="class">CREATE</span> ROLE <span class="error">$</span>{FRONTEND_DB_USER} WITH CREATEDB LOGIN ENCRYPTED PASSWORD <span class="string"><span class="delimiter">'</span><span class="content">${FRONTEND_DB_PASS}</span><span class="delimiter">'</span></span>;
+<span class="class">CREATE</span> <span class="type">DATABASE</span> tenseifrontend WITH OWNER <span class="error">$</span>{FRONTEND_DB_USER};</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-frontend-config">Configuration</h5>
+<div class="paragraph">
+<p>Within the subfolder <code>conf</code> a file named <code>production.conf</code> has to be
+created. It has to look like this:</p>
+</div>
+<div id="installation-manual-frontend-config-production" class="listingblock">
+<div class="title">Structure of production.conf</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>include "application.conf"
+
+play.crypto.secret=${APP_SECRET} <i class="conum" data-value="1"></i><b>(1)</b>
+
+slick.dbs.default.db.user=${FRONTEND_DB_USER} <i class="conum" data-value="2"></i><b>(2)</b>
+slick.dbs.default.db.password=${FRONTEND_DB_PASS} <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This should be a long random generated value for example via <code>pwgen
+-cns 128</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The name of the database user has to be added here.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The password of the database user has to be added here.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-frontend-start">Start script and parameter</h5>
+<div class="paragraph">
+<p>The start scripts are located within the subfolder <code>bin</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tensei-frontend</code></p>
+</li>
+<li>
+<p><code>tensei-frontend.bat</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>According to your operating system you have to chose the proper file
+(for example <code>tensei-frontend.bat</code> for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.</p>
+</div>
+<table id="install-manual-frontend-parameter" class="tableblock frame-all grid-all spread">
+<caption class="title">Table 4. Parameters</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Required?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-server</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Dconfig.file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The path to the frontend configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf/production.conf</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-DapplyEvolutions.default</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Determines if pending database changes will be applied automatically.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Dtensei.frontend.hostname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes, if not configured with the configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The hostname on which the frontend system will run.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Dtensei.server.hostname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes, if not configured with the configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The hostname on which the server is running.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-Dtensei.server.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes, if not configured with the configuration file.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port on which the server is listening.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4096</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xms</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The minimum value of memory that should be allocated for the frontend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400 to 600 MB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xmx</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The minimum value of memory that should be allocated for the frontend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400 to 600 MB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-J-Xmx</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum value of memory that should be allocated for the frontend.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400 to 600 MB</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Start with parameters</div>
+<div class="content">
+<pre>bin/tensei-frontend -J-server -J-Xms500m -J-Xmx500m·
+  -J-Dconfig.file=conf/production.conf·
+  -DapplyEvolutions.default=true·
+  -Dtensei.frontend.hostname=localhost·
+  -Dtensei.server.hostname=localhost·
+  -Dtensei.server.port=4096</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The parameters can be set permanently via in the file
+<code>conf/application.ini</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="installation-manual-update">3.2.6. Update</h4>
+<div class="sect4">
+<h5 id="installation-manual-update-preparations">Preparations</h5>
+<div class="paragraph">
+<p>Before you can update the system you have to shutdown each component.
+This can usually be done with the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo service tensei-agent stop
+sudo service tensei-frontend stop
+sudo service tensei-server stop</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you have created an agent cluster then all nodes in the
+cluster have to be shutdown too.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now the files containing the new version can be copied onto the machine.
+Afterwards you can decompress them there.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If the configuration files (<code>tensei.conf</code>) have been modified
+then you must backup those files to be able to reapply your
+modifications after the update.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-update-tensei-server">Server</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo tar -xJvf tensei-server.txz -C /srv/tensei/tensei-server --strip-components 1
+sudo chown -Rfh tensei-server /srv/tensei/tensei-server</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-update-tensei-agent">Agent</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo tar -xJvf tensei-agent.txz -C /srv/tensei/tensei-agent --strip-components 1
+sudo chown -Rfh tensei-agent /srv/tensei/tensei-agent</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you have build an agent cluster then all nodes have to be
+updated too.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-update-tensei-frontend">Frontend</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo tar -xJvf tensei-frontend.txz -C /srv/tensei/tensei-frontend --strip-components 1
+sudo chown -Rfh tensei-frontend /srv/tensei/tensei-frontend</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="installation-manual-update-finish">Finish</h5>
+<div class="paragraph">
+<p>After you have reapplied your modifications to the configuration files
+the components can be started again.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo service tensei-server start
+sudo service tensei-agent start
+sudo service tensei-frontend start</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="installation-debian-packages">3.3. Debian packages (Todo)</h3>
 <div class="paragraph">
 <p><strong>TODO</strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="installation-faq">3.3. FAQ Installation</h3>
+<h3 id="installation-faq">3.4. FAQ Installation</h3>
 <div class="sect3">
-<h4 id="installation-faq-ssh-support">3.3.1. Installation of SSH support for Windows</h4>
+<h4 id="installation-faq-ssh-support">3.4.1. Installation of SSH support for Windows</h4>
 <div class="paragraph">
 <p>If no SSH support is available on your Windows system, you can install Git as
 one alternative.</p>
@@ -1211,7 +1941,7 @@ one alternative.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installation-faq-reload">3.3.2. The system is not correctly loaded by vagrant</h4>
+<h4 id="installation-faq-reload">3.4.2. The system is not correctly loaded by vagrant</h4>
 <div class="paragraph">
 <p>If the system does not run correctly after the first <code>vagrant up</code>, you should
 reload the system.</p>
@@ -1224,7 +1954,7 @@ reload the system.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installation-faq-services">3.3.3. Services do not start</h4>
+<h4 id="installation-faq-services">3.4.3. Services do not start</h4>
 <div class="paragraph">
 <p>In rare circumstances some services (frontend, server, agent) may not be started
 correctly for example the tensei-server or the tensei-agent.</p>
@@ -1286,7 +2016,7 @@ the following commands.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="installation-faq-frontend-restart">3.3.4. Frontend doesn&#8217;t run and can not be restarted</h4>
+<h4 id="installation-faq-frontend-restart">3.4.4. Frontend doesn&#8217;t run and can not be restarted</h4>
 <div class="paragraph">
 <p>If the VM was incorrectly stopped, the frontend service can be corrupted.
 The service can not be restarted.</p>
@@ -1317,11 +2047,610 @@ The service can not be restarted.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="installation-replace">3.4. Replace an existing Vagrant-Box</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuration">4. Configuration</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>If you want to replace an existing Vagrant-Box, you must execute the following
-steps.</p>
+<p>The system has various possibilities for configuration. The user can configure
+different aspect of the <a href="#configuration-frontend">frontend</a>. More specific
+configurations can <a href="#configuration-direct">directly</a> be done at the single
+components.</p>
+</div>
+<div class="sect2">
+<h3 id="configuration-frontend">4.1. Frontend</h3>
+<div class="paragraph">
+<p>The first user must be created after the installation. This user is
+automatically created with administrator rights. The form to create
+this first account will automatically be shown during the first access
+of the system.</p>
+</div>
+<div class="paragraph">
+<p>Specific functions are only available for the administrator:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create and administer user accounts</p>
+</li>
+<li>
+<p>Create and administer user groups</p>
+</li>
+<li>
+<p>Update the Tensei-Data license</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuration-direct">4.2. Configuration files</h3>
+<div class="paragraph">
+<p>Some settings are available via configuration files and specific
+parameters. The following sections describe the configuration of the
+single system components.</p>
+</div>
+<div class="sect3">
+<h4 id="configuration-direct-agent">4.2.1. Agent</h4>
+<div class="paragraph">
+<p>The identifier of an agent is randomly generated at the first start. This
+identifier can be customized in the file <code>tensei-agent-id.properties</code>. This file
+defines a key-value pair:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>tensei.agent.id=NAME_OF_AGENT</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The identifier of the agent should not contain any special characters or
+blanks.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Any other configuration is made in the file <code>tensei.conf</code>.</p>
+</div>
+<div id="configuration-direct-agent-tensei-conf" class="listingblock">
+<div class="title">Configuration file tensei.conf</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="hocon"># Configuration file for the tensei agent.
+
+tensei {
+  # Configure settings for this specific agent.
+  agent {
+    # The hostname with fallback to localhost.
+    hostname = &quot;localhost&quot;
+    hostname = ${?tensei.agent.hostname}
+    # The port for the akka system with fallback to a default port.
+    port = 2551
+    port = ${?tensei.agent.port}
+    # The directory that should contain the logfiles with fallback.
+    logdir = logs
+    logdir = ${?tensei.agent.logdir}
+  }
+
+  # Generic settings for all agent nodes.
+  agents {
+    # How long do we wait for the termination of our sub actors when aborting.
+    abort-timeout = 10 seconds
+
+    # How long do we wait for the termination of our sub actors when cleaning up.
+    cleanup-timeout = 10 seconds
+
+    # Enable or disable an interactive console for the agent which allows the execution of simple commands.
+    console = false
+
+    # The value here specifies a trigger on the parsing and processing of sequences.
+    # Every `n` lines (the value defined here) a notification is published to signal that the process
+    # is still working.
+    sequence-indicator-trigger = 5000
+
+    # Defines how often we report the agent state to the server.
+    # Attention! This value doesn't mean that there aren't any reports in between.
+    # In fact there are because we use push notifications.
+    report-to-server-interval = 5 seconds
+
+    # If the server node is marked `unreachable` e.g. if it happens that we leave the cluster then we
+    # wait for this interval before we restart ourselfs. This value shouldn't be too low because the
+    # server/network/whatever may need some time to get up again.
+    restart-after-unreachable-server = 30 seconds
+
+    metrics {
+      # Timeout for asking the metrics listener for data.
+      ask-timeout = 2 seconds
+    }
+
+    parser {
+      # DFASDL syntax validation timeout.
+      syntax-validation-timeout = 10 seconds
+
+      # Timeout for the access validation.
+      access-validation-timeout = 30 seconds
+
+      # The timeout for checksum validation. This may have to be increased for huge files.
+      checksum-validation-timeout = 300 seconds
+
+      # Defines how long we wait for our subparser to initialize.
+      subparsers-init-timeout = 30 seconds
+
+      # Defines how many sequence rows are saved within one actor.
+      # Increasing this value will lead to fewer objects thus taking
+      # pressure off the garbage collector. The downside is that the
+      # actor size will increase which will reduce performance.
+      # Depending on the actual memory usage of one &quot;sequence row&quot;
+      # this settings may be increased or decreased to influence
+      # overall system performance.
+      sequence-rows-per-actor = 1000
+
+      # Settings for the FTP NetworkFileParser
+      ftp-connection-timeout = 1m
+      ftp-port-number = 21
+      ftps-port-number = 990
+
+      # Settings for the HTTP NetworkFileParser
+      # Cookies enabled - otherwise ignored
+      http-cookies-enabled = true
+      # Default Proxy enabled - otherwise ignored
+      http-proxy-enabled = true
+      # Port number for authentication
+      http-port-number = 80
+      https-port-number = 443
+      # encoding
+      http-header-content-encoding = &quot;Content-Encoding&quot;
+      http-header-content-encoding-value = &quot;gzip&quot;
+      #timeouts
+      http-connection-timeout = 1m
+      http-connection-request-timeout = 1m
+      http-socket-timeout = 1m
+
+      # Settings for the SFTP NetworkFileParser
+      sftp-connection-timeout = 1m
+      sftp-port-number = 22
+    }
+
+    processor {
+      # Timeout for simple ask operations.
+      ask-timeout = 10 seconds
+
+      # The timeout for retrieving a changed auto increment value.
+      fetch-auto-increment-value-timeout = 30 seconds
+      # The time that should be paused between re-fetch tries. This value should be smaller than the `fetch-auto-increment-value-timeout`!
+      fetch-auto-increment-value-refetch = 500 milliseconds
+
+      # The timeout for retrieving an data element from an actor path.
+      fetch-data-timeout = 60 seconds
+
+      # The timeout for the return of the xml data structure tree.
+      fetch-data-structure-timeout = 30 seconds
+
+      # The timeout for the preparation of a transformer.
+      prepare-transformation-timeout = 5 seconds
+      # The timeout for a single transformation.
+      transformation-timeout = 90 seconds
+    }
+
+    analyzer {
+      finish-timeout = 30 seconds
+    }
+
+    # Settings for writers.
+    writers {
+      # Settings for the database writer.
+      database {
+        # The database writer will write all data if it is notified to
+        # close itself from the processor. Otherwise it will write
+        # batches of data in a certain interval that is defined here.
+        write-interval = 1 second
+      }
+    }
+  }
+
+  frontend {
+    # Placeholder for frontend configuration. Don't delete!
+  }
+
+  # Server configuration.
+  server {
+    # The hostname of the server's machine with fallback to localhost.
+    hostname = &quot;localhost&quot;
+    hostname = ${?tensei.server.hostname}
+    # The port of the akka system of the server cluster with fallback to the default port.
+    port = 4096
+    port = ${?tensei.server.port}
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="configuration-direct-frontend">4.2.2. Frontend</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+TODO
+</td>
+</tr>
+</table>
+</div>
+<div id="configuration-direct-frontend-tensei-conf" class="listingblock">
+<div class="title">Configuration file tensei.conf</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="hocon"># Configuration file for the tensei frontend.
+
+tensei {
+  agents {
+    # Placeholder for agents configuration. Don't delete!
+  }
+
+  queue {
+    # The interval for the repeatedly start of the next entry of the queue
+    start-interval = 10 seconds
+    # Timeout for starting the next entry of the queue
+    starting-timeout = 5 seconds
+  }
+
+  frontend {
+    # Set a default hostname which can be overridden using a system property.
+    hostname = &quot;localhost&quot;
+    hostname = ${?tensei.frontend.hostname}
+    # The interval for polling the frontend service from the websocket for agents informations updates.
+    agent-information-polling-interval = 3 seconds
+    # Defines how long buffered agents informations are considered valid.
+    agent-information-update-interval  = 3 seconds
+    # The default timeout for ask operations.
+    ask-timeout = 5 seconds
+    # Timeout for database operations.
+    db-timeout = 10 seconds
+    # Timeout for establishing a connection to the server.
+    server-connect-timeout = 5 seconds
+    # The timeout for the resolving of the actor selection of the chef de cuisine into an actor ref.
+    # This timeout will usually be overriden by the `server-connect-timeout`.
+    server-startup-timeout = 30 seconds
+    # The interval for polling the system for the actual information about the queue
+    queue-polling-interval = 1 seconds
+    # Timeout for the statistical analysis
+    statistic-timeout = 360 seconds
+    # Timeout for the extraction of a schema
+    extract-schema-timeout = 120 seconds
+    # The maximum number of bytes to fetch from an agent run log at once.
+    # Bigger numbers will speed things up but may lead to data loss and inconsistencies.
+    # 8 KB (8192 bytes) provides a sensible default.
+    log-fetcher-max-bytes = 8192
+
+    cronjobs {
+      # The initial delay after starting the system before we initialise existing cronjobs.
+      init-delay = 500 milliseconds
+    }
+
+    triggers {
+      # The initial delay after starting the system before we initialise existing triggers.
+      init-delay = 500 milliseconds
+    }
+
+    ui {
+      # The number of log lines per page.
+      logs-per-page = 20
+
+      # Number of lines of last entries in the statistics list of executed transformation configurations
+      queue-hist-per-page = 20
+
+      statistics {
+        # Timeout for generating statistics of the transformation history queue.
+        history-timeout = 5 minutes
+      }
+    }
+
+    akka {
+      loggers                          = [&quot;akka.event.slf4j.Slf4jLogger&quot;]
+      loglevel                         = info
+      log-dead-letters                 = 5
+      log-dead-letters-during-shutdown = on
+
+      actor {
+        provider = &quot;akka.cluster.ClusterActorRefProvider&quot;
+
+        debug {
+          lifecycle = off
+          unhandled = on
+        }
+      }
+
+      cluster {
+        seed-nodes                  = [
+          &quot;akka.tcp://tensei-system@&quot;${tensei.server.hostname}&quot;:&quot;${tensei.server.port}&quot;&quot;
+        ]
+        roles = [frontend]
+      }
+
+      remote {
+        enabled-transports          = [&quot;akka.remote.netty.tcp&quot;]
+        log-remote-lifecycle-events = off
+
+        transport-failure-detector {
+          heartbeat-interval = 4 seconds
+          acceptable-heartbeat-pause = 10 seconds
+        }
+
+        netty.tcp {
+          hostname = ${tensei.frontend.hostname}
+          port     = 0
+        }
+      }
+    }
+  }
+
+  # Server configuration.
+  server {
+    ask-timeout = 5 seconds
+    # Set a default hostname that can be overridden using a system property.
+    hostname = &quot;localhost&quot;
+    hostname = ${?tensei.server.hostname}
+    # Set a default port that can be overridden using a system property.
+    port = 4096
+    port = ${?tensei.server.port}
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="configuration-direct-server">4.2.3. Server</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+TODO
+</td>
+</tr>
+</table>
+</div>
+<div id="configuration-direct-server-tensei-conf" class="listingblock">
+<div class="title">Configuration file tensei.conf</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="hocon"># Configuration file for the tensei server.
+
+tensei {
+  agents {
+    # Placeholder for generic configuration for all agents. Don't delete!
+  }
+
+  frontend {
+    # Placeholder for frontend configuration. Don't delete!
+  }
+
+  # Server configuration.
+  server {
+    # The hostname of the server's machine with fallback to localhost.
+    hostname = &quot;localhost&quot;
+    hostname = ${?tensei.server.hostname}
+    # The port of the akka system of the server cluster with fallback to the default port.
+    port = 4096
+    port = ${?tensei.server.port}
+
+    # The interval for cleaning up cached agent informations.
+    agent-cleanup-interval          = 30 seconds
+    # The interval in which to ping agents.
+    agent-ping-interval             = 10 seconds
+    # The timeout for an agent ping.
+    agent-ping-timeout              = 10 seconds
+    # Default timeout for ask operations (blocking!).
+    ask-timeout                     = 5 seconds
+    # The default timeout for the booting state of the chef de cuisine.
+    boot-timeout                    = 3 seconds
+    # Enable or disable an interactive console to execute simple commands.
+    console                         = true
+    # The default timeout for the initializing state of the chef de cuisine.
+    init-timeout                    = 5 seconds
+    # Remove agents that are marked unreachable by the cluster and therefore disconnected after a certain amount of time.
+    remove-unreachable-agents-after = 30 seconds
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="maintenance">5. Maintenance</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="maintenance-logs">5.1. Log files</h3>
+<div class="paragraph">
+<p>The single components create log files that can be used for validation and
+error analysis. Furthermore, the log files are also available within the
+frontend.</p>
+</div>
+<div class="paragraph">
+<p>The log files are created in the <code>logs</code> directory of the sinlge components.
+Within the VM, the logs are available at the following paths:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 5. Log files of the single components in the VM</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/srv/tensei/tensei-frontend/logs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logs of the frontend</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/srv/tensei/tensei-server/logs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logs of the server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/srv/tensei/tensei-agent/logs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logs of the agent nodes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="frontend">6. Frontend</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+<div class="sect2">
+<h3 id="frontend-overview">6.1. Overview</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_structure">6.2. Structure</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functionalities">6.3. Functionalities</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_first_access">6.4. First access</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_login">6.5. Login</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_license">6.6. License</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_best_practice">6.7. Best practice</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard">6.8. Dashboard</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dfasdl">6.9. DFASDL</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cookbook">6.10. Cookbook</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connection_information_ci">6.11. Connection Information (CI)</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transformation_configuration_tk">6.12. Transformation Configuration (TK)</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+<div class="sect3">
+<h4 id="_execute_transformation_configuration">6.12.1. Execute Transformation Configuration</h4>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_agent">6.13. Agent</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+<div class="sect3">
+<h4 id="_queue">6.13.1. Queue</h4>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_services">6.14. Services</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+<div class="sect3">
+<h4 id="_cronjob">6.14.1. Cronjob</h4>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_trigger">6.14.2. Trigger</h4>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_administrator">6.15. Administrator</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_profile">6.16. Profile</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_cases">6.17. Use Cases</h3>
+<div class="paragraph">
+<p><strong>TODO</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="agent">7. Agent</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="agent-cluster">7.1. Cluster agents</h3>
+<div class="paragraph">
+<p>An agent can be started on several computers (clustering). The following
+instruction must be observed.</p>
+</div>
+<div class="paragraph">
+<p>In the current cluster model, the main node provides the essential work
+(parsing, processing) and uses the other nodes to distribute the amount of
+data. In the future, other nodes should also be used to parallelize the work.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -1330,195 +2659,110 @@ steps.</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-If you want to keep existing Cookbooks, you must export them.
+All nodes within the cluster must define the same ID for the agent
+(<code>tensei.agent.id</code>)!
 </td>
 </tr>
 </table>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Switch to the folder where the actual Vagrant-Box is installed</p>
-</li>
-<li>
-<p>You can see the status of the box with <code>vagrant status</code></p>
-</li>
-<li>
-<p>Destroy the box with <code>vagrant destroy</code></p>
-</li>
-<li>
-<p>List the added boxes with <code>vagrant box list</code></p>
-</li>
-<li>
-<p>Delete the actual Vagrant-Box with <code>vagrant box remove NAME-OF-THE-BOX</code></p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>If the box has the name <code>tensei-demo</code>, the box can be removed with the
-following line: <code>vagrant box remove tensei-demo</code></p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Install the new box like described in the <a href="#installation">Installation</a>.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="installation-uninstall">3.5. Uninstall</h3>
 <div class="paragraph">
-<p>For a properly uninstallation of the application the command <code>vagrant destroy</code>
-has to be executed. Afterwards the working directory may be deleted.</p>
+<p>The agent directory must be copied to all relevant computers. Afterwards, one
+computer must be defined as seed-node.</p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-In <code>C:\Users\&lt;username&gt;.vagrant.d\boxes\</code> (Windows) or
-<code>/home/&lt;username&gt;/.vagrant.d/boxes/</code> (Linux), a copy of the VM is stored that
-can be removed manually.
+The seed-node must always be started as first!
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="frontend">4. Frontend</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The following system properties can be used for the configuration of the
+cluster on the single nodes:</p>
 </div>
-<div class="sect2">
-<h3 id="frontend-overview">4.1. Overview</h3>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 6. Configuration variables for the agent</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tensei.agent.hostname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The hostname or the IP-address of the node.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tensei.agent.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port number of the node.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2551</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tensei.server.hostname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The hostname or the IP-address of the server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>akka.cluster.seed-nodes.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The address of the main seed-node.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>akka.tcp://tensei-agent@localhost:2551</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The address of the seed-node must be a valid Akka-Cluster-address:
+<code>akka.tcp://tensei-agent@HOSTNAME:PORT</code>!
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_structure">4.2. Structure</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_functionalities">4.3. Functionalities</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_first_access">4.4. First access</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_login">4.5. Login</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_license">4.6. License</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_best_practice">4.7. Best practice</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dashboard">4.8. Dashboard</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dfasdl">4.9. DFASDL</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_cookbook">4.10. Cookbook</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connection_information_ci">4.11. Connection Information (CI)</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_transformation_configuration_tk">4.12. Transformation Configuration (TK)</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>The parameters can be set via <code>-D&#8230;&#8203;</code> when executing the start script or
+adapted in the file <a href="#configuration-direct-agent-tensei-conf">tensei.conf</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_execute_transformation_configuration">4.12.1. Execute Transformation Configuration</h4>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
+<h4 id="agent-cluster-faq">7.1.1. FAQ</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">How to add a new node?</dt>
+<dd>
+<p>A node is simply installed and started on a computer.
+A few seconds later, it should be available in the frontend.</p>
+</dd>
+<dt class="hdlist1">How to remove a node?</dt>
+<dd>
+<p>The node is stopped and no longer available for the
+cluster.</p>
+</dd>
+<dt class="hdlist1">Can I add a node, if the system is running?</dt>
+<dd>
+<p>When a transformation
+configuration is executing, the nodes should not be changed!</p>
+</dd>
+<dt class="hdlist1">What happens, when the seed-node is restarted?</dt>
+<dd>
+<p>If the seed-node is restarted,
+all other nodes of the cluster must also be restarted.</p>
+</dd>
+</dl>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_agent">4.13. Agent</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-<div class="sect3">
-<h4 id="_queue">4.13.1. Queue</h4>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_services">4.14. Services</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-<div class="sect3">
-<h4 id="_cronjob">4.14.1. Cronjob</h4>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_trigger">4.14.2. Trigger</h4>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_administrator">4.15. Administrator</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_profile">4.16. Profile</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_use_cases">4.17. Use Cases</h3>
-<div class="paragraph">
-<p><strong>TODO</strong></p>
 </div>
 </div>
 </div>
@@ -1535,10 +2779,16 @@ can be removed manually.
 <div class="footnote" id="_footnote_3">
 <a href="#_footnoteref_3">3</a>. Git Hompeage: <a href="https://git-scm.com/" class="bare">https://git-scm.com/</a>
 </div>
+<div class="footnote" id="_footnote_4">
+<a href="#_footnoteref_4">4</a>. Ubuntu Homepage: <a href="http://www.ubuntu.com/" class="bare">http://www.ubuntu.com/</a>
+</div>
+<div class="footnote" id="_footnote_5">
+<a href="#_footnoteref_5">5</a>. FreeBSD Homepage: <a href="https://www.freebsd.org/" class="bare">https://www.freebsd.org/</a>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-14 13:33:37 +02:00
+Last updated 2017-09-14 14:33:42 +02:00
 </div>
 </div>
 </body>
