@@ -914,89 +914,185 @@ Within the VM, the logs are available at the following paths:
 [[frontend]]
 == Frontend ==
 
-*TODO*
+This part describes the <<functionalities,functionalities>> and the
+<<frontend-structure,structure>> of the graphical editor, that is provided for
+the use of the Tensei-Data system.
 
 [[frontend-overview]]
 === Overview ===
 
-*TODO*
+The *Frontend* allows the administration of the data integration and data
+management processes that can be executed via the components of the
+Tensei-Data system.
 
+[[frontend-structure]]
 === Structure ===
 
-*TODO*
+The different functionalities of the *Frontend* are reachable via the upper
+navigation. If functionalities are connected or dependent on each other, they
+are summarized under navigational elements.
 
+[[frontend-terminology]]
+=== Terminology ===
+
+<<frontend-license>>:: A valid license is necessary for the use of the
+Tensei-Data system. A default license is provided with the system.
+<<frontend-dashboard>>:: The dashboard provides an overview of all currently
+active components that are relevant for the execution of
+<<frontend-tc,transformation configurations>>
+(e.g. transformation configurations, <<frontend-agent>>, <<frontend-queue>>,
+<<frontend-cronjob>>, <<frontend-trigger>>).
+<<frontend-ci>>:: Connection information are necessary to connect
+the resources to the transformation configurations.
+<<frontend-dfasdl>>:: A DFASDL describes the structure and semantic of the data.
+<<frontend-cookbook>>:: A cookbook describes all relevant transformations and
+the mappings of the data from the source to the target.
+<<frontend-tc>>:: A transformation configuration contains all relevant
+information of a migration that are necessary for an agent.
+<<frontend-agent>>:: A transformation configuration is executed by an agent.
+<<frontend-queue>>:: All <<frontend-tc,transformation configurations>> that
+can't be executed in parallel by the available agents, are stored in the
+queue and executed sequentially.
+<<frontend-cronjob>>:: A periodical action that executes a
+<<frontend-tc, transformation configuration>>.
+<<frontend-trigger>>:: An event-based action that executes a
+<<frontend-tc, transformation configuration>>.
+
+[[frontend-functionalities]]
 === Functionalities ===
 
-*TODO*
+The following functionalities are available via the *Frontend*:
 
+* Get an overview of the configured `Transformation configurations` on the
+Dashboard
+* Automatically create a `DFASDL` (Data Format and Semantics Description
+Language) that describes the structure of the data.
+* Create a `Connection Information` to the source and the target system.
+* Create a `Cookbook` that contains all information about the data integration
+or migration processes.
+* Administer the connected `Agents`.
+* Administer services like `Cronjobs` or `Triggers`.
+* Update the license that is used within the Tensei-Data environment
+
+[[frontend-bestapproach]]
+=== Best practice to execute a transformation configuration ===
+
+. Create the administrator account by the "<<frontend-firstaccess>>"
+. Create the <<frontend-dfasdl,DFASDLs>> for the source and target systems (As
+  alternative, a <<frontend-ci,connection information>> can be
+  created that can be used to create the DFASDL automatically.)
+. Create a <<frontend-cookbook,cookbook>> that describes the migration process
+. Define the <<frontend-ci,connection information>> to the source and target
+systems
+. Create a <<frontend-tc,transformation configuration>> for the execution of
+the migration
+. <<frontend-tc-execute>>
+
+[[frontend-firstaccess]]
 === First access ===
 
-*TODO*
+The first access of the system displays a signup form which is necessary to
+create the administrator account. The form requires the following values:
 
+.Values for the administrator account
+* an e-mail address
+* a name
+* a password with a minimum length of *12 signs*
+
+After creating the administrator account, the user is immediately logged-in.
+
+[[frontend-login]]
 === Login ===
 
-*TODO*
+A user can log into the system with their *e-mail address* and *password*.
 
+[[frontend-license]]
 === License ===
 
-*TODO*
+The usage of the Tensei-Data system requires a valid license. The license can
+be updated in the license administration via the btn:[Update] button.
 
-=== Best practice ===
+Select the license file in the appearing file dialog. A valid license file ends
+with *.license.gz*.
 
-*TODO*
+NOTE: A license is provided by default with the system.
 
+[[frontend-dashboard]]
 === Dashboard ===
 
-*TODO*
+The dashboard provides a general overview about all configured and available
+<<frontend-tc,transformation configurations>> and the workload
+of the <<frontend-agent,agents>>. Moreover, some additional information are
+provided:
 
+* Available `Transformation configurations` and the status of the running
+configurations
+* Number of `Transformation configurations` in the <<frontend-queue>>
+* Available <<frontend-agent,agents>> and their status
+* The active <<frontend-cronjob,Cronjobs>>
+* The active <<frontend-trigger,Triggers>>
+
+[[frontend-dfasdl]]
 === DFASDL ===
 
 *TODO*
 
+[[frontend-cookbook]]
 === Cookbook ===
 
 *TODO*
 
+[[frontend-ci]]
 === Connection Information (CI) ===
 
 *TODO*
 
-=== Transformation Configuration (TK) ===
+[[frontend-tc]]
+=== Transformation Configuration (TC) ===
 
 *TODO*
 
+[[frontend-tc-execute]]
 ==== Execute Transformation Configuration ====
 
 *TODO*
 
+[[frontend-agent]]
 === Agent ===
 
 *TODO*
 
+[[frontend-queue]]
 ==== Queue ====
 
 *TODO*
 
+[[frontend-services]]
 === Services ===
 
 *TODO*
 
+[[frontend-cronjob]]
 ==== Cronjob ====
 
 *TODO*
 
+[[frontend-trigger]]
 ==== Trigger ====
 
 *TODO*
 
+[[frontend-administrator]]
 === Administrator ===
 
 *TODO*
 
+[[frontend-profile]]
 === Profile ===
 
 *TODO*
 
+[[frontend-usecases]]
 === Use Cases ===
 
 *TODO*
