@@ -600,7 +600,7 @@ that strive for a better understanding of the system components.</p>
 <dl>
 <dt class="hdlist1">Version</dt>
 <dd>
-<p>7a2cb0c6dc8606279e9c6573931a76f9c5da8c05</p>
+<p>7a2cb0c6dc8606279e9c6573931a76f9c5da8c05-SNAPSHOT</p>
 </dd>
 </dl>
 </div>
@@ -979,11 +979,6 @@ installation of <a href="#installation-debian-packages">Debian packages</a>.</p>
 <sup class="footnote" id="_footnote_virtualbox">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup> needs to be installed.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VMWare</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">As an alternative to VirtualBox, we offer a VMWare version.
-This box can be executed with Vagrant, too.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Vagrant</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Vagrant <sup class="footnote" id="_footnote_vagrant">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup>
 needs to be installed.</p></td>
@@ -1091,33 +1086,6 @@ directory. At the prompt the following command starts the demo version:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>If you are using the <strong>VMWare</strong> version, you have to add the specific
-provider</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>vagrant up --provider vmware_workstation</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><em>You need the VMWare plugin from <a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a></em></p>
-</div>
-<div class="paragraph">
-<p>The correct IP for the <strong>VMWare</strong> version can be determined as follows.</p>
-</div>
-<div class="listingblock">
-<div class="title">Determine the correct IP for VMWare</div>
-<div class="content">
-<pre>* Log into the box from the command line with `vagrant ssh`
-* Determine the IP of the Ethernet connection with `ifconfig`
-* Access the frontend with http://IP-ETHERNET:9000</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
 <p>You can stop the system with</p>
 </li>
 </ul>
@@ -1168,49 +1136,9 @@ directory. At the prompt the following command starts the demo version:</p>
 <p>After the VM has started the application, the frontend is available under the
 following address: <a href="http://localhost:9000" class="bare">http://localhost:9000</a></p>
 </div>
-<div class="listingblock">
-<div class="title">Alternatively booting the VMWare version</div>
-<div class="content">
-<pre class="CodeRay highlight"><code>vagrant up --provider vmware_workstation</code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p><em>You need the VMWare plugin from <a href="https://www.vagrantup.com/vmware/" class="bare">https://www.vagrantup.com/vmware/</a></em></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The first booting of the virtual machine may take longer because
-the vagrant box must be decompressed and installed.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The <strong>VMWare</strong> version does not provide a correct port and IP forwarding.
-Therefore, the correct IP can be determined as follows</p>
-</div>
-<div class="ulist">
-<div class="title">Determine the correct IP for VMWare</div>
-<ul>
-<li>
-<p>Log into the box from the command line via <code>vagrant ssh</code></p>
-</li>
-<li>
-<p>If a <code>Authentication failure</code> occurs the login is stil possible with
-the password <code>vagrant</code></p>
-</li>
-<li>
-<p>Determine the IP of the ethernet connection via <code>ifconfig</code></p>
-</li>
-<li>
-<p>The frontend is available at <a href="http://IP-ETHERNET:9000" class="bare">http://IP-ETHERNET:9000</a></p>
-</li>
-</ul>
+<p>The first booting of the virtual machine may take longer because the vagrant
+box must be decompressed and installed.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -1392,7 +1320,7 @@ host system. The VM may be damaged if it is not shutdown properly.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-09-13 15:27:50 +02:00
+Last updated 2017-09-14 13:09:58 +02:00
 </div>
 </div>
 </body>
