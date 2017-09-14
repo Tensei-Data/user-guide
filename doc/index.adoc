@@ -220,8 +220,6 @@ The minimum requirements for the Virtual Machine are as follows:
 | VirtualBox | The virtualisation software VirtualBox
 footnoteref:[virtualbox, VirtualBox Homepage:
 https://www.virtualbox.org/] needs to be installed.
-| VMWare | As an alternative to VirtualBox, we offer a VMWare version.
-This box can be executed with Vagrant, too.
 | Vagrant | Vagrant footnoteref:[vagrant, Vagrant Homepage: https://www.vagrantup.com/]
 needs to be installed.
 | SSH | Alternatively Git footnoteref:[Git, Git Hompeage: https://git-scm.com/]
@@ -269,25 +267,6 @@ image::windows_eingabeaufforderung_vagrant_up.png[scaledwidth=100%,align="center
 
 image::windows_localhost_9000.png[scaledwidth=100%,align="center"]
 
-* If you are using the *VMWare* version, you have to add the specific
-  provider
-
-[source]
-----
-vagrant up --provider vmware_workstation
-----
-
-_You need the VMWare plugin from https://www.vagrantup.com/vmware/_
-
-The correct IP for the *VMWare* version can be determined as follows.
-
-.Determine the correct IP for VMWare
-----
-* Log into the box from the command line with `vagrant ssh`
-* Determine the IP of the Ethernet connection with `ifconfig`
-* Access the frontend with http://IP-ETHERNET:9000
-----
-
 * You can stop the system with
 [source]
 ----
@@ -295,7 +274,7 @@ vagrant halt
 ----
 
 * If you have problems during the start, you have to start the processes by
-  hand.
+  hand: <<installation-faq>>
 
 * The demo is installed and can be restarted with `vagrant up`
 
@@ -317,28 +296,12 @@ vagrant up
 After the VM has started the application, the frontend is available under the
 following address: http://localhost:9000
 
-.Alternatively booting the VMWare version
-[source]
-----
-vagrant up --provider vmware_workstation
-----
-_You need the VMWare plugin from https://www.vagrantup.com/vmware/_
-
-NOTE: The first booting of the virtual machine may take longer because
-the vagrant box must be decompressed and installed.
-
-The *VMWare* version does not provide a correct port and IP forwarding.
-Therefore, the correct IP can be determined as follows
-
-.Determine the correct IP for VMWare
-* Log into the box from the command line via `vagrant ssh`
-* If a `Authentication failure` occurs the login is stil possible with
-  the password `vagrant`
-* Determine the IP of the ethernet connection via `ifconfig`
-* The frontend is available at http://IP-ETHERNET:9000
+The first booting of the virtual machine may take longer because the vagrant
+box must be decompressed and installed.
 
 IMPORTANT: If the following error message `Server connection unavailable`
 appears on the screen, the services must be started manually.
+<<installation-faq-services>>
 
 The VM can be shutdown via `vagrant halt` or via `vagrant suspend`. To
 boot it again just use the `vagrant up` command.
@@ -346,10 +309,147 @@ boot it again just use the `vagrant up` command.
 The virtual machine will not shutdown automatically with the shutdown of the
 host system. The VM may be damaged if it is not shutdown properly.
 
+* If you have problems during the start, you have to start the processes
+  by hand: <<installation-faq>>
+
 [[installation-debian-packages]]
 === Debian packages ===
 
 *TODO*
+
+[[installation-faq]]
+=== FAQ Installation ===
+
+[[installation-faq-ssh-support]]
+==== Installation of SSH support for Windows ====
+If no SSH support is available on your Windows system, you can install Git as
+one alternative.
+
+. Download the `Windows Installer` from https://git-scm.com/
+. Execute the `Installer` and follow the instructions
+
+SSH is neccessary to execute the `vagrant ssh` command
+
+[[installation-faq-reload]]
+==== The system is not correctly loaded by vagrant ====
+If the system does not run correctly after the first `vagrant up`, you should
+reload the system.
+
+.Reload the system
+[source,bash]
+----
+% vagrant reload
+----
+
+[[installation-faq-services]]
+==== Services do not start ====
+In rare circumstances some services (frontend, server, agent) may not be started
+correctly for example the tensei-server or the tensei-agent.
+
+Sometimes it is enough to <<installation-faq-reload,reload the VM>>. If not, the 
+following steps can be executed.
+
+To resolve this issue you should login to the virtual machine using the
+`vagrant ssh` command. From within the VM you can restart the services:
+
+.Connect to VM from Shell
+[source,bash]
+----
+% vagrant ssh
+----
+
+.Restart server
+[source,bash]
+----
+% sudo service tensei-server restart
+----
+
+.Restart agent
+[source,bash]
+----
+% sudo service tensei-agent restart
+----
+
+.Restart frontend
+[source,bash]
+----
+% sudo service tensei-frontend restart
+----
+
+If it generates an error message during the restart of one of the services
+(because the service is not running), this service can be started with one of
+the following commands.
+
+.Start the server
+[source,bash]
+----
+% sudo service tensei-server start
+----
+
+.Start the agent
+[source,bash]
+----
+% sudo service tensei-agent start
+----
+
+.Start the frontend
+[source,bash]
+----
+% sudo service tensei-frontend start
+----
+
+[[installation-faq-frontend-restart]]
+==== Frontend doesn't run and can not be restarted ====
+
+If the VM was incorrectly stopped, the frontend service can be corrupted.
+The service can not be restarted.
+
+If so, you have to delete the `RUNNING_PID` file within the frontend folder.
+
+.Connect to the VM in the shell
+[source,bash]
+----
+% vagrant ssh
+----
+
+.Delete the RUNNING_PID file
+[source,bash]
+----
+% rm /srv/tensei/tensei-frontend/RUNNING_PID
+----
+
+Restart the frontend service.
+
+.Restart frontend
+[source,bash]
+----
+% sudo service tensei-frontend restart
+----
+
+[[installation-replace]]
+=== Replace an existing Vagrant-Box ===
+If you want to replace an existing Vagrant-Box, you must execute the following
+steps.
+
+IMPORTANT: If you want to keep existing Cookbooks, you must export them.
+
+. Switch to the folder where the actual Vagrant-Box is installed
+. You can see the status of the box with `vagrant status`
+. Destroy the box with `vagrant destroy`
+. List the added boxes with `vagrant box list`
+. Delete the actual Vagrant-Box with `vagrant box remove NAME-OF-THE-BOX`
+.. If the box has the name `tensei-demo`, the box can be removed with the
+following line: `vagrant box remove tensei-demo`
+. Install the new box like described in the <<installation>>.
+
+[[installation-uninstall]]
+=== Uninstall ===
+For a properly uninstallation of the application the command `vagrant destroy`
+has to be executed. Afterwards the working directory may be deleted.
+
+TIP: In `C:\Users\<username>.vagrant.d\boxes\` (Windows) or
+`/home/<username>/.vagrant.d/boxes/` (Linux), a copy of the VM is stored that
+can be removed manually.
 
 [[frontend]]
 == Frontend ==
