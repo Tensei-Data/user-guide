@@ -312,8 +312,396 @@ host system. The VM may be damaged if it is not shutdown properly.
 * If you have problems during the start, you have to start the processes
   by hand: <<installation-faq>>
 
+[[installation-vm-replace]]
+==== Replace an existing Vagrant-Box ====
+If you want to replace an existing Vagrant-Box, you must execute the following
+steps.
+
+IMPORTANT: If you want to keep existing Cookbooks, you must export them.
+
+. Switch to the folder where the actual Vagrant-Box is installed
+. You can see the status of the box with `vagrant status`
+. Destroy the box with `vagrant destroy`
+. List the added boxes with `vagrant box list`
+. Delete the actual Vagrant-Box with `vagrant box remove NAME-OF-THE-BOX`
+.. If the box has the name `tensei-demo`, the box can be removed with the
+following line: `vagrant box remove tensei-demo`
+. Install the new box like described in the <<installation>>.
+
+[[installation-vm-uninstall]]
+==== Uninstall ====
+For a properly uninstallation of the application the command `vagrant destroy`
+has to be executed. Afterwards the working directory may be deleted.
+
+TIP: In `C:\Users\<username>.vagrant.d\boxes\` (Windows) or
+`/home/<username>/.vagrant.d/boxes/` (Linux), a copy of the VM is stored that
+can be removed manually.
+
+[[installation-manual]]
+=== Manually ===
+
+[[installation-manual-requirements]]
+==== System requirements ====
+The hardware requirements match those of the <<installation-vm,
+VM>>. In addition to that the following software requirements have to be
+fullfilled:
+
+[horizontal]
+Operating system:: Linux or FreeBSD (recommended is Ubuntu
+footnote:[Ubuntu Homepage: http://www.ubuntu.com/] 14.04 LTS or FreeBSD
+footnote:[FreeBSD Homepage: https://www.freebsd.org/] 10 or higher)
+Java:: Java version 1.8
+Datenbank:: PostgreSQL 9.3 or higher
+Sonstiges:: Scala-SBT 0.13.11
+
+[[installation-manual-preparations]]
+==== Preparing the installation ====
+If all requirements have been installed the database has to be prepared.
+The following sections describe the steps needed for that.
+
+[[installation-manual-preparations-users]]
+===== Create user accounts =====
+If each component should be run with an individual user account then
+these accounts have to be created.
+
+The system consists of the following components:
+
+. Server
+. Agent (At least 1 agent is needed.)
+. Frontend
+
+[[installation-manual-server]]
+==== Tensei-Server ====
+The server component is delivered via a file called `tensei-server.txz`.
+This file has to be extracted at the desired execution folder. During
+extraction a folder like `tensei-server-A.B.C` will be created. For
+convenience this folder should be renamed to `tensei-server`.
+
+The subfolder `conf` contains several configuration files including the
+file `logback.xml` which can be used to adjust the logging.
+
+[[installation-manual-server-start]]
+===== Start script and parameter =====
+The start scripts are located within the subfolder `bin`:
+
+- `tensei-server`
+- `tensei-server.bat`
+
+According to your operating system you have to chose the proper file
+(for example `tensei-server.bat` for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.
+
+[[installation-manual-server-parameter]]
+.Parameters
+|===
+| Name | Required? | Description | Recommendation
+
+| `-J-server`
+| Yes
+|
+|
+
+| `-J-Dlogback.configuration`
+| Yes
+| The path to the logback configuration file.
+| `conf/logback.xml`
+
+| `-J-Dconfig.file`
+| Yes
+| The path to the server configuration file.
+| `conf/application.conf`
+
+| `-J-Xms`
+|
+| The minimum value of memory that should be allocated for the server.
+| 400 bis 500 MB
+
+| `-J-Xmx`
+|
+| The maximum value of memory that should be allocated for the server.
+| 400 bis 500 MB
+|===
+
+.Start with parameters
+----
+bin/tensei-server -J-server -J-Xms384m -J-Xmx384m·
+  -J-Dlogback.configuration=conf/logback.xml·
+  -J-Dconfig.file=conf/application.conf
+----
+
+TIP: The parameters can be set permanently via in the file
+`conf/application.ini`.
+
+[[installation-manual-agent]]
+==== Tensei-Agent ====
+The Agent is the "work horse" of a Tensei-Data system. It is delivered
+via a file called `tensei-agent.txz`.
+This file has to be extracted at the desired execution folder. During
+extraction a folder like `tensei-agent-A.B.C` will be created. For
+convenience this folder should be renamed to `tensei-agent`.
+
+The subfolder `conf` contains several configuration files including the
+file `logback.xml` which can be used to adjust the logging.
+
+[[installation-manual-agent-start]]
+===== Start script and parameter =====
+The start scripts are located within the subfolder `bin`:
+
+- `tensei-agent`
+- `tensei-agent.bat`
+
+According to your operating system you have to chose the proper file
+(for example `tensei-agent.bat` for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.
+
+[[installation-manual-agent-parameter]]
+.Parameters
+|===
+| Name | Required? | Description | Recommendation
+
+| `-J-server`
+| Yes
+|
+|
+
+| `-J-Dlogback.configuration`
+| Yes
+| The path to the logback configuration file.
+| `conf/logback.xml`
+
+| `-J-Dconfig.file`
+| Yes
+| The path to the agent configuration file.
+| `conf/application.conf`
+
+| `-J-Xms`
+|
+| The minimum value of memory that should be allocated for the agent.
+| at least 512 MB, depending on available hardware as much as possible
+
+| `-J-Xmx`
+|
+| The maximum value of memory that should be allocated for the agent.
+| at least 512 MB, depending on available hardware as much as possible
+
+| `-J-XX:MaxMetaspaceSize`
+|
+| Determines how much additionaly memory should be allocated if the
+value defined by `Xmx` does not suffice.
+| at least 512 MB, better are 1-2 GB
+|===
+
+.Start with parameters
+----
+bin/tensei-agent -J-server -J-Xms4g -J-Xmx4g -XX:MaxMetaspaceSize=1g
+  -J-Dlogback.configuration=conf/logback.xml·
+  -J-Dconfig.file=conf/application.conf
+----
+
+TIP: The parameters can be set permanently via in the file
+`conf/application.ini`.
+
+NOTE: Upon the first start a file `tensei-agent-id.properties` will be
+created in the agent user's home directory if it doesn't already exist.
+Within this file the ID of the agent can be configured if this is
+desired.
+
+[[installation-manual-frontend]]
+==== Frontend ====
+The frontend provides the user interface and some additional
+functionality like cronjobs and trigger.
+It is delivered via a file called `tensei-frontend.txz`. This file has
+to be extracted at the desired execution folder. During extraction a
+folder like `tensei-frontend-A.B.C` will be created. For convenience
+this folder should be renamed to `tensei-frontend`.
+
+The subfolder `conf` contains several configuration files.
+
+[[installation-manual-frontend-db]]
+===== Database setup =====
+A database user and database have to be created for the frontend!
+
+The script below creates a database user and a database for the
+frontend.
+
+[[installation-manual-frontend-db-sql-script]]
+.SQL script for creating a database user and database
+[source,sql]
+----
+CREATE ROLE ${FRONTEND_DB_USER} WITH CREATEDB LOGIN ENCRYPTED PASSWORD '${FRONTEND_DB_PASS}';
+CREATE DATABASE tenseifrontend WITH OWNER ${FRONTEND_DB_USER};
+----
+
+[[installation-manual-frontend-config]]
+===== Configuration =====
+Within the subfolder `conf` a file named `production.conf` has to be
+created. It has to look like this:
+
+[[installation-manual-frontend-config-production]]
+.Structure of production.conf
+[source]
+----
+include "application.conf"
+
+play.crypto.secret=${APP_SECRET} // <1>
+
+slick.dbs.default.db.user=${FRONTEND_DB_USER} // <2>
+slick.dbs.default.db.password=${FRONTEND_DB_PASS} // <3>
+----
+<1> This should be a long random generated value for example via `pwgen
+-cns 128`.
+<2> The name of the database user has to be added here.
+<3> The password of the database user has to be added here.
+
+[[installation-manual-frontend-start]]
+===== Start script and parameter =====
+The start scripts are located within the subfolder `bin`:
+
+- `tensei-frontend`
+- `tensei-frontend.bat`
+
+According to your operating system you have to chose the proper file
+(for example `tensei-frontend.bat` for a Windows system). To start the
+application several parameters have to be set. These are explained in
+the following section.
+
+[[install-manual-frontend-parameter]]
+.Parameters
+|===
+| Name | Required? | Description | Recommendation
+
+| `-J-server`
+| Yes
+|
+|
+
+| `-J-Dconfig.file`
+| Yes
+| The path to the frontend configuration.
+| `conf/production.conf`
+
+| `-DapplyEvolutions.default`
+| Yes
+| Determines if pending database changes will be applied automatically.
+| `true`
+
+| `-Dtensei.frontend.hostname`
+| Yes, if not configured with the configuration file.
+| The hostname on which the frontend system will run.
+| `localhost`
+
+| `-Dtensei.server.hostname`
+| Yes, if not configured with the configuration file.
+| The hostname on which the server is running.
+| `localhost`
+
+| `-Dtensei.server.port`
+| Yes, if not configured with the configuration file.
+| The port on which the server is listening.
+| `4096`
+
+| `-J-Xms`
+|
+| The minimum value of memory that should be allocated for the frontend.
+| 400 to 600 MB
+
+| `-J-Xmx`
+|
+| The minimum value of memory that should be allocated for the frontend.
+| 400 to 600 MB
+
+| `-J-Xmx`
+|
+| The maximum value of memory that should be allocated for the frontend.
+| 400 to 600 MB
+|===
+
+.Start with parameters
+----
+bin/tensei-frontend -J-server -J-Xms500m -J-Xmx500m·
+  -J-Dconfig.file=conf/production.conf·
+  -DapplyEvolutions.default=true·
+  -Dtensei.frontend.hostname=localhost·
+  -Dtensei.server.hostname=localhost·
+  -Dtensei.server.port=4096
+----
+
+TIP: The parameters can be set permanently via in the file
+`conf/application.ini`.
+
+[[installation-manual-update]]
+==== Update ====
+
+[[installation-manual-update-preparations]]
+===== Preparations =====
+
+Before you can update the system you have to shutdown each component.
+This can usually be done with the following commands:
+
+[source]
+----
+sudo service tensei-agent stop
+sudo service tensei-frontend stop
+sudo service tensei-server stop
+----
+
+IMPORTANT: If you have created an agent cluster then all nodes in the
+cluster have to be shutdown too.
+
+Now the files containing the new version can be copied onto the machine.
+Afterwards you can decompress them there.
+
+WARNING: If the configuration files (`tensei.conf`) have been modified
+then you must backup those files to be able to reapply your
+modifications after the update.
+
+[[installation-manual-update-tensei-server]]
+===== Server =====
+
+[source]
+----
+sudo tar -xJvf tensei-server.txz -C /srv/tensei/tensei-server --strip-components 1
+sudo chown -Rfh tensei-server /srv/tensei/tensei-server
+----
+
+[[installation-manual-update-tensei-agent]]
+===== Agent =====
+
+[source]
+----
+sudo tar -xJvf tensei-agent.txz -C /srv/tensei/tensei-agent --strip-components 1
+sudo chown -Rfh tensei-agent /srv/tensei/tensei-agent
+----
+
+IMPORTANT: If you have build an agent cluster then all nodes have to be
+updated too.
+
+[[installation-manual-update-tensei-frontend]]
+===== Frontend =====
+
+[source]
+----
+sudo tar -xJvf tensei-frontend.txz -C /srv/tensei/tensei-frontend --strip-components 1
+sudo chown -Rfh tensei-frontend /srv/tensei/tensei-frontend
+----
+
+[[installation-manual-update-finish]]
+===== Finish =====
+
+After you have reapplied your modifications to the configuration files
+the components can be started again.
+
+[source]
+----
+sudo service tensei-server start
+sudo service tensei-agent start
+sudo service tensei-frontend start
+----
+
 [[installation-debian-packages]]
-=== Debian packages ===
+=== Debian packages (Todo) ===
 
 *TODO*
 
@@ -426,30 +814,102 @@ Restart the frontend service.
 % sudo service tensei-frontend restart
 ----
 
-[[installation-replace]]
-=== Replace an existing Vagrant-Box ===
-If you want to replace an existing Vagrant-Box, you must execute the following
-steps.
+[[configuration]]
+== Configuration ==
+The system has various possibilities for configuration. The user can configure
+different aspect of the <<configuration-frontend, frontend>>. More specific
+configurations can <<configuration-direct, directly>> be done at the single
+components.
 
-IMPORTANT: If you want to keep existing Cookbooks, you must export them.
+[[configuration-frontend]]
+=== Frontend ===
+The first user must be created after the installation. This user is
+automatically created with administrator rights. The form to create
+this first account will automatically be shown during the first access
+of the system.
 
-. Switch to the folder where the actual Vagrant-Box is installed
-. You can see the status of the box with `vagrant status`
-. Destroy the box with `vagrant destroy`
-. List the added boxes with `vagrant box list`
-. Delete the actual Vagrant-Box with `vagrant box remove NAME-OF-THE-BOX`
-.. If the box has the name `tensei-demo`, the box can be removed with the
-following line: `vagrant box remove tensei-demo`
-. Install the new box like described in the <<installation>>.
+Specific functions are only available for the administrator:
 
-[[installation-uninstall]]
-=== Uninstall ===
-For a properly uninstallation of the application the command `vagrant destroy`
-has to be executed. Afterwards the working directory may be deleted.
+. Create and administer user accounts
+. Create and administer user groups
+. Update the Tensei-Data license
 
-TIP: In `C:\Users\<username>.vagrant.d\boxes\` (Windows) or
-`/home/<username>/.vagrant.d/boxes/` (Linux), a copy of the VM is stored that
-can be removed manually.
+[[configuration-direct]]
+=== Configuration files ===
+Some settings are available via configuration files and specific
+parameters. The following sections describe the configuration of the
+single system components.
+
+[[configuration-direct-agent]]
+==== Agent ====
+
+The identifier of an agent is randomly generated at the first start. This
+identifier can be customized in the file `tensei-agent-id.properties`. This file
+defines a key-value pair:
+
+[source]
+----
+tensei.agent.id=NAME_OF_AGENT
+----
+
+NOTE: The identifier of the agent should not contain any special characters or
+blanks.
+
+Any other configuration is made in the file `tensei.conf`.
+
+[[configuration-direct-agent-tensei-conf]]
+.Configuration file tensei.conf
+
+[source,hocon]
+----
+include::includes/tensei-agent.conf[]
+----
+
+[[configuration-direct-frontend]]
+==== Frontend ====
+
+NOTE: TODO
+
+[[configuration-direct-frontend-tensei-conf]]
+.Configuration file tensei.conf
+
+[source,hocon]
+----
+include::includes/tensei-frontend.conf[]
+----
+
+[[configuration-direct-server]]
+==== Server ====
+
+NOTE: TODO
+
+[[configuration-direct-server-tensei-conf]]
+.Configuration file tensei.conf
+
+[source,hocon]
+----
+include::includes/tensei-server.conf[]
+----
+
+[[maintenance]]
+== Maintenance ==
+
+[[maintenance-logs]]
+=== Log files ===
+
+The single components create log files that can be used for validation and
+error analysis. Furthermore, the log files are also available within the
+frontend.
+
+The log files are created in the `logs` directory of the sinlge components.
+Within the VM, the logs are available at the following paths:
+
+.Log files of the single components in the VM
+|====================================
+| `/srv/tensei/tensei-frontend/logs` | Logs of the frontend
+| `/srv/tensei/tensei-server/logs` | Logs of the server
+| `/srv/tensei/tensei-agent/logs` | Logs of the agent nodes
+|====================================
 
 [[frontend]]
 == Frontend ==
@@ -540,4 +1000,60 @@ can be removed manually.
 === Use Cases ===
 
 *TODO*
+
+[[agent]]
+== Agent ==
+
+[[agent-cluster]]
+=== Cluster agents ===
+An agent can be started on several computers (clustering). The following
+instruction must be observed.
+
+In the current cluster model, the main node provides the essential work
+(parsing, processing) and uses the other nodes to distribute the amount of
+data. In the future, other nodes should also be used to parallelize the work.
+
+IMPORTANT: All nodes within the cluster must define the same ID for the agent
+(`tensei.agent.id`)!
+
+The agent directory must be copied to all relevant computers. Afterwards, one 
+computer must be defined as seed-node.
+
+IMPORTANT: The seed-node must always be started as first!
+
+The following system properties can be used for the configuration of the 
+cluster on the single nodes:
+
+.Configuration variables for the agent
+|=======================================
+| Variable | Description | Default
+| `tensei.agent.hostname` | The hostname or the IP-address of the node.
+| `localhost`
+| `tensei.agent.port` | The port number of the node. | `2551`
+| `tensei.server.hostname` | The hostname or the IP-address of the server.
+| `localhost`
+| `akka.cluster.seed-nodes.0` | The address of the main seed-node. |
+`akka.tcp://tensei-agent@localhost:2551`
+|=======================================
+
+IMPORTANT: The address of the seed-node must be a valid Akka-Cluster-address:
+`akka.tcp://tensei-agent@HOSTNAME:PORT`!
+
+The parameters can be set via `-D...` when executing the start script or
+adapted in the file <<configuration-direct-agent-tensei-conf, tensei.conf>>.
+
+[[agent-cluster-faq]]
+==== FAQ ====
+
+How to add a new node?:: A node is simply installed and started on a computer.
+A few seconds later, it should be available in the frontend.
+
+How to remove a node?:: The node is stopped and no longer available for the
+cluster.
+
+Can I add a node, if the system is running?:: When a transformation
+configuration is executing, the nodes should not be changed!
+
+What happens, when the seed-node is restarted?:: If the seed-node is restarted,
+all other nodes of the cluster must also be restarted.
 
