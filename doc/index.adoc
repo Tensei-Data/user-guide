@@ -9,6 +9,7 @@ Contributors as noted in the AUTHORS.md file.
 :source-highlighter: coderay
 :Revision: {project-version}
 //:stylesheet: stylesheets/rocket-panda.css
+:experimental:
 
 [[preamble]]
 == Preamble ==
@@ -1021,7 +1022,7 @@ NOTE: A license is provided by default with the system.
 === Dashboard ===
 
 The dashboard provides a general overview about all configured and available
-<<frontend-tc,transformation configurations>> and the workload
+<<frontend-tc,Transformation configurations>> and the workload
 of the <<frontend-agent,agents>>. Moreover, some additional information are
 provided:
 
@@ -1035,67 +1036,1444 @@ configurations
 [[frontend-dfasdl]]
 === DFASDL ===
 
-*TODO*
+A DFASDL describes the structure and the semantic of a data source and is used
+for the mapping of the data.
+
+NOTE: The DFASDL specification can be found at link:https://github.com/DFASDL/dfasdl-core[Data Format and Sematics Description Language]
+
+==== Create ====
+
+For the creation of a DFASDL, the following steps must be fulfilled:
+
+. Click the btn:[New DFASDL] button
+. Fill the relevant fields regarding to the specification
+
+TIP: A DFASDL can automatically be created from a
+<<frontend-ci,Connection information>>. More information in part
+`<<frontend-ci-dfasdl-automatic>>`.
+
+===== Form fields =====
+
+*DFASDL ID*
+
+The DFASDL ID allows the explicit differentiation of the available DFSADLs. The
+following requirements should be considered during the creation of the ID:
+
+* No empty spaces
+* Use the minus (-) as separator
+* A clear description of the DFASDL (Example: `my-system-version-x`)
+
+*Version*
+
+The version of the DFASDL is automatically increased by the system during later
+updates. That allows the selection of former versions.
+
+*The DFASDL*
+
+The integrated editor supports the creation of a concrete DFASDL and supports
+syntax highlighting, validation and auto-complete. Additional functionalities
+are:
+
+[horizontal]
+CTRL + SPACE:: Activate the auto-complete for a DFASDL element or attribute
+CTRL + SPACE:: Within an attribute, the auto-complete is activated
+CTRL-Q:: Fold parts of the DFASDL
+F11:: Activate the fullscreen mode
+CTRL-F:: Start a search within the DFASDL
+
+.Example for a DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="persons">
+    <elem id="row">
+      <str id="lastname" stop-sign=","/>
+      <str id="firstname" stop-sign=","/>
+      <formatstr format="(.*@.*\..*)" id="email" stop-sign=","/>
+      <formattime format="dd.MM.yyyy" id="birthday" stop-sign=","/>
+      <str id="phone" stop-sign=","/>
+      <str id="division"/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+TIP: The specification of the DFASDL can be found at
+link:https://github.com/DFASDL/dfasdl-core[DFASDL Core].
+
+*Access rights*
+
+The access rights restrict the visibility of the DFASDL to specific users.
+
+. public: All user can access the DFSADL.
+. private: Only the creator and the optionally added group can access the
+DFASDL
+
+[[frontend-dfasdl-filter]]
+==== Filtering of source data ====
+
+Sometimes it is desired to reduce the data from a sequence (e.g. the rows from
+a database table). The DFASDL attribute `filter` makes this possible. It is
+allowed only on the sequence element `seq`.
+
+IMPORTANT: Currently filtering of source data is only supported on databases!
+
+.Filtering example
+[source,xml]
+----
+...
+<seq id="rows" filter="salary > 20000">
+  <elem id="row">
+    <str id="name"/>
+    <num id="salary"/>
+  </elem>
+</seq>
+...
+----
+
+[[frontend-dfasdl-reduce]]
+=== Reducing the visible structure of a DFASDL ===
+
+If not all elements of the DFASDL are relevant, they can be excluded. Thus,
+these elements are no longer available in the visual mapping. It increases
+the clarity onto the relevant elements and simplifies the visual mapping.
+
+.Example of a complete DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+Elements of a DFASDL structure can be excluded in two different ways. (1)
+Delete the elements in the DFASDL. (2) Make a comment around the elements in
+the DFASDL.
+
+.(1) Delete the `contacts` from the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+.(2) Make a comment around the `contacts` in the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <!--
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  -->
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+[[frontend-dfasdl-version]]
+==== Compare DFASDL versions ====
+
+It is possible to compare the actual DFASDL version with former
+versions (diff). Do the following:
+
+* Click the *name* of the DFASDL on the overview page of all DFASDLs
+* In the field *version*, the actual version of the DFASDL is displayed
+* If former versions are available, a button to select a former version
+  for the comparison is displayed
+
+image::dfasdl-diff-button.png[scaledwidth=100%,align="center"]
+
+On the comparison page is another button that allows the selection of
+other versions for the comparison.
 
 [[frontend-cookbook]]
 === Cookbook ===
 
-*TODO*
+A cookbook allows the creation of mappings and
+<<frontend-mapping-transformators,transformations>> between the source and the target
+DFASDLs.
+
+==== Create ====
+
+The creation of the cookbook requires the following steps:
+
+. Click the btn:[New cookbook] button
+. Insert a unique ID for the cookbook
+
+The following tabs are used to change specific settings:
+
+Resources-Tab:: Select the source and target DFASDLs
+Settings-Tab:: Select the version of the source and target DFASDLs
+Mappings-Tab:: Create recipes and mappings
+
+==== Mappings-Tab ====
+
+The Mappings-Tab provides the following information:
+
+* Recipes
+* Graphical visualisation of the source and target DFASDLs
+
+[[frontend-cookbook-recipe]]
+==== Create a recipe ====
+A recipe contains all mappings for a logically connected data structure (e.g.
+for a sequence (`seq`) or all data elements within a structural element (e.g.
+`elem`)).
+
+IMPORTANT: Logically connected data elements (e.g. `str`, `num`, ...) must be
+processed within *one* recipe. Logically connected are all elements that are
+under the same `sequence (seq)` or within a superordinated `structural element (e.g.
+elem)`. The number of used mappings is not relevant. More information about this
+basic principle in <<frontend-mapping-basics,`Principles for the mappings`>>.
+
+IMPORTANT: All data elements of a logically connected structure must be
+connected within the target DFASDL. If specific elements of the target are
+irrelevant, they must be connected with at least a <<frontend-transformator-nullify,Nullify
+transformer>>. Additional information in <<frontend-mapping-basics,`Principles for the
+mappings`>>.
+
+. Click the btn:[+] button to create a new recipe
+. Set a name for the recipe (optional)
+. Select the modus of the recipe
+** <<frontend-cookbook-recipe-mode-alltoall,MapAllToAll>>: *All* source elements are completely mapped to *each* target
+element.
+** <<frontend-cookbook-recipe-mode-onetoone,MapOneToOne>>: *Each single* source element is mapped one-to-one to its
+corresponding target element.
+
+The mappings between the source and target data are created within a recipe.
+A new mapping can be created as follows:
+
+. Create a new mapping by clicking the btn:[Mappings(+)] button
+. Select the source and target elements by clicking into the graphical
+visualisation (Select a source and a target element)
+** The order of the elements can be changed via Drag&Drop
+. Create a transformation (T)
+** A transformation transforms data from the source to the target
+** Create a new transformation by clciking the btn:[Transformations(+)] button
+** Select the desired <<frontend-mapping-transformators-general,transformer>>
+** Fill the specific fields of the selected transformer
+** This step is *optional*
+. Create an atomic transformation (A)
+** An atomic transformation transforms the data in the source
+** Create an atomic transformation by clicking the btn:[Atomic
+Transformations(+)] button
+** Select the source element that is transformed by the atomic transformation
+** Select the desired <<frontend-mapping-transformators-atomar,atomic transformer>>
+** Fill the specific fields of the selected transformer
+** This step is *optional*
+. Select a mapping key
+** Fields in multiple source files can be merged with an ID that has the
+same name.
+** Fields in a database can be merged by using this key. This is a
+simple alternative for an own select via `db-select` attribute.
+** This step is *optional*
+
+IMPORTANT: If you want to map elements into a *target sequence*, *all* the 
+elements of the target sequence must be specified in *one* recipe. This is
+necessary because a sequence always describes an entire row and all elements of
+the row must be available during processing. Within the recipe the elements can 
+be split into multiple mappings.
+
+[[frontend-cookbook-recipe-mode]]
+===== Recipe mode : MapOneToOne and MapAllToAll =====
+
+A recipe can be of mode <<frontend-cookbook-recipe-mode-onetoone,MapOneToOne>> or
+<<frontend-cookbook-recipe-mode-alltoall,MapAllToAll>>. The difference between
+these two modes is mainly the kind of mapping of elements from the
+source to the target.
+
+[[frontend-cookbook-recipe-mode-onetoone]]
+===== MapOneToOne =====
+
+*Each single* source element is mapped one-to-one to its corresponding target element.
+
+.Example for MapOneToOne
+====
+Source elements:
+
+* element1
+* element2
+
+Target elements:
+
+* elementY
+* elementZ
+
+Mapping:
+
+* element1 -> elementY
+* element2 -> elementZ
+====
+
+[[frontend-cookbook-recipe-mode-alltoall]]
+===== MapAllToAll =====
+
+*All* source elements are completely mapped to *each* target element.
+
+.Example for MapAllToAll
+====
+Source elements:
+
+* element1
+* element2
+
+Target elements:
+
+* elementY
+* elementZ
+
+Mapping:
+
+* element1, element2 -> elementY
+* element1, element2 -> elementZ
+====
+
+[[frontend-mapping-transformators]]
+==== Transformers ====
+
+Transformers are used to transform the data during the migration. A distinction
+is made between genereal and atomic transformers.
+
+[[frontend-mapping-transformators-diff]]
+===== Difference between General and Atomic transformers =====
+
+The <<frontend-mapping-transformators-general,General Transformers>> and the
+<<frontend-mapping-transformators-atomar,Atomic Transformers>> differ in two
+essential aspects:
+
+* Execution time
+* Transformed elements
+
+*Execution time*
+
+The two types of transformers are executed at different execution times.
+
+.General Transformers
+The <<frontend-mapping-transformators-general,General Transformers>> are executed
+after the <<frontend-mapping-transformators-atomar,Atomic Transformers>>.
+
+.Atomic Transformers
+The <<frontend-mapping-transformators-atomar,Atomic Transformers>> are executed
+before the <<frontend-mapping-transformators-general,General Transformers>>.
+
+.Order of Execution time
+Recipe -> Mapping -> Atomic Transformers -> General Transformers
+
+*Transformed Elements*
+
+The two types of transformers differ in the number of elements that are
+transformed during the execution of a mapping.
+
+.General Transformers
+The <<frontend-mapping-transformators-general,General Transformers>> are used on
+all elements that are specified in the mapping.
+Within a <<frontend-cookbook-recipe-mode-onetoone,MapOneToOne>> recipe, the
+transformer is consecutively executed to each element of the source.
+Within a <<frontend-cookbook-recipe-mode-alltoall,MapAllToAll>> recipe, the
+transformer is simultaneously executed to all elements from the source.
+
+.Atomic Transformers
+The <<frontend-mapping-transformators-atomar,Atomic Transformers>> are
+independent of the <<frontend-cookbook-recipe-mode,mode of the recipe>> executed
+on *one* specified element from the source within the mapping.
+
+[[frontend-mapping-transformators-general]]
+==== General Transformers ====
+
+General transformers are used to transform the data during the migration from
+the source to the target. General transformers are executed after the atomic
+transformers.
+
+[[frontend-transformator-concat]]
+===== Concat =====
+
+The *Concat* transformer connects the incoming data and returns a character
+string.
+
+.Options
+=====
+separator:: A character string that is placed between the data during the
+connection.
+prefix:: A character string that is added to the beginning.
+suffix:: A character string that is added to the end.
+=====
+
+.Examples
+====
+. Connect two elements with a space character
+Options:::
+* separator: " " (space character)
+Elements:::
+* foo, bar
+Result:::
+* "foo bar"
+. Connect three elements with a hyphen
+Options:::
+* separator: -
+Elements:::
+* foo, bar, baz
+Result:::
+* "foo-bar-baz"
+. Connect two elements with an underscore and add a prefix
+Options:::
+* separator: _
+* prefix: Super
+Elements:::
+* foo, bar
+Result:::
+* "Super foo_bar"
+====
+
+[[frontend-transformator-dateconverter]]
+===== DateConverter =====
+
+The *DateConverter* converts a `DateTime` into a `Timestamp` or a `Timestamp`
+into a `DateTime`.
+
+.Options
+=====
+format:: The format of the `DateTime` value. Default: `yyyy-MM-dd
+HH:mm:ss`. Possible formats depend on the link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter] class.
+timezone:: Timezone of the `DateTime` value as numerical specification (e.g.
+`+0200`). Default: `Z`
+=====
+
+TIP: A `format` can be specified via the definitions from
+link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter].
+
+.Examples
+====
+. Convert a `Timestamp` into a `DateTime` with timezone of +02
+Options:::
+* timezone: +200
+Element:::
+* 42 (Timestamp that defines 42 milli seconds from 1970-01-01)
+Result:::
+* 1970-01-01 02:00:00.042
+====
+
+[[frontend-transformer-datetypeconverter]]
+===== DateTypeConverter =====
+
+The *DateTypeConverter* converts a given date, time or timestamp into
+the specified target type.
+
+.Options
+=====
+target:: The specified target type. Available values are `date` (to
+`1970-01-01`), `time` (to `12:13:55`) or `dateime` (to `2001-07-04
+14:25:22`).
+=====
+
+.Examples
+=====
+. Convert a `Date` value into a `Timestamp`
+Options:::
+* target: datetime
+Element:::
+* 2012-01-01
+Result:::
+* 2012-01-01 00:00:00.0
+. Convert a `Timestamp` into a `Time` value.
+Options:::
+* target: time
+Element:::
+* 2001-11-22 14:22:33.0
+Result:::
+* 14:22:33
+. Convert a `Time` value into a `Date`.
+Options:::
+* target: date
+Element:::
+* 12:55:11
+Result:::
+* 1970-01-01
+. Convert a `Timestamp` into a `Date`.
+Options:::
+* target: date
+Element:::
+* 1986-12-12 18:25:22.0
+Result:::
+* 1986-12-12
+=====
+
+[[frontend-transformator-datevaluetostring]]
+===== DateValueToString =====
+
+The *DateValueToString* transformer converts a given `Date`, `Time` or
+`Datetime` value to a String. The `format` parameter can be used to
+define a different target format of the value. If the `format` parameter
+is empty, the value is simply converted into a String.
+
+.Options
+=====
+format:: A target format that is used to transform the given `Date`, `Time` or
+`Datetime` value. If this parameter is empty, the value is simply converted
+into String. Possible formats depend on the
+link:https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html[java.time.format.DateTimeFormatter]
+class.
+=====
+
+.Examples
+=====
+. Convert a `Date` value into another format
+Options:::
+* format: dd.MM.yyyy
+Element:::
+* 2016-04-27
+Result:::
+* 27.04.2016
+. Convert a `Time` value into another format
+Options:::
+* format: HH:mm
+Element:::
+* 13:22:22
+Result:::
+* 13:22
+. Convert a `DateTime` value into another format
+Options:::
+* format: dd.MM.yyyy h:mm a
+Element:::
+* 2016-04-27 13:22:22
+Result:::
+* 27.04.2016 1:22 PM
+=====
+
+[[frontend-transformator-emptystring]]
+===== EmptyString =====
+
+The *EmptyString* transformer writes an empty character string into the target
+element.
+
+NOTE: The target data type must be able to accept a character string.
+
+[[frontend-transformator-extractbiggestvalue]]
+===== ExtractBiggestValue =====
+
+The *ExtractBiggestValue* transformer determines the biggest / longest value
+from the given data.
+
+If the incoming data are character string, the longest character string will be
+returned. If the incoming data are numerical values, the biggest value will be
+returned. If the incoming data are mixed with character strings and numerical
+values, the longest value will be returned.
+
+[[frontend-transformator-idtransformer]]
+===== IDTransformer =====
+
+The *IDTransformer* creates a `new` ID for a target field. Depending on the
+specification, a `Long` or an `UUID` will be created. If the data sets are
+successive, the transformer creates incremented values.
+
+.Options
+=====
+field:: The name of the target field in the mapping.
+start:: An optional start value for a `Long` ID: Default: `0`
+type:: The created ID can be a Long (`long`) or an UUID (`uuid`). Default:
+`long`
+=====
+
+.Examples
+====
+. Get an integer ID starting on 41 for a specific field
+Options:::
+* field: field1 (Element of the DFASDL)
+* start: 41
+* type: long
+Element:::
+* -
+Result:::
+* For the first call of the transformer: 41
+* For the next call: 42, and so on ...
+====
+
+[[frontend-transformator-ifthenelsenumeric]]
+===== IfThenElseNumeric =====
+
+The *IfThenElseNumeric* transformer allows simple `if-then-else` expressions for
+numerical values.
+
+.Options
+=====
+if:: A function that determines whether the `then` or the `else` branch will be
+executed. The function supports the following operators: `==, !=, <, <=, >=, >`.
+then:: A function that describes a transformation of the data. Supported
+operators are: `+, -, *, /`
+else:: A function that describes a transformation of the data. Supported
+operators are: `+, -, *, /`
+format:: Defines the `type` of the returned values as long (`num`) or BigDecimal
+(`dec`). Default: `dec`
+=====
+
+TIP: An `if` condition could be as follows: `x>42 or 3.141 != x`
+
+TIP: A `then` or `else` function must be specified for assignments as follows:
+`x=x+1 oder x=3-x`. If a constant is required, the function will be specified
+without operator: `42`
+
+.Examples
+====
+. Values that are bigger than 6 should be changed to 0
+Options:::
+* if: x>6
+* then: 0
+Elements:::
+* 1,2,3,4,5,6,7,8
+Result:::
+* 1,2,3,4,5,6,0,0
+. Values that are bigger than 3 must be added with 2
+Options:::
+* if: x>3
+* then: x=x+2
+Elements:::
+* 1,2,3,4,5
+Result:::
+* 1,2,3,6,7
+. Values smaller than 3 must be multiplied with 3, otherwise substracted from 2
+Options:::
+* if: x<=2
+* then: x=x*3
+* else: x=2-x
+Elements:::
+* 1,2,3,4,5
+Result:::
+* 3,6,-1,-2,-3
+. Values that are bigger than 2 must be added with 1, otherwise substracted with 1 and returned as integer
+Options:::
+* if: x>2
+* then: x=x+1
+* else: x=x-1
+* format: num
+Elements:::
+* 1.5,2,3,4,5
+Result:::
+* 1,1,4,5,6
+====
+
+[[frontend-transformator-lowerorupper]]
+===== LowerOrUpper =====
+
+This transformer returns a lower or upper version of the provided string.
+
+.Options
+====
+locale:: The link:https://en.wikipedia.org/wiki/Locale_(computer_software)[Locale]
+defines how operations like lowercase and uppercase are executed. If this
+parameter is left empty then the locale of the system will be used on which
+the agent is running.
+perform:: Perform one of the following transformations. `lower` - All characters
+as lower characters. `upper` - All characters as upper characters. `firstlower`
+- Only the first character as lower character, the others are unchanged.
+  `firstupper` - Only the first character as upper character, the others are
+  unchanged.
+====
+
+.Examples
+====
+. Write all characters as lower characters
+Options:::
+* perform: lower
+Element:::
+* Foo BAR
+Result:
+* foo bar
+. Write only the first character as lower character
+Options:::
+* perform: lower
+Element:::
+* FOO Bar
+Result:
+* fOO Bar
+====
+
+[[frontend-transformator-mergeandextractbyregex]]
+===== MergeAndExtractByRegEx =====
+
+The *MergeAndExtractByRegEx* transformer connects the incoming data and
+executes a reular expression. The result of the regular expression will be
+returned.
+
+.Options
+=====
+regexp:: The regular expression that is executed on the character string.
+filler:: A character string that is placed between the resulting groups
+(default: "")
+groups:: A list of groups that should be returned. (comma separated, beginning
+with 0. Default: All groups are returned.)
+=====
+
+.Examples
+====
+. Extract a specific word out of a sentence
+Options:::
+* regexp: .\*(home).*
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* home
+. Extract all matched groups from a sentence
+Options:::
+* regexp: .\*(home).*(windows).*
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* homewindows
+. Extract all matched groups from a sentence and connect them with a specific character
+Options:::
+* regexp: .\*(home).*(windows).*
+* filler: -
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* home-windows
+. Return specific groups
+Options:::
+* regexp: .\*(This).*(home).\*(window).*
+* filler: #
+* groups: 0,2
+Element:::
+* This is a [home] with :three: windows!
+Result:::
+* This#window
+. Remove space characters before and after a word group
+Options:::
+* regexp: \s*?(\w+\s?\w+)\s*?
+** \s*? - An undefined number of space characters before and after the word group
+** \w - word character [A-Za-z0-9_]
+** \s? - a space character can between the word characters
+* groups: 1
+Element:::
+* "  Max Mustermann  "
+Result:::
+* "Max Mustermann"
+====
+
+[[frontend-transformator-nullify]]
+===== Nullify =====
+
+The *Nullify* transformer returns *no* data. This transformer allows
+the mapping of fields in the target that must be considered but contain no
+data.
+
+A common use case is a *MapAllToAll* where *one* source element is mapped to
+numerous elements in the target. These elements are considered in the structure
+but not filled with any data.
+
+NOTE: The target data type must be able to accept a "Null" value. You
+should not send the result of this transformer into a field of a
+database that is specified as "Not Null".
+
+TIP: If a mapped field has a *default* attribute, the value will be filled
+into the target.
+
+[[frontend-transformator-overwrite]]
+===== Overwrite =====
+
+The *Overwrite* transformer writes the given `value` into the target element and
+converts the `value` into the specified `type`.
+
+.Options
+=====
+value:: The value that should be written into the target element.
+type:: The expected data type of the `value`. Possible types are: `byte` (as
+Array[Byte]), `string` (e.g. "foo"), `long` (z.B. 0), `bigdecimal` (e.g. 0 or
+2.3), `date` (e.g. 1970-01-01), `time` (e.g. 00:00:00), `datetime` (e.g.
+1970-01-01 00:00:00), `none` (as undefined value)
+=====
+
+NOTE: If you have a `num` element, you must choose the `type: long`. If you
+overwrite a comma separated number or `formatnum`, you should select `type:
+bigdecimal`.
+
+TIP: The actual `time`, `date` or `timestamp` can automatically be
+written by setting `value` to `now` (See example below).
+
+.Examples
+====
+. Write a word into the target field
+Options:::
+* value: foo
+* type: string
+Element:::
+* bar
+Result:::
+* foo
+. Replace a string with a defined number
+Options:::
+* value: 1
+* type: long
+Element:::
+* foo
+Result:::
+* 1
+. Write a date into the target field
+Options:::
+* value: 2015-12-31
+* type: date
+Element:::
+* foo
+Result:::
+* 2015-12-31
+. Write the actual date / time / datetime value
+Options:::
+* value: now
+* type: date (or time, datetime)
+Element:::
+* 0000-00-00
+Result:::
+* 2016-04-15
+====
+
+[[frontend-mapping-transformators-general-replace]]
+[[frontend-transformator-replace]]
+===== Replace =====
+
+The *Replace* transformer replaces all occurences of a given search
+string by a given one. The search string can be a regular expression.
+
+.Options
+=====
+search:: Die string to be replaced which can be a regular expression. If
+multiple strings shall be replaced they can be given as a comma
+separated list inside single quotes for example: 
+`'ReplaceMe','\\sReplaceMeToo',' I wanna be replaced\?'`
+replace:: The string that shall be used as a replacement. If left empty
+the found search strings will be deleted.
+count:: The number of found strings that shall be replaced. If no value
+is given then all occurences will be replaced.
+
+=====
+
+IMPORTANT: Within the search string special characters have to be
+escaped by using a backslash (`\`). Examples for special characters are:
+`. $ ^ { [ ( | ) * + ? \` This means that control characters for regular
+expression have to be adjusted accordingly (for example `\\w` instead of
+`\w`).
+
+.Examples
+====
+. Replace a word by another word
+Options:::
+* search: original
+* replace: actual
+Element:::
+* This is the original source string!
+Result:::
+* This is the actual source string!
+. Replace multiple words
+Options:::
+* search: 'original','actual'
+* replace: bar
+Element:::
+* This is the original actual source string"
+Result:::
+* This is the bar bar source string!
+. Replace a word and the space characters
+Options:::
+* search: ' original '
+* replace: bar
+Element:::
+* This is the original actual source string!
+Result:::
+* This is thebaractual source string!
+. Replace a word just once
+Options:::
+* search: original
+* replace: bar
+* count: 1
+Element:::
+* This is the original original original source string!
+Result:::
+* This is the bar original original source string!
+. Replace a matched regex
+Options:::
+* serarch: '\\w+'
+* replace: 22
+Element:::
+* test test
+Result:::
+* 22 22
+====
+
+[[frontend-transformator-split]]
+===== Split =====
+
+The *Split* transformer separates the incoming data by using a defined pattern.
+
+.Options
+=====
+pattern:: This pattern is used to separate the character string.
+limit:: Return the first x separated elements. (Default: -1 for all)
+selected:: Return the separated elements at the given position (Comma separated
+list of integer values beginning with 0)
+=====
+
+.Examples
+====
+. Split a character string at the comma
+Options:::
+* pattern: ,
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","mustermann","2015-12-31"
+. Return only the first two splits
+Options:::
+* pattern: ,
+* limit: 2
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","mustermann"
+. Return specific hits of the split
+Options:::
+* pattern: ,
+* selected: 0,2
+Element:::
+* alex,mustermann,2015-12-31
+Result:::
+* "alex","2015-12-31"
+====
+
+[[frontend-transformator-timestampcalibrate]]
+===== TimestampCalibrate =====
+
+The *TimestampCalibrate* transformer adapts the value of a list of timestamps.
+
+.Options
+=====
+perform:: Add or reduce a value to the timestamp. With `add`, the timestamp will
+be multiplied by 1000, with `reduce` the timestamp will be divided by 1000.
+=====
+
+.Examples
+====
+. Add the milliseconds to a timestamp
+Options:::
+* perform: add
+Element:::
+* 1441196805
+Result:::
+* 1441196805000
+====
+
+[[frontend-mapping-transformators-atomar]]
+==== Atomic Transformers ====
+
+Atomic transformers are used on the source data and will be executed before the <<frontend-mapping-transformators-general,general transformers>>.
+
+===== BoxDataIntoList =====
+
+The *BoxDataIntoList* transformer creates a simple list from the incoming data.
+
+===== Replace =====
+
+Same as at <<frontend-mapping-transformators-general-replace, Replace>>.
+
+[[frontend-transformator-timestampadjuster]]
+===== TimestampAdjuster =====
+
+The *TimestampAdjuster* transformer adapts the value of a list of timestamps.
+
+.Options
+=====
+perform:: Add or reduce a value to the timestamp. With `add`, the timestamp will
+be multiplied by 1000, with `reduce` the timestamp will be divided by 1000.
+=====
+
+.Examples
+====
+See <<transformator-timestampcalibrate,TimestampCalibrate-Transformer>>
+====
+
+==== Execute transformers consecutively ====
+
+It is possible to execute transformers consecutively within a mapping to
+perform complex transformations.
+
+.Example for the transformation of a Timestamp into a java.sql.Date
+
+The following example transforms a Timestamp, that is not in
+milliseconds, into a java.sql.Date which can be stored into a database
+field of type `Date`.
+
+The following three transformers are used:
+
+* <<frontend-transformator-timestampcalibrate,TimestampCalibrate>>
+** Parameter `perform` with value `add`
+* <<frontend-transformator-dateconverter,DateConverter>>
+* <<frontend-transformer-datetypeconverter,DateTypeConverter>>
+** Parameter `target` with value `date`
+
+image::transformer-sequentially.png[scaledwidth=100%,align="center"]
+
+The transformers perform the following transformations with the data:
+
+* <<frontend-transformator-timestampcalibrate,TimestampCalibrate>> multiplies the
+  Timestamp with 1000 to create a Timestamp in milliseconds.
+* The <<frontend-transformator-dateconverter,DateConverter>> transforms the Unix
+  Timestamp into an ISO `LocalDateTime`.
+* Finally, the <<frontend-transformer-datetypeconverter,DateTypeConverter>>
+  transforms the value into a `java.sql.Date` which can be stored into a
+  database field of type `Date`.
+
+An example could be as follows:
+
+* Transformation with
+  <<frontend-transformator-timestampcalibrate,TimestampCalibrate>>
+** 1461712920 -> 1461712920000
+* Transformation with <<frontend-transformator-dateconverter,DateConverter>>
+** 1461712920000 -> 2016-04-26T23:22
+* Transformation with
+  <<frontend-transformer-datetypeconverter,DateTypeConverter>>
+** 2016-04-26T23:22 -> 2016-04-26
+
+[[frontend-mapping-basics]]
+==== Principles for the mappings ====
+
+===== A recipe contains logically connected data elements =====
+Connected data elements must always be processed within one recipe. Data
+elements are logically connected when they have the following characteristics:
+
+* They are within a sequence (`seq`)
+* They are within a superordinated structural element (e.g. `elem`)
+* They must be migrated in a logically connected target structure (e.g. a
+  sequence or a structural element that contains the relevant data elements)
+
+.Example for logically connected data structures
+image:mapping-recipes-all-target.png[scalewidth=100%,align="center"]
+
+The example contains two recipes that fulfill the following principles:
+
+* `Recipe 1 (Rezept 1)` connects `vorname`, `nachname`, `geburtsssdaetum` and
+  `telefon` from the source element (`elem` with id `csv_header`) into the
+  target element (`elem` with id `header`) and its data elements (`vorname`,
+  `nachname`, `datum` and `telefon`). The data elements are all within the
+  superordinated target element and describe a logically connected structure.
+* `Recipe 2 (Rezept 2)` connects all data elements from the source sequence with
+  the data elements of the target sequence. The data elements are within a
+  sequence and describe a logically connected structure.
+
+===== Elements of a connected target structure must be processed within one recipe =====
+All data elements of a logically connected data structure of the target DFASDL must be
+connected within at least one mapping. If elements are irrelevant, they must be
+connected with at least a <<frontend-transformator-nullify,`Nullify transformer`>>.
+
+IMPORTANT: Tensei-Data migrates the data depending on the structure that is
+defined by the user. If an element of the target strucutre is irrelevant, the
+element can be deleted from the target DFASDL or must be connected with a
+<<frontend-transformator-nullify,`Nullify transformer`>>.
+
+.Example for the mapping of all target elements
+image:mapping-recipes-all-target-or-nullify.png[scalewidth=100%,align="center"]
+
+The example connects all elements of the target with elements from the source.
+The following mappings are created within *one* recipe (Mode is
+<<frontend-cookbook-recipe,`MapAllToAll`>>):
+
+* The fields `name` and `vorname` from the source are migrated with the
+  <<frontend-transformator-concat,`concat transformer`>> into the field `name` of the
+  target. (Mapping 1)
+* The field `title` is simply connected with the `title` field of the target.
+  (Mapping 2)
+* The field `city` is simply connected with the field `city` of the target.
+  (Mapping 3)
+* The field `telefonnummer` is used as neutral element to apply the
+  <<frontend-transformator-nullify,`Nullify transformer`>> to the three fields
+  `area_code`, `main_number` and `telephone`. This transformer simply creates an
+  empty mapping to the target structure. (Mapping 4)
 
 [[frontend-ci]]
 === Connection Information (CI) ===
 
+The connection information defines all necessary parameters to access the data
+in the source or the target.
+
+=== Create ===
+
+If a connection information is created, the following steps must be fulfilled:
+
+. Click the btn:[New connection information] button
+. Insert a valid URI
+. Fill the required fields
+
+==== Form fields ====
+
+*URI*
+
+The URI describes a valid connection to the data source. A valid URI is:
+
+. Databases
+* `Derby`: jdbc:derby://path-to/derby-file
+* `H2`: jdbc:h2://Pfad/zur/h2-file
+* `HyperSQL`: jdbc:hsqldb:hsql://10.8.1.10/my-db
+* `Firebird`: jdbc:firebirdsql://10.8.1.10:12345//path/to/db/my-db.fdb
+* `MariaDB`: jdbc:mariadb://192.168.0.42/my-db
+* `Microsoft SQL Server`: jdbc:sqlserver://10.8.1.129:1433;databaseName=my-db;applicationName=myApplication
+* `MySQL`: jdbc:mysql://hostname/datenbank
+* `Oracle`: jdbc:oracle:thin:@10.0.2.2:1521:my-db
+* `Postgresql`: jdbc:postgresql://hostname:port/datenbank
+* `SQLite`: jdbc:sqlite:///path-to/sqlite-file
+. File
+* file:///home/path/file.csv
+. Network File
+* http://hostname/your-file.csv
+* ftp://hostname/folder/subfolder/your-file.csv
+* ftps://hostname/your-file.csv
+* sftp://hostname/another-folder/your-file.csv
+
+*Locale*
+
+Currently only for Excel. The "Locale" defines the format of numeric and date values.
+
+*Username (optional)*
+
+The username to access the data source.
+
+*Password (optional)*
+
+The password to access the data source.
+
+*Checksum (optional)*
+
+A checksum to verify the data source.
+
+*Access rights*
+
+The access rights restrict the visibility of the connection information
+to specific users.
+
+. public: All user can access the connection information.
+. private: Only the creator and the optionally added group can access the
+connection information.
 *TODO*
+
+[[frontend-ci-dfasdl-automatic]]
+==== Automatic creation of a DFASDL ====
+
+The button btn:[New DFASDL] in the list of Connection informations allows the
+automatic creation of a <<frontend-dfasdl>> for the Connection information.
+
+TIP: Currently available for database connections and files in CSV or
+JSON format.
 
 [[frontend-tc]]
 === Transformation Configuration (TC) ===
 
+A transformation configuration connects the
+<<frontend-ci,Connection information>> and the <<frontend-cookbook>> for the
+execution by an <<frontend-agent, agent>>.
+
+=== Create ===
+
+During the creation of a Transformation configuration, the following
+requirements must be fulfilled:
+
+. Click the btn:[New transformation configuration] button
+. Define a clear name
+. Select the <<frontend-cookbook>>
+. Select the <<frontend-ci,Connection information>> for the sources
+. Select the <<frontend-ci,Connection information>> for the target
+. Select access rights
+
+*Access rights*
+
+The access rights restrict the visibility of the transformation configuration
+to specific users.
+
+. public: All user can access the transformation configuration.
+. private: Only the creator and the optionally added group can access the
+transformation configuration.
 *TODO*
 
 [[frontend-tc-execute]]
 ==== Execute Transformation Configuration ====
 
-*TODO*
+A Transformation configuration can be executed on three different ways:
+
+. Manually on the Dashboard by clicking the respective Transformation
+configuration
+. Automatically by a <<frontend-cronjob>>
+. Automatically by an event via <<frontend-trigger>>
 
 [[frontend-agent]]
 === Agent ===
 
-*TODO*
+Tensei-Data is an agent based system. An agent executes a
+<<frontend-tc,Transformation configuration>>.
+
+Agents can have the following connection status:
+
+. Connected
+. Disconnected
+. Unauthorized
+
+==== Connected agents ====
+
+Connected agents can be used to execute
+<<frontend-tc,Transformation configurations>> and are correctly
+connected to the system.
+
+==== Disconnected agents ====
+
+Disconnected agents are not correctly connected to the system.
+
+==== Unauthorized agents ====
+
+Unauthorized agents are not authorized to connect to the system.
 
 [[frontend-queue]]
 ==== Queue ====
 
-*TODO*
+Depending on the number of available agents, x Transformation configurations
+can be executed in parallel by x agents. The additional Transformation
+configurations are stored in the queue.
+
+The stored Transformation configurations are executed by the next free agents.
 
 [[frontend-services]]
 === Services ===
 
-*TODO*
+Two services are available for the automatic execution of transformation
+configurations.
 
 [[frontend-cronjob]]
 ==== Cronjob ====
 
-*TODO*
+Cronjobs are timed actions which perform a Transformation configuration.
+
+===== Create =====
+
+For the creation of a cronjob, the following steps must be fulfilled:
+
+. Click the btn:[New Cronjob] button
+. Select the <<frontend-tc,Transformation configuration>>
+. Specify a valid timestamp that defines the interval for the execution of the
+Transformation configuration
+** Additional information below the field in the frontend
+. Activate or deactivate the cron
+. Specifiy access rights
 
 [[frontend-trigger]]
 ==== Trigger ====
 
-*TODO*
+A trigger allows an event-based execution of a
+<<frontend-tc,Transformation configuration>>.
+
+===== Create =====
+
+For the creation of a trigger, the following steps must be fulfilled:
+
+. Click the btn:[New Trigger] button
+. Select a <<frontend-tc,Transformation configuration>>
+. Specify the type of the trigger
+** Here you must specify if the trigger will be executed via an Apache
+Camel endpoint uri or via the successful completion of another
+Transformation configuration.
+. Now you either
+** specify a valid endpoint URI that defines a monitored event.
+** or select the Transformation configuration that should execute the
+trigger.
+. Activate or deactivate the trigger
+. Specifiy access rights
+
+TIP: Through the usage of triggers that execute upon the successful
+completion of Transformation configurations you can model complex
+scenarios.
+
+.Example for a local trigger in the VM
+[source]
+----
+jetty:http://0.0.0.0:8192/PFAD
+----
+
+The `port (8192)` is locally defined in the `Vagrantfile` of the VM.
+
+Activate the trigger on the local machine.
+
+.Activate the trigger
+[source]
+----
+http://localhost:8192/PFAD
+----
 
 [[frontend-administrator]]
 === Administrator ===
 
-*TODO*
+The administrator can specifiy additional settings.
+
+[[frontend-user-management]]
+==== User management ====
+
+User can be created, administered and deleted.
+
+[[frontend-groups]]
+==== Groups ====
+
+Groups can be created, administered and deleted. Additioanlly, users can be
+assigned to specific groups.
 
 [[frontend-profile]]
 === Profile ===
 
-*TODO*
+Every user can change the following settings within his profile:
 
-[[frontend-usecases]]
-=== Use Cases ===
+. Change the e-mail
+. Change the name
+. Set a new password
 
-*TODO*
+[[frontend-usecase]]
+=== Use Case ===
+
+The following use cases show some concrete representations of the single components.
+
+==== Read data from a CSV file and write to database ====
+
+Read the content of a CSV file and store into a database. The `telefonnummer`
+will be transformed and stored into different target columns. `name` and
+`vorname` will be combined and stored into the `name` column of the database.
+
+.DFASDL for the CSV file
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="mitarbeiter">
+    <elem id="column">
+      <str id="name" stop-sign="," />
+      <str id="vorname" stop-sign="," />
+      <str id="title" stop-sign="," />
+      <str id="telefonnummer" stop-sign="," />
+      <str id="city" />
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+.DFASDL for the target database
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="mitarbeiter">
+    <elem id="column">
+      <str id="title" stop-sign=","/>
+      <str id="name" stop-sign="," />
+      <num id="area_code" stop-sign=","/>
+      <num id="main_number" stop-sign=","/>
+      <num id="telephone" stop-sign=","/>
+      <str id="city" />
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+The mapping of the two DFASDLs looks as follows.
+
+image::mapping-csv-db.png[scaledwidth=100%,align="center"]
+
+. The mappings are created in one <<frontend-cookbook-recipe,`MapAllToAll`>> recipe
+. There are *6* mappings
+.. `name`, `vorname` -> `name`
+.. `title` -> `title`
+.. `telefonnummer` -> `area_code`
+.. `telefonnummer` -> `main_number`
+.. `telefonnummer` -> `telephone`
+.. `city` -> `city`
+. `name` and `vorname` are combined with the <<frontend-transformator-concat>>
+transformator
+. The `telefonnummer` has the this format in the CSV file: `(733) 102-8755`
+.. The area code is determined with the <<frontend-transformator-mergeandextractbyregex>>
+transformator and stored into the `area_code` column. The regular expression is
+: `\((\d+)\).*`
+.. The main number is extracted by using the <<frontend-transformator-split>> transformator
+two times
+... The first split has a `space` as `pattern` and a `1` in the `select` field
+... The second split separates the main number at the `-` sign, which is also used
+in the `pattern` field. The returned character string contains only numbers
+.. Only numbers can be stored into the `telephone` column. First the
+<<frontend-transformator-mergeandextractbyregex>> is used, secondly, the
+<<frontend-transformator-split>> transformator
+... The regular expression for the MergeAndExtractByRegEx transformator is
+`([\d[^-\(\)]]*)`
+... The `pattern` for the Split is a space character
+
+Finally, the following steps must be done:
+
+. Create a <<frontend-ci>> for the CSV file
+. Create a <<frontend-ci>> for the target databse
+. Create a <<frontend-tc>> for the execution
+. Execute the <<frontend-tc>> at the dashboard
 
 [[agent]]
 == Agent ==
@@ -1153,3 +2531,740 @@ configuration is executing, the nodes should not be changed!
 What happens, when the seed-node is restarted?:: If the seed-node is restarted,
 all other nodes of the cluster must also be restarted.
 
+[[cookbook]]
+== Cookbook ==
+
+This cookbook ection describes the approaches that are recommendable during the
+creation of <<frontend-dfasdl,DFASDLs>>.
+
+[[cookbook-dfasdl]]
+=== DFASDL ===
+
+A DFASDL includes structure and semantics and is the basis for the description
+of a data source.
+
+The specification can be found at
+link:https://github.com/DFASDL/dfasdl-core[DFASDL Core].
+
+[[cookbook-dfasdl-minimal]]
+==== Minimum structure ====
+
+The minimum structure of a DFASDL without concrete description of structure and
+semantic is based on the following:
+
+.Minimum structure
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+
+...
+
+</dfasdl>
+----
+
+[[cookbook-dfasdl-reduce-structure]]
+==== Reducing the visible structure ====
+
+If not all elements of the DFASDL are relevant, they can be excluded. Thus,
+these elements are no longer available in the visual mapping. It increases
+the clarity onto the relevant elements and simplifies the visual mapping.
+
+.Example of a complete DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+Elements of a DFASDL structure can be excluded in two different ways. (1)
+Delete the elements in the DFASDL. (2) Make a comment around the elements in
+the DFASDL.
+
+.(1) Delete the `contacts` from the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+.(2) Make a comment around the `contacts` in the DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="companies">
+    <elem id="companies_row">
+      <str id="company_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="name" db-column-name="name" s="companyName" stop-sign="," />
+      <str id="industry" max-length="50" stop-sign=","/>
+      <str id="telephoneCompany" db-column-name="telephone" s="telephoneCompany" stop-sign=","/>
+      <datetime id="date_entered"/>
+    </elem>
+  </seq>
+  <!--
+  <seq id="contacts">
+    <elem id="contacts_row">
+      <str id="contact_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="title" stop-sign=","/>
+      <str id="name2" db-column-name="name" s="contactFirstName" stop-sign=","/>
+      <str id="name3" db-column-name="name2" s="contactLastName" stop-sign=","/>
+      <str id="telephone" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+  -->
+  <seq id="employees">
+    <elem id="employees_row">
+      <str id="employee_id" db-column-name="id" max-length="36" stop-sign=","/>
+      <str id="position" stop-sign=","/>
+      <str id="name4" db-column-name="name" s="employeeFirstName" stop-sign=","/>
+      <str id="name5" db-column-name="name2" s="employeeLastName" stop-sign=","/>
+      <str id="telephone2" db-column-name="telephone" s="telephoneUS" stop-sign=","/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+[[cookbook-dfasdl-cases]]
+==== Use cases ====
+
+A DFASDL describes different data structures that are based on files or databases.
+
+NOTE: Depending on the use case, a DFASDL can be used for a database and a file structure.
+
+===== CSV file with personal data =====
+
+The data are separated via comma in the CSV file.
+
+.Example-Data
+[source]
+-----
+John,Doe,john.doe@example.com,24.12.0000,+49 123 456789,Sales
+Jane,Doe,jane.doe@example.com,23.12.1971,+1 555 897652,Marketing
+Jake,Doe,jake.doe@example.com,1.1.1984,+23 987 123444,Development
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="persons">
+    <elem id="row">
+      <str id="lastname" stop-sign=","/>
+      <str id="firstname" stop-sign=","/>
+      <formatstr format="(.*@.*\..*)" id="email" stop-sign=","/>
+      <formattime format="dd.MM.yyyy" id="birthday" stop-sign=","/>
+      <str id="phone" stop-sign=","/>
+      <str id="division"/>
+    </elem>
+  </seq>
+</dfasdl>
+-----
+
+===== CSV file with variations (choices) =====
+
+The following DFASDL contains a sequence that has three elements per line. Every element can be numerical or a character string.
+
+.Example-Data
+[source]
+-----
+01;Fritz;Mustermann
+02;Max;12345
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="test">
+    <elem id="account_list">
+      <choice id="field1">
+        <celem id="field1-container-1">
+          <num stop-sign=";" id="num-field1"/>
+        </celem>
+        <celem id="field1-container-2">
+          <str stop-sign=";" id="str-field1"/>
+        </celem>
+      </choice>
+      <choice id="field2">
+        <celem id="field2-container-1">
+          <num stop-sign=";" id="num-field2"/>
+        </celem>
+        <celem id="field2-container-2">
+          <str stop-sign=";" id="str-field2"/>
+        </celem>
+      </choice>
+      <choice id="field3">
+        <celem id="field3-container-1">
+          <num id="num-field3"/>
+        </celem>
+        <celem id="field3-container-2">
+          <str id="str-field3"/>
+        </celem>
+      </choice>
+    </elem>
+  </seq>
+</dfasdl>
+-----
+
+===== E-Mail =====
+
+A E-Mail can be described with a DFASDL. Some of the *header* values are
+described with the help of a choice.
+
+.Example-E-Mail
+[source]
+-----
+Return-Path: <sender@sender.com>
+Delivered-To: receiver@receiver.com
+Received: from smtp41.gate.dfw1a (smtp41.gate.dfw1a.rsapps.net [172.20.100.41])
+    by store130a.mail.dfw1a (SMTP Server) with ESMTP id 581391D80A2
+    for <receiver@receiver.com>; Mon, 28 Apr 2014 04:27:08 -0400 (EDT)
+X-Virus-Scanned: OK
+X-MessageSniffer-Scan-Result: 0
+X-MessageSniffer-Rules: 0-0-0-4292-c
+X-CMAE-Scan-Result: 0
+X-CNFS-Analysis: v=2.1 cv=XfmwkuJ5 c=1 sm=0 tr=0 a=E3KZ53FmvAFxQtyWo729Vw==:117 a=E3KZ53FmvAFxQtyWo729Vw==:17 a=OTleaX3xBfsA:10 a=wPDyFdB5xvgA:10 a=kj9zAlcOel0A:10 a=80MYoa46AAAA:8 a=GF4HiIEFAAAA:8 a=9ro_oHBkAAAA:8 a=gFun6ocCyU8A:10 a=x-Bl-83-i81MCIlInGwA:9 a=CjuIK1q_8ugA:10
+Received: from [173.203.187.63] ([173.203.187.63:33992] helo=smtp12.relay.iad3a.emailsrvr.com)
+    by smtp41.gate.dfw1a.rsapps.net (envelope-from <sender@sender.com>)
+    (ecelerity 2.2.3.49 r(42060/42061)) with ESMTPS (cipher=AES256-SHA)
+    id 28/29-26985-CD01E535; Mon, 28 Apr 2014 04:27:08 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+    by smtp12.relay.iad3a.emailsrvr.com (SMTP Server) with ESMTP id B1F22F0148;
+    Mon, 28 Apr 2014 04:27:07 -0400 (EDT)
+X-Virus-Scanned: OK
+Received: by smtp12.relay.iad3a.emailsrvr.com (Authenticated sender: sender-AT-sender.com) with ESMTPSA id 33E03F0145;
+    Mon, 28 Apr 2014 04:27:06 -0400 (EDT)
+Date: Mon, 28 Apr 2014 10:27:06 +0200
+From: Sender <sender@sender.com>
+To: =?ISO-8859-1?Q?Andr=E9_Sch=FCtz?= <receiver@receiver.com>
+Cc: Sender <sender@sender.com>
+Subject: This is a test subject!
+Message-Id: <20140428102706.0477e42d9e210a5c90583026@receiver.com>
+Organization: Organization
+X-Mailer: Sylpheed 3.4.1 (GTK+ 2.24.22; amd64-portbld-freebsd9.2)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+ 
+Hi there,
+ 
+lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
+elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+est Lorem ipsum dolor sit amet.
+ 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
+elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+est Lorem ipsum dolor sit amet.
+ 
+Regards,
+ 
+Cicero
+ 
+--
+28. Ostermond 2014, 10:26
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="headers" stop-sign="[\r\n][\r\n]">
+    <choice id="header">
+      <celem id="date">
+        <str class="label" start-sign="Date" stop-sign=":"/>
+        <str id="dateValue" trim="both"/>
+      </celem>
+      <celem id="from">
+        <str class="label" start-sign="From" stop-sign=":"/>
+        <str id="fromValue" trim="both"/>
+      </celem>
+      <celem id="to">
+        <str class="label" start-sign="To" stop-sign=":"/>
+        <str id="toValue" trim="both"/>
+      </celem>
+      <celem id="cc">
+        <str class="label" start-sign="Cc" stop-sign=":"/>
+        <str id="ccValue" trim="both"/>
+      </celem>
+      <celem id="subject">
+        <str class="label" start-sign="Subject" stop-sign=":"/>
+        <str id="subjectValue" trim="both"/>
+      </celem>
+      <celem id="messageId">
+        <str class="label" start-sign="Message-Id" stop-sign=":"/>
+        <str id="messageIdValue" trim="both"/>
+      </celem>
+      <celem id="genericHeaderMultiLine">
+        <str class="label" stop-sign=":"/>
+        <str id="genericHeaderMultiLineValue" stop-sign="[\r\n][\w|[\r\n]]" correct-offset="-1" trim="both"/>
+      </celem>
+    </choice>
+  </seq>
+  <str id="body" stop-sign="EOF"/>
+</dfasdl>
+-----
+
+NOTE: By using a choice, the *header* values can be described in an arbitrary order.
+
+===== Text =====
+
+A text with specific parts.
+
+.Example-Text
+[source]
+-----
+Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr,
+sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+sed diam voluptua.
+
+At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="headers" stop-sign="\A$">
+    <elem id="row">
+      <str id="content"/>
+    </elem>
+  </seq>
+  <str id="footer" stop-sign="EOF"/>
+</dfasdl>
+-----
+
+NOTE: The Example-DFASDL reads the first 4 lines as sequence and stops at the empty line. The rest of the text is read until the parser reaches the end of the file.
+
+NOTE: The element with the ID *content* has no *stop-sign* and uses the default stop-sign that is represented by the end of a line.
+
+===== vCard =====
+
+Read the single elements of a vCard.
+
+.Example-vCard
+[source]
+-----
+BEGIN:VCARD
+VERSION:3.0
+N:Mustermann;Max;Mr.
+FN:Max Mustermann
+ORG:Bubba Shrimp Co.
+TITLE:Shrimp Man
+PHOTO;VALUE=URL;TYPE=GIF:http://www.example.com/dir_photos/my_photo.gif
+TEL;TYPE=WORK,VOICE:(111) 555-1212
+TEL;TYPE=HOME,VOICE:(404) 555-1212
+ADR;TYPE=WORK:;;100 Waters Edge;Baytown;LA;30314;United States of America
+LABEL;TYPE=WORK:100 Waters Edge\nBaytown, LA 30314\nUnited States of America
+ADR;TYPE=HOME:;;42 Plantation St.;Baytown;LA;30314;United States of America
+LABEL;TYPE=HOME:42 Plantation St.\nBaytown, LA 30314\nUnited States of America
+EMAIL;TYPE=PREF,INTERNET:maxmustermann@example.com
+REV:2008-04-24T19:52:43Z
+END:VCARD
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <elem id="vcard">
+    <str class="label" stop-sign=":"/>
+    <str id="start_tag" />
+    <str class="label" stop-sign=":"/>
+    <str id="version"/>
+    <str class="label" stop-sign=":"/>
+    <str id="name"/>
+    <str class="label" stop-sign=":"/>
+    <str id="full_name"/>
+    <str class="label" stop-sign=":"/>
+    <str id="organisation"/>
+    <str class="label" stop-sign=":"/>
+    <str id="title"/>
+    <str class="label" stop-sign=":"/>
+    <str id="photo"/>
+    <str class="label" stop-sign=":"/>
+    <str id="phone_work"/>
+    <str class="label" stop-sign=":"/>
+    <str id="phone_home"/>
+    <str class="label" stop-sign=":"/>
+    <str id="address_work"/>
+    <str class="label" stop-sign=":"/>
+    <str id="label_work"/>
+    <str class="label" stop-sign=":"/>
+    <str id="address_home"/>
+    <str class="label" stop-sign=":"/>
+    <str id="label_home"/>
+    <str class="label" stop-sign=":"/>
+    <str id="email"/>
+    <str class="label" stop-sign=":"/>
+    <str id="revision"/>
+    <str class="label" stop-sign=":"/>
+    <str id="end_tag"/>
+  </elem>
+</dfasdl>
+-----
+
+===== JSON =====
+
+Integrate the elements of a JSON file.
+
+.Example-JSON
+[source,json]
+-----
+{
+  "house": {
+    "street": "Musterstreet",
+    "number": "3",
+    "apartments": 7,
+    "value": "2300000.00",
+    "size": [
+      15,
+      30,
+      45
+    ],
+    "costs": 15345.55
+  },
+  "persons": [
+    {
+      "name": {
+        "firstname": "Max",
+        "lastname": "Mustermann"
+      },
+      "birthday": "1997-03-21",
+      "telephone": "0176123456",
+      "apartment": 2,
+      "lastPay": "2015-11-02 12:34:55",
+      "other": [
+        "parking slot",
+        "extra room"
+      ]
+    },
+    {
+      "name": {
+        "firstname": "Eva",
+        "lastname": "Musterfrau"
+      },
+      "birthday": "1997-04-01",
+      "telephone": "0176987654321",
+      "apartment": 4,
+      "lastPay": "2015-11-01 12:34:55",
+      "other": [
+        "extra room"
+      ]
+    }
+  ]
+}
+-----
+
+.Example-DFASDL
+[source,xml]
+-----
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <elem id="root">
+    <elem id="house" json-attribute-name="house">
+      <str id="house-street" json-attribute-name="street"/>
+      <num id="house-number" json-attribute-name="number"/>
+      <num id="house-apartments" json-attribute-name="apartments"/>
+      <formatnum decimal-separator="." format="(-?[\d\.,⎖]+)" id="house-value" json-attribute-name="value" max-digits="36" max-precision="2"/>
+      <elem id="house-size" json-attribute-name="size">
+        <seq id="house-size-seq" keepID="true">
+          <elem id="house-size-seq-row">
+            <num id="house-size-seq-row-element"/>
+          </elem>
+        </seq>
+      </elem>
+      <formatnum decimal-separator="." format="(-?[\d\.,⎖]+)" id="house-costs" json-attribute-name="costs" max-digits="36" max-precision="2"/>
+    </elem>
+    <elem id="persons" json-attribute-name="persons">
+      <seq id="persons-seq" keepID="true">
+        <elem id="persons-seq-row">
+          <elem id="persons-seq-row-name" json-attribute-name="name">
+            <str id="persons-seq-row-firstname" json-attribute-name="firstname"/>
+            <str id="persons-seq-row-lastname" json-attribute-name="lastname"/>
+          </elem>
+          <date id="persons-seq-row-birthday" json-attribute-name="birthday"/>
+          <num id="persons-seq-row-telephone" json-attribute-name="telephone"/>
+          <num id="persons-seq-row-apartment" json-attribute-name="apartment"/>
+          <datetime id="persons-seq-row-lastpay" json-attribute-name="lastPay"/>
+          <elem id="persons-seq-row-other" json-attribute-name="other">
+            <seq id="persons-seq-row-other-seq" keepID="true">
+              <elem id="persons-seq-row-other-seq-row">
+                <str id="persons-seq-row-other-seq-row-element"/>
+              </elem>
+            </seq>
+          </elem>
+        </elem>
+      </seq>
+    </elem>
+  </elem>
+</dfasdl>
+-----
+
+===== XML =====
+
+Integrate the elements of a XML file.
+
+.Example-XML
+[source, xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<rows>
+  <row>
+    <firstname>Albert</firstname>
+    <lastname>Einstein</lastname>
+    <email>albert.einstein@example.com</email>
+    <birthday>1879-03-14</birthday>
+    <awards>
+      <award>
+        <year>1914</year>
+        <name>Ordentliches Mitglied der Preußischen Akademie der Wissenschaften</name>
+      </award>
+      <award>
+        <year>1917</year>
+        <name>Ehrenpreis der Peter-Wilhelm-Müller-Stiftung</name>
+      </award>
+      <award>
+        <year>1919</year>
+        <name>Ehrendoktorwürde (Dr. h.c.) der Universität Rostock</name>
+      </award>
+    </awards>
+  </row>
+  <row>
+    <firstname>Bernhard</firstname>
+    <lastname>Riemann</lastname>
+    <email>br@example.com</email>
+    <birthday>1826-09-17</birthday>
+    <awards>
+      <award>
+        <year>1868</year>
+        <name>Riemann-Helmholtz-Raumproblem</name>
+      </award>
+    </awards>
+  </row>
+  <row>
+    <firstname>Johann Carl Friedrich</firstname>
+    <lastname>Gauß</lastname>
+    <email>gauss@example.com</email>
+    <birthday>1777-04-30</birthday>
+    <awards/>
+  </row>
+  <row>
+    <firstname>Johann Benedict</firstname>
+    <lastname>Listing</lastname>
+    <email>bl@example.com</email>
+    <birthday>1808-07-25</birthday>
+    <awards>
+      <award>
+        <year>1858</year>
+      </award>
+      <award>
+        <year>1861</year>
+        <name>Mitglied Akademie der Wissenschaften in Göttingen</name>
+      </award>
+    </awards>
+  </row>
+  <row>
+    <firstname>Gottfried Wilhelm</firstname>
+    <lastname>Leibnitz</lastname>
+    <email>leibnitz@example.com</email>
+    <birthday>1646-07-01</birthday>
+    <awards>
+      <award>
+        <name>Gottfried-Wilhelm-Leibniz-Preis</name>
+      </award>
+      <award>
+        <year>2008</year>
+        <name>Denkmal in Hannover</name>
+      </award>
+    </awards>
+  </row>
+</rows>
+-----
+
+.Example-DFASDL
+[source, xml]
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL"
+        semantic="niem">
+  <seq id="rows">
+    <elem id="row">
+      <str id="firstname"/>
+      <str id="lastname"/>
+      <str id="email"/>
+      <str id="birthday"/>
+      <seq id="awards">
+        <choice id="bad-award-data">
+          <celem id="award-complete">
+            <num id="award-complete-year" xml-element-name="year"/>
+            <str id="award-complete-name" xml-element-name="name"/>
+          </celem>
+          <celem id="award-year-only">
+            <num id="award-year-only-year" xml-element-name="year"/>
+          </celem>
+          <celem id="award-name-only">
+            <str id="award-name-only-name" xml-element-name="name"/>
+          </celem>
+        </choice>
+      </seq>
+    </elem>
+  </seq>
+</dfasdl>
+-----
+
+===== JOIN between multiple tables =====
+
+If you want to create a JOIN between multiple tables, the `db-select` attribute
+is a simple alternative.
+
+.Example-DFASDL
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="people" db-select="SELECT t1.name, firstname, title, telephone, t2.name AS productname FROM `people` AS t1, `products` AS t2 WHERE t1.pid = t2.pid">
+    <elem id="people_row">
+      <str db-column-name="name" id="people_row_name" max-length="12"/>
+      <str db-column-name="firstname" id="people_row_firstname" max-length="9"/>
+      <str db-column-name="title" id="people_row_title" max-length="22"/>
+      <str db-column-name="telephone" id="people_row_telephone" max-length="14"/>
+      <str db-column-name="productname" id="productname"/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+===== Filtering of source data =====
+
+If not all source data should be used then you can limit them via the
+attribute `filter`.
+
+WARNING: Special characters that may lead to problems with XML like `<`
+and `&` for example must be escaped properly!
+
+.Example-DFASDL
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dfasdl xmlns="http://www.dfasdl.org/DFASDL" semantic="custom">
+  <seq id="people" filter="salary &lt; 2000 AND product_price > 4000">
+    <elem id="people_row">
+      <str db-column-name="name" id="people_row_name" max-length="12"/>
+      <str db-column-name="firstname" id="people_row_firstname" max-length="9"/>
+      <str db-column-name="title" id="people_row_title" max-length="22"/>
+      <str db-column-name="telephone" id="people_row_telephone" max-length="14"/>
+      <num db-column-name="salary" id="people_row_salary"/>
+      <str db-column-name="productname" id="productname"/>
+      <num db-column-name="product_price" id="productprice"/>
+    </elem>
+  </seq>
+</dfasdl>
+----
+
+[[cookbook-dfasdl-bestpractices]]
+==== Recommended approach for attributes ====
+
+The following approaches are useful for attributes.
+
+===== decimal-separator =====
+
+*Number with variable decimal places*
+
+.Example
+[source,xml]
+-----
+<formatnum id="ID" decimal-separator="." format="-?\d+\.\d*" max-digits="34"
+max-precision="2"/>
+-----
+
+===== stop-sign =====
+
+*Match an empty line*
+
+.Example
+[source,xml]
+-----
+stop-sign="^$"
+-----
+
+*Match a wrap that is followed by a word character*
+
+.Example
+[source,xml]
+-----
+stop-sign="[\r\n][\w|[\r\n]]"
+-----
+
+*Stop a sequence when an empty line is found*
+
+.Example
+[source,xml]
+-----
+<seq stop-sign="\A$" id="SEQ-ID">
+-----
